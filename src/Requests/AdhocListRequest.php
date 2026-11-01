@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests;
 
 use spkm\FortiNac\Query\Query;
+use spkm\FortiNac\Support\Path;
 
 /**
  * A list request for a collection the package has no request for, as FortiNac::from('/path'); its records are
@@ -20,6 +21,6 @@ class AdhocListRequest extends ListRequest
 
     public function resolveEndpoint(): string
     {
-        return '/'.ltrim($this->path, '/');
+        return Path::path($this->path);
     }
 }

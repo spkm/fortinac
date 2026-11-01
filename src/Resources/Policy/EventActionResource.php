@@ -38,7 +38,7 @@ class EventActionResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetEventActionRequest((int) $id);
+        return new GetEventActionRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -48,12 +48,12 @@ class EventActionResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateEventActionRequest((int) $id, $body, $options);
+        return new UpdateEventActionRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteEventActionRequest((int) $id, $options);
+        return new DeleteEventActionRequest($this->intId($id), $options);
     }
 
     /**
@@ -69,9 +69,9 @@ class EventActionResource extends Builder
     /**
      * Returns the additional information needed to create a Security Rule: GET /policy/event-action/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetEventActionSupportingInfoRequest);
+        return $this->fetch(new GetEventActionSupportingInfoRequest);
     }
 
     /**

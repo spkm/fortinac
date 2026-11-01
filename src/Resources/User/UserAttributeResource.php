@@ -25,9 +25,9 @@ class UserAttributeResource extends BaseResource
     /**
      * Returns the value currently stored for the requested attribute on the API user: GET /user/attributes/{name}.
      */
-    public function find(string $name): bool
+    public function find(string $name): mixed
     {
-        return $this->perform(new GetUserAttributeRequest($name));
+        return $this->fetch(new GetUserAttributeRequest($name));
     }
 
     /**
@@ -35,9 +35,9 @@ class UserAttributeResource extends BaseResource
      *
      * @param  array<string, mixed>  $options  Query options: userID
      */
-    public function userByName(string $name, array $options = []): bool
+    public function userByName(string $name, array $options = []): mixed
     {
-        return $this->perform(new GetUserAttributeUserByNameRequest($name, $options));
+        return $this->fetch(new GetUserAttributeUserByNameRequest($name, $options));
     }
 
     /**

@@ -41,7 +41,7 @@ class AuthenticationPolicyResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAuthenticationPolicyRequest((int) $id);
+        return new GetAuthenticationPolicyRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -51,12 +51,12 @@ class AuthenticationPolicyResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateAuthenticationPolicyRequest((int) $id, $body, $options);
+        return new UpdateAuthenticationPolicyRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAuthenticationPolicyRequest((int) $id, $options);
+        return new DeleteAuthenticationPolicyRequest($this->intId($id), $options);
     }
 
     /**

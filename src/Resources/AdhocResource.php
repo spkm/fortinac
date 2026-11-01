@@ -13,6 +13,7 @@ use spkm\FortiNac\Requests\AdhocListRequest;
 use spkm\FortiNac\Requests\AdhocRequest;
 use spkm\FortiNac\Requests\FortiNacRequest;
 use spkm\FortiNac\Requests\ListRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * A builder over a collection the package has no resource for, from FortiNac::from('/path'); its records are
@@ -60,6 +61,6 @@ class AdhocResource extends Builder
 
     private function item(int|string $id): string
     {
-        return rtrim($this->path, '/').'/'.rawurlencode((string) $id);
+        return rtrim($this->path, '/').'/'.Path::segment((string) $id);
     }
 }

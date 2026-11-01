@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class AgentProperties extends Data
 {
+    protected const HIDDEN = ['passwordLabel'];
+
     /**
      * @param  array<mixed>|null  $requireConnectedAdapter
      * @param  array<mixed>|null  $hostGroups

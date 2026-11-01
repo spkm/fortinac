@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class User extends Data
 {
+    protected const HIDDEN = ['apiAccessToken', 'password', 'passwordFromRaw', 'hashedPassword'];
+
     /**
      * @param  array<mixed>|null  $attributes
      * @param  array<mixed>|null  $locale

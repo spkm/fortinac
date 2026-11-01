@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class SupplicantConfiguration extends Data
 {
+    protected const HIDDEN = ['password'];
+
     protected const DATE_FORMAT = 'Y-m-d\TH:i:s.vO';
 
     /**

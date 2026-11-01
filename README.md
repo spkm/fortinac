@@ -57,8 +57,9 @@ FORTINAC_BASE_URL=https://nac.example.com:8443
 FORTINAC_TOKEN=your-api-token
 ```
 
-FortiNAC's REST API listens on port 8443 by default. A server with a self-signed certificate needs
-`FORTINAC_VERIFY=false`, or the path of a CA bundle to verify it against.
+FortiNAC's REST API listens on port 8443 by default. A server with a self-signed certificate is best verified against
+its own certificate: export it from the appliance and set `FORTINAC_VERIFY=/path/to/fortinac.pem`. `FORTINAC_VERIFY=false`
+turns verification off, which lets anyone on the network path read the token; keep that for a lab.
 
 ## Usage
 
@@ -121,7 +122,7 @@ Every device registered to a user, by the host record's `owner` (the user ID, ma
 ```php
 use spkm\FortiNac\Data\Host\Host;
 
-$devices = FortiNac::host()->where('owner', 'SPKM')->get();            // Collection of Host
+$devices = FortiNac::host()->where('owner', 'janedoe')->get();         // Collection of Host
 
 foreach ($devices as $device) {
     echo $device->hostName, ' ', implode(', ', $device->adapters ?? []), PHP_EOL;   // the MAC addresses
@@ -131,7 +132,7 @@ foreach ($devices as $device) {
 FortiNAC's own lookup gives the same hosts, and the ones the user is logged on to right now:
 
 ```php
-$mine = FortiNac::host()->forUser(['userID' => 'SPKM']);                 // HostsForUser
+$mine = FortiNac::host()->forUser(['userID' => 'janedoe']);              // HostsForUser
 $mine->ownedHosts;                                                       // Collection of Host
 $mine->loggedOnHosts;                                                    // Collection of Host
 ```
@@ -142,7 +143,7 @@ The active devices registered to a user that have been on the network in the las
 
 ```php
 $active = FortiNac::host()
-    ->where('owner', 'SPKM')
+    ->where('owner', 'janedoe')
     ->where('lastSuccessfulPoll', '>', now()->subMonth())
     ->get()
     ->reject(fn (Host $device) => $device->disabled || $device->expired);
@@ -178,8 +179,9 @@ FortiNac::host()
 | `orderBy($field)`, `orderByDesc($field)` | `sortKey`, `sortDir` |
 | `offset($n)`, `limit($n)`, `forPage($page, $perPage)` | `start`, `count` |
 
-A dot or a backslash in a value is escaped as FortiNAC expects. Dates are sent as Unix timestamps in milliseconds,
-which is what FortiNAC compares. Only a record's own top-level fields filter (`hostName`, `owner`, `type`, `status`,
+A value is sent as text to match, never as grammar: a dot, backslash, comma or star in it is escaped, so a value
+from a form cannot add an alternative or a wildcard of its own (`where($field, '=@', $pattern)` is the one place a
+star is a wildcard). Dates are sent as Unix timestamps in milliseconds, which is what FortiNAC compares. Only a record's own top-level fields filter (`hostName`, `owner`, `type`, `status`,
 `creationTime`); FortiNAC ignores a condition on a nested field such as `adapters` or `ips.ip`.
 
 `get()` returns the matching records (as many as `limit()` asked for, or all of them); `first()`, `count()`,
@@ -192,13 +194,23 @@ count endpoint, which honours the filter; the `total` FortiNAC sends with a list
 Every record is a readonly model with FortiNAC's own property names and types: `$host->hostName`,
 `$host->creationTime` (a `CarbonImmutable`), `$host->adapters`. FortiNAC's records carry more fields than its
 documentation shows, so a model keeps the ones it has no property for in `$extra` and sends them back when the model
-is written. `toArray()` and `json_encode()` give the record as FortiNAC would send it.
+is written. `toArray()` and `json_encode()` give the record as FortiNAC would send it, except for its secrets: a
+property that holds a password, token or key (`User::$apiAccessToken`, `User::$hashedPassword`, `AaaServer::$secret`
+and the like) is left out, so a model that is logged, cached or returned from a route does not carry them;
+`toArray(withHidden: true)` includes them, and `hidden()` names them.
+
+`Model::from($record)` is for records FortiNAC sent, since it keeps every key; build a model from request input with
+its constructor, so only the fields you name are sent.
 
 ### Writing
 
 `create()`, `update()` and the action methods take an array of FortiNAC's field names or a model. FortiNAC answers a
 write with the record as stored, or with nothing but its status; the methods return the model, `null`, or `true`
-accordingly.
+accordingly. A record id must be a whole number; `'12abc'` is refused rather than read as 12.
+
+Some operations FortiNAC documents take a secret as a parameter rather than in a body, such as
+`user()->setPassword(['userID' => ..., 'password' => ...])`; the package sends it the way FortiNAC reads it, in the
+query string, where a proxy or the appliance's own access log may record it.
 
 ### Errors
 
@@ -222,7 +234,9 @@ which gives a connector with the same resources and methods as the facade.
 ### Caching, timeouts and retries
 
 `FORTINAC_CACHE=true` caches GET responses for `fortinac.cache.seconds` in `FORTINAC_CACHE_STORE` (the default cache
-store when unset). `FORTINAC_CONNECT_TIMEOUT` and `FORTINAC_REQUEST_TIMEOUT` are in seconds. `FORTINAC_RETRIES` retries
+store when unset), one entry per server, token and query, so a connection with another token never reads what this
+one fetched; an answer FortiNAC marked as failed is not kept, and a request for a password or secret is never cached.
+The records themselves are stored as the cache store keeps them, so use a store the application trusts. `FORTINAC_CONNECT_TIMEOUT` and `FORTINAC_REQUEST_TIMEOUT` are in seconds. `FORTINAC_RETRIES` retries
 a GET that failed with a connection error, 408, 429 or 5xx, with exponential backoff from `fortinac.retries.interval_ms`;
 writes are never retried.
 

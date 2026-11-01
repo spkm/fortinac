@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class BackupConfigurationFtp extends Data
 {
+    protected const HIDDEN = ['password'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

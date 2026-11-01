@@ -46,17 +46,17 @@ class CurrentSessionResource extends BaseResource
      *
      * @param  array<string, mixed>  $options  Query options: key
      */
-    public function cache(array $options = []): bool
+    public function cache(array $options = []): mixed
     {
-        return $this->perform(new GetCurrentSessionCacheRequest($options));
+        return $this->fetch(new GetCurrentSessionCacheRequest($options));
     }
 
     /**
      * Returns the currently enabled features for the system. This is a global setting for all users: GET /user/current-session/feature-visibility.
      */
-    public function featureVisibility(): bool
+    public function featureVisibility(): mixed
     {
-        return $this->perform(new GetCurrentSessionFeatureVisibilityRequest);
+        return $this->fetch(new GetCurrentSessionFeatureVisibilityRequest);
     }
 
     /**
@@ -81,17 +81,17 @@ class CurrentSessionResource extends BaseResource
     /**
      * Returns the Security Key for the current session that must be appended to every request to verify its source: GET /user/current-session/securityKey.
      */
-    public function securityKey(): bool
+    public function securityKey(): mixed
     {
-        return $this->perform(new GetCurrentSessionSecurityKeyRequest);
+        return $this->fetch(new GetCurrentSessionSecurityKeyRequest);
     }
 
     /**
      * Returns the full set of navigation available and favorited by the user, including any custom dashboards and navigation features settings: GET /user/current-session/navigation-settings.
      */
-    public function navigationSettings(): bool
+    public function navigationSettings(): mixed
     {
-        return $this->perform(new GetCurrentSessionNavigationSettingsRequest);
+        return $this->fetch(new GetCurrentSessionNavigationSettingsRequest);
     }
 
     /**

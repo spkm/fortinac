@@ -37,7 +37,7 @@ class FirewallTagResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetFirewallTagRequest((int) $id);
+        return new GetFirewallTagRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -47,12 +47,12 @@ class FirewallTagResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateFirewallTagRequest((int) $id, $body, $options);
+        return new UpdateFirewallTagRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteFirewallTagRequest((int) $id, $options);
+        return new DeleteFirewallTagRequest($this->intId($id), $options);
     }
 
     /**

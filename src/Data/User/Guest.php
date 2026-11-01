@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class Guest extends Data
 {
+    protected const HIDDEN = ['password', 'passwordExclusions', 'sendPasswordSeparately', 'encodedPassword'];
+
     /**
      * @param  array<mixed>|null  $weeklySchedule
      * @param  array<mixed>|null  $clientIds

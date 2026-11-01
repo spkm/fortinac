@@ -42,7 +42,7 @@ class RoleMappingResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetRoleMappingRequest((int) $id);
+        return new GetRoleMappingRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -52,12 +52,12 @@ class RoleMappingResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateRoleMappingRequest((int) $id, $body, $options);
+        return new UpdateRoleMappingRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteRoleMappingRequest((int) $id, $options);
+        return new DeleteRoleMappingRequest($this->intId($id), $options);
     }
 
     /**
@@ -74,9 +74,9 @@ class RoleMappingResource extends Builder
     /**
      * Retrieves information necessary to create or modify a role mapping, such as Roles, Port and Device Groups, and CLI configurations: GET /policy/role-mapping/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetRoleMappingSupportingInfoRequest);
+        return $this->fetch(new GetRoleMappingSupportingInfoRequest);
     }
 
     /**

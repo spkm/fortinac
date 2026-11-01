@@ -37,12 +37,12 @@ class ScannedApplicationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetScannedApplicationRequest((int) $id);
+        return new GetScannedApplicationRequest($this->intId($id));
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteScannedApplicationRequest((int) $id, $options);
+        return new DeleteScannedApplicationRequest($this->intId($id), $options);
     }
 
     /**

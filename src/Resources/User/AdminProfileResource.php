@@ -50,7 +50,7 @@ class AdminProfileResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAdminProfileRequest((int) $id);
+        return new GetAdminProfileRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -60,12 +60,12 @@ class AdminProfileResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateAdminProfileRequest((int) $id, $body, $options);
+        return new UpdateAdminProfileRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAdminProfileRequest((int) $id, $options);
+        return new DeleteAdminProfileRequest($this->intId($id), $options);
     }
 
     /**
@@ -114,9 +114,9 @@ class AdminProfileResource extends Builder
     /**
      * Retrieves information necessary to create or modify an Admin Profile Mapping: GET /user/admin-profile/mapping/supporting-info.
      */
-    public function mappingSupportingInfo(): bool
+    public function mappingSupportingInfo(): mixed
     {
-        return $this->perform(new GetAdminProfileMappingSupportingInfoRequest);
+        return $this->fetch(new GetAdminProfileMappingSupportingInfoRequest);
     }
 
     /**
@@ -130,9 +130,9 @@ class AdminProfileResource extends Builder
     /**
      * Returns a map of Permission Sets to Views: GET /user/admin-profile/permission-view-map.
      */
-    public function permissionViewMap(): bool
+    public function permissionViewMap(): mixed
     {
-        return $this->perform(new GetAdminProfilePermissionViewMapRequest);
+        return $this->fetch(new GetAdminProfilePermissionViewMapRequest);
     }
 
     /**

@@ -42,7 +42,7 @@ class FingerprintResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetFingerprintRequest((int) $id);
+        return new GetFingerprintRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -52,12 +52,12 @@ class FingerprintResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateFingerprintRequest((int) $id, $body, $options);
+        return new UpdateFingerprintRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteFingerprintRequest((int) $id, $options);
+        return new DeleteFingerprintRequest($this->intId($id), $options);
     }
 
     /**

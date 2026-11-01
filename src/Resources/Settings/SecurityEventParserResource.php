@@ -45,7 +45,7 @@ class SecurityEventParserResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSecurityEventParserRequest((int) $id);
+        return new GetSecurityEventParserRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -55,12 +55,12 @@ class SecurityEventParserResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateSecurityEventParserRequest((int) $id, $body, $options);
+        return new UpdateSecurityEventParserRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteSecurityEventParserRequest((int) $id, $options);
+        return new DeleteSecurityEventParserRequest($this->intId($id), $options);
     }
 
     /**

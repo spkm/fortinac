@@ -47,6 +47,17 @@ abstract readonly class Data implements JsonSerializable
     protected const LISTS = [];
 
     /**
+     * The properties that hold a secret (a password, a token, a key), which toArray() and json_encode() leave out
+     * unless asked for them, so a model that is logged, returned from a route or written back does not carry them.
+     *
+     * @var list<string>
+     */
+    protected const HIDDEN = [];
+
+    /**
+     * A model from a record as FortiNAC sends it. Every key is kept (the unknown ones in $extra), so this is for
+     * FortiNAC's own records, not for request input: build a model from user input with its constructor.
+     *
      * @param  array<string, mixed>  $attributes
      */
     public static function from(array $attributes): static
@@ -99,11 +110,12 @@ abstract readonly class Data implements JsonSerializable
     }
 
     /**
-     * The record as FortiNAC would send it: its own keys, without what is null.
+     * The record as FortiNAC would send it: its own keys, without what is null and without its secrets (HIDDEN)
+     * unless $withHidden. A declared property wins over a field of the same name in $extra.
      *
      * @return array<string, mixed>
      */
-    public function toArray(): array
+    public function toArray(bool $withHidden = false): array
     {
         $values = get_object_vars($this);
         $extra = [];
@@ -123,10 +135,24 @@ abstract readonly class Data implements JsonSerializable
                 continue;
             }
 
+            if (! $withHidden && in_array($name, static::HIDDEN, true)) {
+                continue;
+            }
+
             $result[static::ALIASES[$name] ?? $name] = $serialised;
         }
 
-        return [...$result, ...$extra];
+        return [...$extra, ...$result];
+    }
+
+    /**
+     * The hidden properties' names, for a caller that must know what toArray() left out.
+     *
+     * @return list<string>
+     */
+    public static function hidden(): array
+    {
+        return static::HIDDEN;
     }
 
     /**

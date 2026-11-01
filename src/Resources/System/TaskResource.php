@@ -44,7 +44,7 @@ class TaskResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetTaskRequest((int) $id);
+        return new GetTaskRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -54,12 +54,12 @@ class TaskResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateTaskRequest((int) $id, $body, $options);
+        return new UpdateTaskRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteTaskRequest((int) $id, $options);
+        return new DeleteTaskRequest($this->intId($id), $options);
     }
 
     /**

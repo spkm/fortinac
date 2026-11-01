@@ -22,6 +22,13 @@ class FortiNacPaginator extends Paginator
 {
     protected ?int $perPageLimit = 100;
 
+    protected ?string $lastPageFingerprint = null;
+
+    protected ?Response $lastResponse = null;
+
+    /** @var list<array<string, mixed>> */
+    protected array $lastItems = [];
+
     public function __construct(Connector $connector, Request $request, ?int $perPage = null)
     {
         parent::__construct($connector, $request);
@@ -89,6 +96,13 @@ class FortiNacPaginator extends Paginator
         return $total !== null && $this->totalResults >= $total;
     }
 
+    protected function onRewind(): void
+    {
+        $this->lastPageFingerprint = null;
+        $this->lastResponse = null;
+        $this->lastItems = [];
+    }
+
     /**
      * @return list<array<string, mixed>>
      */
@@ -99,7 +113,19 @@ class FortiNacPaginator extends Paginator
                 throw FortiNacApiException::fromResponse($response);
             }
 
-            return Payload::records($response);
+            if ($response === $this->lastResponse) {
+                return $this->lastItems;
+            }
+
+            $items = Payload::records($response);
+
+            // An endpoint that ignores start would answer the same page forever: a repeated page is the end.
+            $fingerprint = sha1((string) json_encode($items));
+            $this->lastResponse = $response;
+            $this->lastItems = $fingerprint === $this->lastPageFingerprint ? [] : $items;
+            $this->lastPageFingerprint = $fingerprint;
+
+            return $this->lastItems;
         } catch (JsonException) {
             throw new ServerErrorException($response);
         }

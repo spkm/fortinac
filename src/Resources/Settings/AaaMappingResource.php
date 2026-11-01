@@ -31,9 +31,9 @@ class AaaMappingResource extends BaseResource
     /**
      * Returns all RADIUS Domain Mappings: GET /settings/integration/aaa-mappings.
      */
-    public function get(): bool
+    public function get(): mixed
     {
-        return $this->perform(new GetAaaMappingRequest);
+        return $this->fetch(new GetAaaMappingRequest);
     }
 
     /**
@@ -57,9 +57,9 @@ class AaaMappingResource extends BaseResource
     /**
      * Returns the default RADIUS servers, primary and secondary, to use if there are no mappings: GET /settings/integration/aaa-mappings/defaults.
      */
-    public function defaults(): bool
+    public function defaults(): mixed
     {
-        return $this->perform(new GetAaaMappingDefaultsRequest);
+        return $this->fetch(new GetAaaMappingDefaultsRequest);
     }
 
     /**

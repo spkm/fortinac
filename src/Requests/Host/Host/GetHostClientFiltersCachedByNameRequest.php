@@ -4,6 +4,7 @@ namespace spkm\FortiNac\Requests\Host\Host;
 
 use spkm\FortiNac\Data\Host\HostClientFiltersCachedByName;
 use spkm\FortiNac\Requests\ItemRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Returns the cached filter with the supplied name: GET /host/client-filters/cached/{name}.
@@ -16,6 +17,6 @@ class GetHostClientFiltersCachedByNameRequest extends ItemRequest
 
     public function resolveEndpoint(): string
     {
-        return '/host/client-filters/cached/'.rawurlencode($this->name);
+        return '/host/client-filters/cached/'.Path::segment($this->name);
     }
 }

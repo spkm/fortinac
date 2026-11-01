@@ -4,6 +4,7 @@ namespace spkm\FortiNac\Requests\User\Dashboard;
 
 use spkm\FortiNac\Data\User\DashboardDeviceSummaryDeviceByStatus;
 use spkm\FortiNac\Requests\ActionRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * POST /user/dashboard/device-summary/device/{tag}/{status}: POST /user/dashboard/device-summary/device/{tag}/{status}.
@@ -24,6 +25,6 @@ class PostDashboardDeviceSummaryDeviceByStatusRequest extends ActionRequest
 
     public function resolveEndpoint(): string
     {
-        return '/user/dashboard/device-summary/device/'.rawurlencode($this->tag).'/'.rawurlencode($this->status);
+        return '/user/dashboard/device-summary/device/'.Path::segment($this->tag).'/'.Path::segment($this->status);
     }
 }

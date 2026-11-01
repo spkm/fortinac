@@ -46,12 +46,12 @@ class ScheduledTaskResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetScheduledTaskRequest((int) $id);
+        return new GetScheduledTaskRequest($this->intId($id));
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteScheduledTaskRequest((int) $id, $options);
+        return new DeleteScheduledTaskRequest($this->intId($id), $options);
     }
 
     /**

@@ -38,7 +38,7 @@ class SupplicantConfigurationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSupplicantConfigurationRequest((int) $id);
+        return new GetSupplicantConfigurationRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -48,12 +48,12 @@ class SupplicantConfigurationResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateSupplicantConfigurationRequest((int) $id, $body, $options);
+        return new UpdateSupplicantConfigurationRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteSupplicantConfigurationRequest((int) $id, $options);
+        return new DeleteSupplicantConfigurationRequest($this->intId($id), $options);
     }
 
     /**
@@ -69,9 +69,9 @@ class SupplicantConfigurationResource extends Builder
     /**
      * Returns the information necessary to create a Supplicant Configuration: GET /policy/supplicant-configuration/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetSupplicantConfigurationSupportingInfoRequest);
+        return $this->fetch(new GetSupplicantConfigurationSupportingInfoRequest);
     }
 
     /**

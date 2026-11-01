@@ -9,6 +9,8 @@ use spkm\FortiNac\Requests\ItemRequest;
  */
 class GetSnmpSettingsAuthPsswordRequest extends ItemRequest
 {
+    protected bool $cacheable = false;
+
     protected string $responseShape = self::RAW;
 
     public function resolveEndpoint(): string

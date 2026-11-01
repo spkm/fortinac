@@ -45,7 +45,7 @@ class GuestTemplateResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetGuestTemplateRequest((int) $id);
+        return new GetGuestTemplateRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -55,12 +55,12 @@ class GuestTemplateResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateGuestTemplateRequest((int) $id, $body, $options);
+        return new UpdateGuestTemplateRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteGuestTemplateRequest((int) $id, $options);
+        return new DeleteGuestTemplateRequest($this->intId($id), $options);
     }
 
     /**

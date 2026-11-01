@@ -5,3 +5,8 @@ vendor/
 .phpunit.result.cache
 composer.lock
 .idea/
+.env.*
+!.env.example
+*.pem
+*.key
+auth.json

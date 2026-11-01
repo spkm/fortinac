@@ -39,7 +39,7 @@ class DeviceIdentitySourceResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetDeviceIdentitySourceRequest((int) $id);
+        return new GetDeviceIdentitySourceRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -49,12 +49,12 @@ class DeviceIdentitySourceResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateDeviceIdentitySourceRequest((int) $id, $body, $options);
+        return new UpdateDeviceIdentitySourceRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteDeviceIdentitySourceRequest((int) $id, $options);
+        return new DeleteDeviceIdentitySourceRequest($this->intId($id), $options);
     }
 
     /**

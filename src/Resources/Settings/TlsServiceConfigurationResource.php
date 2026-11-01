@@ -41,7 +41,7 @@ class TlsServiceConfigurationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetTlsServiceConfigurationRequest((int) $id);
+        return new GetTlsServiceConfigurationRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -51,12 +51,12 @@ class TlsServiceConfigurationResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateTlsServiceConfigurationRequest((int) $id, [...$body, ...$options]);
+        return new UpdateTlsServiceConfigurationRequest($this->intId($id), [...$body, ...$options]);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteTlsServiceConfigurationRequest((int) $id, $options);
+        return new DeleteTlsServiceConfigurationRequest($this->intId($id), $options);
     }
 
     /**

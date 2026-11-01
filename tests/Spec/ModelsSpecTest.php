@@ -46,9 +46,12 @@ it('builds every model from FortiNAC\'s values and serialises it back', function
     }
 
     $model = $class::from([...$attributes, 'undocumented' => 'kept']);
+    $hidden = $class::hidden();
 
     expect($model)->toBeInstanceOf(Data::class)
-        ->and($model->toArray())->toBe([...$expected, 'undocumented' => 'kept'])
+        ->and($model->toArray())->toBe(['undocumented' => 'kept', ...array_diff_key($expected, array_flip(array_map(fn (string $name) => $aliases[$name] ?? $name, $hidden)))])
+        ->and($model->toArray(true))->toBe(['undocumented' => 'kept', ...$expected])
+        ->and(array_diff($hidden, array_keys($expected)))->toBe([])
         ->and($model->extra)->toBe(['undocumented' => 'kept'])
         ->and($class::from([]))->toBeInstanceOf($class)
         ->and($class::from([])->toArray())->toBe([]);

@@ -40,7 +40,7 @@ class DeviceTypeResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetDeviceTypeRequest((int) $id);
+        return new GetDeviceTypeRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -50,12 +50,12 @@ class DeviceTypeResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateDeviceTypeRequest((int) $id, $body, $options);
+        return new UpdateDeviceTypeRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteDeviceTypeRequest((int) $id, $options);
+        return new DeleteDeviceTypeRequest($this->intId($id), $options);
     }
 
     /**

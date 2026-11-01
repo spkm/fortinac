@@ -63,7 +63,7 @@ final class Query implements Stringable
         }
 
         $query = clone $this;
-        $query->sortKey = $field;
+        $query->sortKey = Filter::field($field);
         $query->sortDir = strtoupper($direction);
 
         return $query;

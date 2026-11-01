@@ -36,7 +36,7 @@ class BackgroundTaskResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetBackgroundTaskRequest((int) $id);
+        return new GetBackgroundTaskRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -46,7 +46,7 @@ class BackgroundTaskResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateBackgroundTaskRequest((int) $id, $body, $options);
+        return new UpdateBackgroundTaskRequest($this->intId($id), $body, $options);
     }
 
     /**

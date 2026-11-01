@@ -57,7 +57,7 @@ class GroupResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetGroupRequest((int) $id);
+        return new GetGroupRequest($this->intId($id));
     }
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
@@ -67,7 +67,7 @@ class GroupResource extends Builder
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteGroupRequest((int) $id, $options);
+        return new DeleteGroupRequest($this->intId($id), $options);
     }
 
     /**
@@ -83,9 +83,9 @@ class GroupResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: includeParent
      */
-    public function descendants(int $id, array $options = []): bool
+    public function descendants(int $id, array $options = []): mixed
     {
-        return $this->perform(new GetGroupDescendantsRequest($id, $options));
+        return $this->fetch(new GetGroupDescendantsRequest($id, $options));
     }
 
     /**

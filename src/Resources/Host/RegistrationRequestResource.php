@@ -36,12 +36,12 @@ class RegistrationRequestResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetRegistrationRequestRequest((int) $id);
+        return new GetRegistrationRequestRequest($this->intId($id));
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteRegistrationRequestRequest((int) $id, $options);
+        return new DeleteRegistrationRequestRequest($this->intId($id), $options);
     }
 
     /**

@@ -57,7 +57,7 @@ class FortiNacApiException extends RequestException
         }
 
         if ($response->body() !== '' && ! json_validate($response->body())) {
-            return $response->successful() ? $text.' with a body that is not JSON' : $text.': '.trim(substr($response->body(), 0, 200));
+            return $response->successful() ? $text.' with a body that is not JSON' : $text.': '.self::clean($response->body());
         }
 
         $message = self::messageIn($response);
@@ -84,7 +84,7 @@ class FortiNacApiException extends RequestException
             return null;
         }
 
-        return preg_match('#<title>(.*?)</title>#is', $response->body(), $matches) ? trim(html_entity_decode($matches[1])) : '';
+        return preg_match('#<title>(.*?)</title>#is', $response->body(), $matches) ? self::clean(html_entity_decode($matches[1])) : '';
     }
 
     /**
@@ -114,6 +114,17 @@ class FortiNacApiException extends RequestException
 
     private static function text(mixed $value): ?string
     {
-        return is_scalar($value) && trim((string) $value) !== '' ? trim((string) $value) : null;
+        return is_scalar($value) && trim((string) $value) !== '' ? self::clean((string) $value) : null;
+    }
+
+    /**
+     * Server text fit for a message or a log line: tags and control characters out, one line, at most 200
+     * characters.
+     */
+    private static function clean(string $value): string
+    {
+        $value = trim((string) preg_replace('/[\x00-\x1F\x7F]+/u', ' ', strip_tags($value)));
+
+        return mb_strlen($value) > 200 ? mb_substr($value, 0, 197).'...' : $value;
     }
 }

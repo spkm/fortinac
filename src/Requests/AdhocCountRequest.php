@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests;
 
 use spkm\FortiNac\Query\Query;
+use spkm\FortiNac\Support\Path;
 
 /**
  * A count request for a collection the package has no request for, as FortiNac::from('/path')->count(), sent to
@@ -20,6 +21,6 @@ class AdhocCountRequest extends CountRequest
 
     public function resolveEndpoint(): string
     {
-        return '/'.trim($this->path, '/').'/count';
+        return rtrim(Path::path($this->path), '/').'/count';
     }
 }

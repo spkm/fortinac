@@ -50,7 +50,7 @@ class MessagingGatewayResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetMessagingGatewayRequest((int) $id);
+        return new GetMessagingGatewayRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -60,12 +60,12 @@ class MessagingGatewayResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateMessagingGatewayRequest((int) $id, $body, $options);
+        return new UpdateMessagingGatewayRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteMessagingGatewayRequest((int) $id, $options);
+        return new DeleteMessagingGatewayRequest($this->intId($id), $options);
     }
 
     /**

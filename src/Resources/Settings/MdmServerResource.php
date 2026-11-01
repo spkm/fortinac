@@ -41,7 +41,7 @@ class MdmServerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetMdmServerRequest((int) $id);
+        return new GetMdmServerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -51,12 +51,12 @@ class MdmServerResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateMdmServerRequest((int) $id, $body, $options);
+        return new UpdateMdmServerRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteMdmServerRequest((int) $id, $options);
+        return new DeleteMdmServerRequest($this->intId($id), $options);
     }
 
     /**

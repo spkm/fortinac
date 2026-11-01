@@ -46,7 +46,7 @@ class RadiusServerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetRadiusServerRequest((int) $id);
+        return new GetRadiusServerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -56,12 +56,12 @@ class RadiusServerResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateRadiusServerRequest((int) $id, $body, $options);
+        return new UpdateRadiusServerRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteRadiusServerRequest((int) $id, $options);
+        return new DeleteRadiusServerRequest($this->intId($id), $options);
     }
 
     /**
@@ -91,9 +91,9 @@ class RadiusServerResource extends Builder
     /**
      * Returns the current status for the RADIUS service: GET /radius/radius-server-config/status.
      */
-    public function status(): bool
+    public function status(): mixed
     {
-        return $this->perform(new GetRadiusServerStatusRequest);
+        return $this->fetch(new GetRadiusServerStatusRequest);
     }
 
     /**

@@ -39,7 +39,7 @@ class PaPacketTransportConfigResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetPaPacketTransportConfigRequest((int) $id);
+        return new GetPaPacketTransportConfigRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -49,12 +49,12 @@ class PaPacketTransportConfigResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdatePaPacketTransportConfigRequest((int) $id, $body, $options);
+        return new UpdatePaPacketTransportConfigRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeletePaPacketTransportConfigRequest((int) $id, $options);
+        return new DeletePaPacketTransportConfigRequest($this->intId($id), $options);
     }
 
     /**

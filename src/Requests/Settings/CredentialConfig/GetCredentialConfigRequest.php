@@ -10,6 +10,8 @@ use spkm\FortiNac\Requests\ItemRequest;
  */
 class GetCredentialConfigRequest extends ItemRequest
 {
+    protected bool $cacheable = false;
+
     protected ?string $dto = CredentialConfig::class;
 
     public function resolveEndpoint(): string

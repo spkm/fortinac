@@ -44,7 +44,7 @@ class LdapServerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetLdapServerRequest((int) $id);
+        return new GetLdapServerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -54,12 +54,12 @@ class LdapServerResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateLdapServerRequest((int) $id, $body, $options);
+        return new UpdateLdapServerRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteLdapServerRequest((int) $id, $options);
+        return new DeleteLdapServerRequest($this->intId($id), $options);
     }
 
     /**

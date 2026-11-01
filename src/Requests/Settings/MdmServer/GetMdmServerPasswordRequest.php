@@ -9,6 +9,8 @@ use spkm\FortiNac\Requests\ItemRequest;
  */
 class GetMdmServerPasswordRequest extends ItemRequest
 {
+    protected bool $cacheable = false;
+
     protected string $responseShape = self::SCALAR;
 
     public function __construct(protected int $id) {}

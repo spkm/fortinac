@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class LogicalNetworkConfigurationElementPropertiesByDeviceId extends Data
 {
+    protected const HIDDEN = ['credentials', 'routerCredentials', 'radiusSecret'];
+
     /**
      * @param  array<mixed>|null  $vlanNames
      * @param  array<mixed>|null  $vlanIDs

@@ -42,7 +42,7 @@ class ScanResultResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetScanResultRequest((int) $id);
+        return new GetScanResultRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest

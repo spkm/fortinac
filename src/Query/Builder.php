@@ -163,12 +163,12 @@ abstract class Builder extends BaseResource
      */
     public function whereContains(string $field, string $value): static
     {
-        return $this->where($field, Operator::Contains, '*'.$value.'*');
+        return $this->where($field, Operator::Contains, new Pattern('*'.Filter::literal($value).'*'));
     }
 
     public function whereNotContains(string $field, string $value): static
     {
-        return $this->where($field, Operator::NotContains, '*'.$value.'*');
+        return $this->where($field, Operator::NotContains, new Pattern('*'.Filter::literal($value).'*'));
     }
 
     public function orderBy(string $field, string $direction = 'asc'): static
@@ -282,7 +282,7 @@ abstract class Builder extends BaseResource
         $request = $this->itemRequest($id);
 
         if ($request === null) {
-            return $this->fresh()->where('id', $id)->first();
+            return $this->fresh()->where('id', $this->intId($id))->first();
         }
 
         return $this->fetchOrNull($request);
@@ -299,7 +299,7 @@ abstract class Builder extends BaseResource
             $record = $this->find($id);
 
             if ($record === null) {
-                throw new NotFoundException($this->send($this->fresh()->where('id', $id)->toQuery()->count(1)));
+                throw new NotFoundException($this->send($this->fresh()->where('id', $this->intId($id))->toQuery()->count(1)));
             }
 
             return $record;

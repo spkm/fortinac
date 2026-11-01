@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests\Settings\Certificate;
 
 use spkm\FortiNac\Requests\ActionRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Uploads a certificate chain and optional private key to the specified target name. Uploading certificates to a trust store adds them to the list of trusted certificates: POST /settings/security/certificate-server/{name}.
@@ -21,6 +22,6 @@ class UpdateCertificateRequest extends ActionRequest
 
     public function resolveEndpoint(): string
     {
-        return '/settings/security/certificate-server/'.rawurlencode($this->name);
+        return '/settings/security/certificate-server/'.Path::segment($this->name);
     }
 }

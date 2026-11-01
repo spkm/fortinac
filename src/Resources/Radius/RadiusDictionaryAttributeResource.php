@@ -39,12 +39,12 @@ class RadiusDictionaryAttributeResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateRadiusDictionaryAttributeRequest((int) $id, $body, $options);
+        return new UpdateRadiusDictionaryAttributeRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteRadiusDictionaryAttributeRequest((int) $id, $options);
+        return new DeleteRadiusDictionaryAttributeRequest($this->intId($id), $options);
     }
 
     /**

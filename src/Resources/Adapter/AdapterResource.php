@@ -51,7 +51,7 @@ class AdapterResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAdapterRequest((int) $id);
+        return new GetAdapterRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -61,12 +61,12 @@ class AdapterResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateAdapterRequest((int) $id, $body, $options);
+        return new UpdateAdapterRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAdapterRequest((int) $id, $options);
+        return new DeleteAdapterRequest($this->intId($id), $options);
     }
 
     /**

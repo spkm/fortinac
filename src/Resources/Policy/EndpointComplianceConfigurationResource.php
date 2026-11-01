@@ -38,7 +38,7 @@ class EndpointComplianceConfigurationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetEndpointComplianceConfigurationRequest((int) $id);
+        return new GetEndpointComplianceConfigurationRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -48,12 +48,12 @@ class EndpointComplianceConfigurationResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateEndpointComplianceConfigurationRequest((int) $id, $body, $options);
+        return new UpdateEndpointComplianceConfigurationRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteEndpointComplianceConfigurationRequest((int) $id, $options);
+        return new DeleteEndpointComplianceConfigurationRequest($this->intId($id), $options);
     }
 
     /**
@@ -70,9 +70,9 @@ class EndpointComplianceConfigurationResource extends Builder
     /**
      * Returns the information used to create an Endpoint Compliance Configuration: GET /policy/endpoint-compliance-configuration/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetEndpointComplianceConfigurationSupportingInfoRequest);
+        return $this->fetch(new GetEndpointComplianceConfigurationSupportingInfoRequest);
     }
 
     /**

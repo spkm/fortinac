@@ -41,7 +41,7 @@ class RoleResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetRoleRequest((int) $id);
+        return new GetRoleRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -51,12 +51,12 @@ class RoleResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateRoleRequest((int) $id, $body, $options);
+        return new UpdateRoleRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteRoleRequest((int) $id, $options);
+        return new DeleteRoleRequest($this->intId($id), $options);
     }
 
     /**
@@ -73,17 +73,17 @@ class RoleResource extends Builder
     /**
      * Returns the Name and ID of all Roles: GET /policy/role/simple.
      */
-    public function simple(): bool
+    public function simple(): mixed
     {
-        return $this->perform(new GetRoleSimpleRequest);
+        return $this->fetch(new GetRoleSimpleRequest);
     }
 
     /**
      * Retrieves information necessary to create or modify a role, such as Host and User groups: GET /policy/role/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetRoleSupportingInfoRequest);
+        return $this->fetch(new GetRoleSupportingInfoRequest);
     }
 
     /**

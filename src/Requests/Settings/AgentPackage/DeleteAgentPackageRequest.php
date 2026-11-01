@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests\Settings\AgentPackage;
 
 use spkm\FortiNac\Requests\DeleteRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Delete the agent package: DELETE /settings/agent/agent-packages/{packageFile}.
@@ -19,6 +20,6 @@ class DeleteAgentPackageRequest extends DeleteRequest
 
     public function resolveEndpoint(): string
     {
-        return '/settings/agent/agent-packages/'.rawurlencode($this->packageFile);
+        return '/settings/agent/agent-packages/'.Path::segment($this->packageFile);
     }
 }

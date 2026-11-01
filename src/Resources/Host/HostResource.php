@@ -82,7 +82,7 @@ class HostResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetHostRequest((int) $id);
+        return new GetHostRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -92,12 +92,12 @@ class HostResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateHostRequest((int) $id, $body, $options);
+        return new UpdateHostRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteHostRequest((int) $id, $options);
+        return new DeleteHostRequest($this->intId($id), $options);
     }
 
     /**
@@ -186,9 +186,9 @@ class HostResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: id
      */
-    public function policy(int $id, array $options = []): bool
+    public function policy(int $id, array $options = []): mixed
     {
-        return $this->perform(new GetHostPolicyRequest($id, $options));
+        return $this->fetch(new GetHostPolicyRequest($id, $options));
     }
 
     /**

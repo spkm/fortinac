@@ -63,12 +63,12 @@ class UserResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateUserRequest((int) $id, $body, $options);
+        return new UpdateUserRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteUserRequest((int) $id, $options);
+        return new DeleteUserRequest($this->intId($id), $options);
     }
 
     /**
@@ -226,9 +226,9 @@ class UserResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: userID, password
      */
-    public function setPassword(array $options = []): bool
+    public function setPassword(array $options = []): mixed
     {
-        return $this->perform(new SetUserPasswordRequest($options));
+        return $this->fetch(new SetUserPasswordRequest($options));
     }
 
     /**

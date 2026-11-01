@@ -47,9 +47,9 @@ class DebugResource extends BaseResource
      *
      * @param  array<string, mixed>  $options  Query options: logName, tailLog, lastKnownLogLength, LogLines, hostName, filter
      */
-    public function log(array $options = []): bool
+    public function log(array $options = []): mixed
     {
-        return $this->perform(new GetDebugLogRequest($options));
+        return $this->fetch(new GetDebugLogRequest($options));
     }
 
     /**
@@ -66,9 +66,9 @@ class DebugResource extends BaseResource
     /**
      * Returns a summary of all tables in the database: GET /system/debug/database/tables.
      */
-    public function databaseTables(): bool
+    public function databaseTables(): mixed
     {
-        return $this->perform(new GetDebugDatabaseTablesRequest);
+        return $this->fetch(new GetDebugDatabaseTablesRequest);
     }
 
     /**

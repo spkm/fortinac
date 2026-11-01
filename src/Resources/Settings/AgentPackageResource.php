@@ -38,9 +38,9 @@ class AgentPackageResource extends Builder
     /**
      * Returns the List of available agents to download: GET /settings/agent/agent-packages/available-agents.
      */
-    public function availableAgents(): bool
+    public function availableAgents(): mixed
     {
-        return $this->perform(new GetAgentPackageAvailableAgentsRequest);
+        return $this->fetch(new GetAgentPackageAvailableAgentsRequest);
     }
 
     /**

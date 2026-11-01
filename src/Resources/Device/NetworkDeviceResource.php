@@ -59,20 +59,20 @@ class NetworkDeviceResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetNetworkDeviceRequest((int) $id);
+        return new GetNetworkDeviceRequest($this->intId($id));
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteNetworkDeviceRequest((int) $id, $options);
+        return new DeleteNetworkDeviceRequest($this->intId($id), $options);
     }
 
     /**
      * Gets all changes to Network Device records since the Events were last polled: GET /device/monitor/{id}.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetNetworkDeviceMonitorRequest($id));
+        return $this->fetch(new GetNetworkDeviceMonitorRequest($id));
     }
 
     /**

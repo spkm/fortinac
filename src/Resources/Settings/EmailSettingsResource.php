@@ -37,9 +37,9 @@ class EmailSettingsResource extends BaseResource
      *
      * @param  array<string, mixed>  $options
      */
-    public function password(array $options = []): bool
+    public function password(array $options = []): mixed
     {
-        return $this->perform(new PostEmailSettingsPasswordRequest($options));
+        return $this->fetch(new PostEmailSettingsPasswordRequest($options));
     }
 
     /**

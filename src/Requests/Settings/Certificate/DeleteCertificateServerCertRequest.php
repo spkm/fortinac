@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests\Settings\Certificate;
 
 use spkm\FortiNac\Requests\ActionRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Deletes server certificate at the specified target: POST /settings/security/certificate-server/{name}/deleteServerCert.
@@ -19,6 +20,6 @@ class DeleteCertificateServerCertRequest extends ActionRequest
 
     public function resolveEndpoint(): string
     {
-        return '/settings/security/certificate-server/'.rawurlencode($this->name).'/deleteServerCert';
+        return '/settings/security/certificate-server/'.Path::segment($this->name).'/deleteServerCert';
     }
 }

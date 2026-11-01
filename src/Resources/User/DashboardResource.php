@@ -51,7 +51,7 @@ class DashboardResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetDashboardRequest((int) $id);
+        return new GetDashboardRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -61,12 +61,12 @@ class DashboardResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateDashboardRequest((int) $id, $body, $options);
+        return new UpdateDashboardRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteDashboardRequest((int) $id, $options);
+        return new DeleteDashboardRequest($this->intId($id), $options);
     }
 
     /**
@@ -155,17 +155,17 @@ class DashboardResource extends Builder
     /**
      * GET /user/dashboard/host-summary: GET /user/dashboard/host-summary.
      */
-    public function hostSummary(): bool
+    public function hostSummary(): mixed
     {
-        return $this->perform(new GetDashboardHostSummaryRequest);
+        return $this->fetch(new GetDashboardHostSummaryRequest);
     }
 
     /**
      * GET /user/dashboard/user-summary: GET /user/dashboard/user-summary.
      */
-    public function userSummary(): bool
+    public function userSummary(): mixed
     {
-        return $this->perform(new GetDashboardUserSummaryRequest);
+        return $this->fetch(new GetDashboardUserSummaryRequest);
     }
 
     /**

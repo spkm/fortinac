@@ -80,3 +80,10 @@ it('treats a page that is not JSON as a server error', function () {
 
     expect(fn () => FakeFortiNac::connector()->paginate(new ExampleListRequest)->collect()->all())->toThrow(ServerErrorException::class);
 });
+
+it('stops when an endpoint ignores start and answers the same page again', function () {
+    $mockClient = FakeFortiNac::respondWith([ExampleListRequest::class => FakeFortiNac::list([['id' => 1], ['id' => 2]])]);
+
+    expect(FakeFortiNac::connector()->paginate(new ExampleListRequest, 2)->collect()->count())->toBe(2)
+        ->and(FakeFortiNac::urisReceived($mockClient, ExampleListRequest::class))->toHaveCount(2);
+});

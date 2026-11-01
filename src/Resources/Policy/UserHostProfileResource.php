@@ -38,7 +38,7 @@ class UserHostProfileResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetUserHostProfileRequest((int) $id);
+        return new GetUserHostProfileRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -48,12 +48,12 @@ class UserHostProfileResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateUserHostProfileRequest((int) $id, $body, $options);
+        return new UpdateUserHostProfileRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteUserHostProfileRequest((int) $id, $options);
+        return new DeleteUserHostProfileRequest($this->intId($id), $options);
     }
 
     /**
@@ -69,9 +69,9 @@ class UserHostProfileResource extends Builder
     /**
      * Returns a series of related data records used to create User/Host Profiles: GET /policy/user-host-profile/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetUserHostProfileSupportingInfoRequest);
+        return $this->fetch(new GetUserHostProfileSupportingInfoRequest);
     }
 
     /**

@@ -86,7 +86,7 @@ final class Filter implements JsonSerializable, Stringable
      */
     public function toArray(): array
     {
-        return array_map(fn (array $clause) => implode(',', array_map(fn (array $condition) => $condition['field'].$condition['operator']->value.$this->pattern($condition['value']), $clause)), $this->clauses);
+        return array_map(fn (array $clause) => implode(',', array_map(fn (array $condition) => $condition['field'].$condition['operator']->value.$this->pattern($condition['value'], $condition['operator']), $clause)), $this->clauses);
     }
 
     /**
@@ -130,9 +130,10 @@ final class Filter implements JsonSerializable, Stringable
 
     /**
      * A condition's value as a pattern. In text, a backslash is written as \\ and a dot as \., so an IP or MAC
-     * address matches itself; a number is written as it is.
+     * address matches itself, and a comma as \, so the value cannot add an alternative of its own; a * is written
+     * as \* unless the operator takes a pattern (=@, !@), where it is the wildcard. A number is written as it is.
      */
-    private function pattern(mixed $value): string
+    private function pattern(mixed $value, ?Operator $operator = null): string
     {
         if ($value instanceof BackedEnum) {
             $value = $value->value;
@@ -144,16 +145,35 @@ final class Filter implements JsonSerializable, Stringable
 
         return match (true) {
             $value === null => throw new InvalidArgumentException('A condition needs a value.'),
+            $value instanceof Pattern => (string) $value,
             is_bool($value) => $value ? 'true' : 'false',
             is_int($value), is_float($value) => (string) $value,
-            is_string($value), $value instanceof Stringable => str_replace(['\\', '.'], ['\\\\', '\\.'], (string) $value),
+            is_string($value), $value instanceof Stringable => self::escape((string) $value, $operator),
             default => throw new InvalidArgumentException('A condition value must be a string, number, bool, date or enum.'),
         };
     }
 
-    private static function field(string $field): string
+    private static function escape(string $value, ?Operator $operator): string
     {
-        if (! preg_match('/^[A-Za-z_][\w.]*$/', $field)) {
+        return in_array($operator, [Operator::Contains, Operator::NotContains], true)
+            ? str_replace(['\\', '.', ','], ['\\\\', '\\.', '\\,'], $value)
+            : self::literal($value);
+    }
+
+    /**
+     * Text written so that FortiNAC reads every character as itself: backslash, dot, comma and star escaped.
+     */
+    public static function literal(string $value): string
+    {
+        return str_replace(['\\', '.', ',', '*'], ['\\\\', '\\.', '\\,', '\\*'], $value);
+    }
+
+    /**
+     * A field name as FortiNAC's records carry them: letters, digits, underscores and dots.
+     */
+    public static function field(string $field): string
+    {
+        if (! preg_match('/^[A-Za-z_][\w.]*\z/', $field)) {
             throw new InvalidArgumentException('"'.$field.'" is not a FortiNAC field name.');
         }
 

@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class ProxySettings extends Data
 {
+    protected const HIDDEN = ['httpProxyPassword', 'httpsProxyPassword', 'ftpProxyPassword'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

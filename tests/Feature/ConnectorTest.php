@@ -1,5 +1,6 @@
 <?php
 
+use Saloon\Config;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Http\Faking\MockResponse;
 use spkm\FortiNac\FortiNacPaginator;
@@ -126,4 +127,30 @@ it('gives a builder over any collection with from()', function () {
         ->and(FakeFortiNac::urisReceived($mockClient, AdhocRequest::class))->toBe([FakeFortiNac::API_URL.'/new-thing/2', FakeFortiNac::API_URL.'/new-thing', FakeFortiNac::API_URL.'/new-thing/3', FakeFortiNac::API_URL.'/new-thing/2'])
         ->and(FakeFortiNac::urisReceived($mockClient, AdhocBodyRequest::class))->toBe([FakeFortiNac::API_URL.'/new-thing', FakeFortiNac::API_URL.'/new-thing/3'])
         ->and($connector->paginate(new ExampleListRequest))->toBeInstanceOf(FortiNacPaginator::class);
+});
+
+it('keeps the token out of dumps and serialisation', function () {
+    $connector = FakeFortiNac::connector(token: 'SUPERSECRETTOKEN');
+
+    expect(print_r($connector, true))->not->toContain('SUPERSECRETTOKEN')
+        ->and(print_r($connector, true))->toContain('[redacted]')
+        ->and(json_encode($connector->__debugInfo()))->not->toContain('SUPERSECRETTOKEN')
+        ->and(fn () => serialize($connector))->toThrow(LogicException::class, 'cannot be serialised')
+        ->and($connector->tokenFingerprint())->not->toContain('SUPERSECRETTOKEN')
+        ->and($connector->tokenFingerprint())->not->toBe(FakeFortiNac::connector(token: 'other')->tokenFingerprint());
+});
+
+it('keeps a query string given in an ad-hoc path, repeated keys and values with = included', function () {
+    $mockClient = FakeFortiNac::respondWith([AdhocRequest::class => FakeFortiNac::envelope()]);
+
+    FakeFortiNac::connector()->get('/host?filter=owner==bob&filter=name==x', ['count' => 1]);
+
+    expect(FakeFortiNac::urisReceived($mockClient, AdhocRequest::class)[0])->toBe(FakeFortiNac::API_URL.'/host?filter=owner%3D%3Dbob&filter=name%3D%3Dx&count=1');
+});
+
+it('falls back to the default timeouts when config gives none or zero', function () {
+    config()->set('fortinac.timeouts', ['connect' => '', 'request' => 0]);
+
+    expect(FakeFortiNac::connector()->getConnectTimeout())->toBe((float) Config::$defaultConnectionTimeout)
+        ->and(FakeFortiNac::connector()->getRequestTimeout())->toBe((float) Config::$defaultRequestTimeout);
 });

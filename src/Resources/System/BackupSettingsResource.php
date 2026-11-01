@@ -38,9 +38,9 @@ class BackupSettingsResource extends BaseResource
     /**
      * Returns the currently configured database backup settings: GET /system/backup-settings/database.
      */
-    public function database(): bool
+    public function database(): mixed
     {
-        return $this->perform(new GetBackupSettingsDatabaseRequest);
+        return $this->fetch(new GetBackupSettingsDatabaseRequest);
     }
 
     /**
@@ -54,9 +54,9 @@ class BackupSettingsResource extends BaseResource
     /**
      * Returns the currently configured system backup settings: GET /system/backup-settings/system-backup.
      */
-    public function systemBackup(): bool
+    public function systemBackup(): mixed
     {
-        return $this->perform(new GetBackupSettingsSystemBackupRequest);
+        return $this->fetch(new GetBackupSettingsSystemBackupRequest);
     }
 
     /**

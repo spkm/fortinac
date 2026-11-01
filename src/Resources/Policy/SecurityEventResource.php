@@ -34,15 +34,15 @@ class SecurityEventResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSecurityEventRequest((int) $id);
+        return new GetSecurityEventRequest($this->intId($id));
     }
 
     /**
      * Gets all changes to Security Event records since the Events were last polled: GET /policy/security-event/{id}/monitor.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetSecurityEventMonitorRequest($id));
+        return $this->fetch(new GetSecurityEventMonitorRequest($id));
     }
 
     /**

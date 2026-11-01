@@ -37,7 +37,7 @@ class SecurityRuleTriggerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSecurityRuleTriggerRequest((int) $id);
+        return new GetSecurityRuleTriggerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -47,12 +47,12 @@ class SecurityRuleTriggerResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateSecurityRuleTriggerRequest((int) $id, $body, $options);
+        return new UpdateSecurityRuleTriggerRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteSecurityRuleTriggerRequest((int) $id, $options);
+        return new DeleteSecurityRuleTriggerRequest($this->intId($id), $options);
     }
 
     /**

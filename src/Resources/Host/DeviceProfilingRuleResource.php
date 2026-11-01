@@ -52,7 +52,7 @@ class DeviceProfilingRuleResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetDeviceProfilingRuleRequest((int) $id);
+        return new GetDeviceProfilingRuleRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -62,20 +62,20 @@ class DeviceProfilingRuleResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateDeviceProfilingRuleRequest((int) $id, $body, $options);
+        return new UpdateDeviceProfilingRuleRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteDeviceProfilingRuleRequest((int) $id, $options);
+        return new DeleteDeviceProfilingRuleRequest($this->intId($id), $options);
     }
 
     /**
      * Exports the configured Device Profiler rules as a download: GET /DeviceProfiler/Rule/export.
      */
-    public function ruleExport(): bool
+    public function ruleExport(): mixed
     {
-        return $this->perform(new GetDeviceProfilingRuleRuleExportRequest);
+        return $this->fetch(new GetDeviceProfilingRuleRuleExportRequest);
     }
 
     /**

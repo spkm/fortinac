@@ -81,3 +81,23 @@ it('describes an answer that is not the envelope', function () {
     expect(fn () => FakeFortiNac::connector()->send(new ExampleItemRequest(1))->dto())
         ->toThrow(NotFoundException::class, 'FortiNAC responded 404 to GET /api/v2/example/1');
 });
+
+it('keeps server text in a message to one short line without tags or control characters', function () {
+    FakeFortiNac::respondWith([ExampleItemRequest::class => FakeFortiNac::failure("Bad <script>alert(1)</script>\nforged log line\x07".str_repeat('x', 300))]);
+
+    try {
+        FakeFortiNac::connector()->send(new ExampleItemRequest(1))->dto();
+        $this->fail('No exception');
+    } catch (FailedException $exception) {
+        expect($exception->getMessage())->not->toContain('<script>')
+            ->and($exception->getMessage())->not->toContain("\n")
+            ->and($exception->getMessage())->not->toContain("\x07")
+            ->and($exception->getMessage())->toContain('Bad alert(1) forged log line')
+            ->and(mb_strlen($exception->errorMessage()))->toBe(200)
+            ->and($exception->errorMessage())->toEndWith('...');
+    }
+
+    FakeFortiNac::respondWith([ExampleItemRequest::class => MockResponse::make('<html><head><title>502 <b>Bad</b>'.str_repeat('y', 300).'</title></head></html>', 502, ['Content-Type' => 'text/html'])]);
+    expect(fn () => FakeFortiNac::connector()->send(new ExampleItemRequest(1))->dto())
+        ->toThrow(ServerErrorException::class, "with an HTML error page ('502 Bad");
+});

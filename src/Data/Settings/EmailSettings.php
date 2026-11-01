@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class EmailSettings extends Data
 {
+    protected const HIDDEN = ['emailPassword'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests;
 
 use Saloon\Enums\Method;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Any call to FortiNAC by method and path, for endpoints the package has no request for. dto() gives the decoded
@@ -25,7 +26,7 @@ class AdhocRequest extends FortiNacRequest
 
     public function resolveEndpoint(): string
     {
-        return '/'.ltrim($this->path, '/');
+        return Path::path($this->path);
     }
 
     /**

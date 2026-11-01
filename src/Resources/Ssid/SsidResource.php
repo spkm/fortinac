@@ -35,9 +35,9 @@ class SsidResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: ssid, device
      */
-    public function config(array $options = []): bool
+    public function config(array $options = []): mixed
     {
-        return $this->perform(new GetSsidConfigRequest($options));
+        return $this->fetch(new GetSsidConfigRequest($options));
     }
 
     /**

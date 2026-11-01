@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class LocalPropertiesPasswordsChange extends Data
 {
+    protected const HIDDEN = ['csAdminCLIPassword', 'asAdminCLIPassword', 'csRootCLIPassword', 'asRootCLIPassword'];
+
     /**
      * @param  array<mixed>|null  $csAdminCLIPassword
      * @param  array<mixed>|null  $asAdminCLIPassword

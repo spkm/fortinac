@@ -38,7 +38,7 @@ class SyslogServerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSyslogServerRequest((int) $id);
+        return new GetSyslogServerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -48,20 +48,20 @@ class SyslogServerResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateSyslogServerRequest((int) $id, $body, $options);
+        return new UpdateSyslogServerRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteSyslogServerRequest((int) $id, $options);
+        return new DeleteSyslogServerRequest($this->intId($id), $options);
     }
 
     /**
      * Returns a list of record that reference this syslog parser record: GET /settings/integration/syslog/{id}/usage.
      */
-    public function usage(int $id): bool
+    public function usage(int $id): mixed
     {
-        return $this->perform(new GetSyslogServerUsageRequest($id));
+        return $this->fetch(new GetSyslogServerUsageRequest($id));
     }
 
     /**

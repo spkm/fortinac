@@ -7,15 +7,19 @@ use JsonException;
 use Saloon\CachePlugin\Contracts\Cacheable;
 use Saloon\CachePlugin\Contracts\Driver;
 use Saloon\CachePlugin\Drivers\LaravelCacheDriver;
+use Saloon\CachePlugin\Helpers\CacheKeyHelper;
 use Saloon\CachePlugin\Traits\HasCaching;
 use Saloon\Enums\Method;
+use Saloon\Enums\PipeOrder;
 use Saloon\Http\PendingRequest;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
 use spkm\FortiNac\Data\Data;
 use spkm\FortiNac\Exceptions\ServerErrorException;
 use spkm\FortiNac\FortiNacApiException;
+use spkm\FortiNac\FortiNacConnector;
 use spkm\FortiNac\Support\Payload;
+use spkm\FortiNac\Support\QueryString;
 
 /**
  * What every request to FortiNAC shares: the shape of the response and the model it maps to (for dto()), and
@@ -62,9 +66,32 @@ abstract class FortiNacRequest extends Request implements Cacheable
         return $this->cacheable && config('fortinac.cache.enabled') ? [Method::GET] : [];
     }
 
+    /**
+     * One entry per server and token, so what one token fetched is never served to another, and per query as it
+     * is sent.
+     */
     protected function cacheKey(PendingRequest $pendingRequest): string
     {
-        return 'fortinac.response.'.sha1($pendingRequest->getMethod()->value.' '.$pendingRequest->getUri());
+        $connector = $pendingRequest->getConnector();
+        $identity = $connector instanceof FortiNacConnector ? $connector->tokenFingerprint() : $connector::class;
+
+        return 'fortinac.response.'.sha1($identity.' '.$pendingRequest->getMethod()->value.' '.$pendingRequest->getUrl().' '.QueryString::encode($pendingRequest->query()->all()));
+    }
+
+    /**
+     * Drops a response the cache plugin stored although FortiNAC's envelope says the request failed.
+     */
+    public function boot(PendingRequest $pendingRequest): void
+    {
+        if ($this->getCacheableMethods() === []) {
+            return;
+        }
+
+        $pendingRequest->middleware()->onResponse(function (Response $response) use ($pendingRequest) {
+            if ($response->successful() && ! Payload::succeeded($response)) {
+                $this->resolveCacheDriver()->delete(CacheKeyHelper::createHashed($pendingRequest, $this->cacheKey($pendingRequest)));
+            }
+        }, order: PipeOrder::LAST);
     }
 
     /**

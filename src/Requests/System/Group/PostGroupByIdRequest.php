@@ -5,6 +5,7 @@ namespace spkm\FortiNac\Requests\System\Group;
 use JsonSerializable;
 use spkm\FortiNac\Data\System\Group;
 use spkm\FortiNac\Requests\WriteRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Updates an existing user group in the database: POST /system/group/{groupType}/{id}.
@@ -24,6 +25,6 @@ class PostGroupByIdRequest extends WriteRequest
 
     public function resolveEndpoint(): string
     {
-        return '/system/group/'.rawurlencode($this->groupType).'/'.$this->id;
+        return '/system/group/'.Path::segment($this->groupType).'/'.$this->id;
     }
 }

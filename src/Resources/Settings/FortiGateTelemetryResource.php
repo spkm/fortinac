@@ -37,7 +37,7 @@ class FortiGateTelemetryResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetFortiGateTelemetryRequest((int) $id);
+        return new GetFortiGateTelemetryRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -47,12 +47,12 @@ class FortiGateTelemetryResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateFortiGateTelemetryRequest((int) $id, $body, $options);
+        return new UpdateFortiGateTelemetryRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteFortiGateTelemetryRequest((int) $id, $options);
+        return new DeleteFortiGateTelemetryRequest($this->intId($id), $options);
     }
 
     /**

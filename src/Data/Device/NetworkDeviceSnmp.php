@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class NetworkDeviceSnmp extends Data
 {
+    protected const HIDDEN = ['snmpAuthenticationPassword', 'snmpPrivacyPassword', 'cliCredentials'];
+
     /**
      * @param  array<mixed>|null  $snmpSecurityStrings
      * @param  array<mixed>|null  $cliCredentials

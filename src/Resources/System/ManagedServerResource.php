@@ -40,9 +40,9 @@ class ManagedServerResource extends BaseResource
     /**
      * Queries hardware status and performance informaiton: GET /system/properties/hardware.
      */
-    public function hardware(): bool
+    public function hardware(): mixed
     {
-        return $this->perform(new GetManagedServerHardwareRequest);
+        return $this->fetch(new GetManagedServerHardwareRequest);
     }
 
     /**
@@ -56,9 +56,9 @@ class ManagedServerResource extends BaseResource
     /**
      * Returns the cluster information for all managed servers, listing Control/Application pairs and High Availability servers: GET /system/managed-server/summary.
      */
-    public function summary(): bool
+    public function summary(): mixed
     {
-        return $this->perform(new GetManagedServerSummaryRequest);
+        return $this->fetch(new GetManagedServerSummaryRequest);
     }
 
     /**

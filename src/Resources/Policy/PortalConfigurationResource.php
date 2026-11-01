@@ -33,12 +33,12 @@ class PortalConfigurationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetPortalConfigurationRequest((int) $id);
+        return new GetPortalConfigurationRequest($this->intId($id));
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeletePortalConfigurationRequest((int) $id, $options);
+        return new DeletePortalConfigurationRequest($this->intId($id), $options);
     }
 
     /**

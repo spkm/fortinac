@@ -52,12 +52,12 @@ class AlarmResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAlarmRequest((int) $id);
+        return new GetAlarmRequest($this->intId($id));
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAlarmRequest((int) $id, $options);
+        return new DeleteAlarmRequest($this->intId($id), $options);
     }
 
     /**
@@ -98,17 +98,17 @@ class AlarmResource extends Builder
     /**
      * Gets all changes to Alarm records since the Alarms were last polled: GET /logging/alarm/monitor/{id}.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetAlarmMonitorRequest($id));
+        return $this->fetch(new GetAlarmMonitorRequest($id));
     }
 
     /**
      * Returns the information related to displaying alarms: GET /logging/alarm/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetAlarmSupportingInfoRequest);
+        return $this->fetch(new GetAlarmSupportingInfoRequest);
     }
 
     /**

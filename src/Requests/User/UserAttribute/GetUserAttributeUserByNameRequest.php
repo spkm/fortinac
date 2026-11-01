@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests\User\UserAttribute;
 
 use spkm\FortiNac\Requests\ItemRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Returns the value currently stored for the requested attribute on the API user: GET /user/attributes/user/{name}.
@@ -21,6 +22,6 @@ class GetUserAttributeUserByNameRequest extends ItemRequest
 
     public function resolveEndpoint(): string
     {
-        return '/user/attributes/user/'.rawurlencode($this->name);
+        return '/user/attributes/user/'.Path::segment($this->name);
     }
 }

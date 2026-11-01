@@ -46,7 +46,7 @@ class AccessConfigurationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAccessConfigurationRequest((int) $id);
+        return new GetAccessConfigurationRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -56,12 +56,12 @@ class AccessConfigurationResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateAccessConfigurationRequest((int) $id, $body, $options);
+        return new UpdateAccessConfigurationRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAccessConfigurationRequest((int) $id, $options);
+        return new DeleteAccessConfigurationRequest($this->intId($id), $options);
     }
 
     /**
@@ -94,9 +94,9 @@ class AccessConfigurationResource extends Builder
     /**
      * Returns the information necessary to create an Access Configuration: GET /policy/access-configuration/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetAccessConfigurationSupportingInfoRequest);
+        return $this->fetch(new GetAccessConfigurationSupportingInfoRequest);
     }
 
     /**

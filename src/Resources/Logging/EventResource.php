@@ -52,7 +52,7 @@ class EventResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetEventRequest((int) $id);
+        return new GetEventRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -62,12 +62,12 @@ class EventResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateEventRequest((int) $id, $body, $options);
+        return new UpdateEventRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteEventRequest((int) $id, $options);
+        return new DeleteEventRequest($this->intId($id), $options);
     }
 
     /**
@@ -108,9 +108,9 @@ class EventResource extends Builder
     /**
      * Gets all changes to event records since the Events were last polled: GET /logging/event/monitor/{id}.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetEventMonitorRequest($id));
+        return $this->fetch(new GetEventMonitorRequest($id));
     }
 
     /**

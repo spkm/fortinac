@@ -39,7 +39,7 @@ class PortalPolicyResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetPortalPolicyRequest((int) $id);
+        return new GetPortalPolicyRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -49,15 +49,15 @@ class PortalPolicyResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdatePortalPolicyRequest((int) $id, $body, $options);
+        return new UpdatePortalPolicyRequest($this->intId($id), $body, $options);
     }
 
     /**
      * Returns the information used to create portal policies: GET /policy/portal/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetPortalPolicySupportingInfoRequest);
+        return $this->fetch(new GetPortalPolicySupportingInfoRequest);
     }
 
     /**

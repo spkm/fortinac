@@ -36,9 +36,9 @@ class GoogleSettingsResource extends BaseResource
     /**
      * Returns the configured Google Client ID, Project Number, and API Key: GET /settings/integration/google/client-id.
      */
-    public function clientId(): bool
+    public function clientId(): mixed
     {
-        return $this->perform(new GetGoogleSettingsClientIdRequest);
+        return $this->fetch(new GetGoogleSettingsClientIdRequest);
     }
 
     /**

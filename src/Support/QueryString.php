@@ -29,6 +29,37 @@ final class QueryString
     }
 
     /**
+     * The parameters in a query string, as encode() would write them: a repeated key becomes a list, and a value
+     * keeps any = it contains (parse_str would cut it off and keep only the last value).
+     *
+     * @return array<string, string|list<string>>
+     */
+    public static function parse(string $query): array
+    {
+        $parameters = [];
+
+        foreach (explode('&', $query) as $pair) {
+            if ($pair === '') {
+                continue;
+            }
+
+            [$key, $value] = array_pad(explode('=', $pair, 2), 2, '');
+            $key = rawurldecode($key);
+            $value = rawurldecode($value);
+
+            if (! array_key_exists($key, $parameters)) {
+                $parameters[$key] = $value;
+            } elseif (is_array($parameters[$key])) {
+                $parameters[$key][] = $value;
+            } else {
+                $parameters[$key] = [$parameters[$key], $value];
+            }
+        }
+
+        return $parameters;
+    }
+
+    /**
      * @return list<string>
      */
     private static function values(mixed $value): array

@@ -51,9 +51,9 @@ class LocalPropertiesResource extends BaseResource
     /**
      * GET /system/local-properties/config-status: GET /system/local-properties/config-status.
      */
-    public function configStatus(): bool
+    public function configStatus(): mixed
     {
-        return $this->perform(new GetLocalPropertiesConfigStatusRequest);
+        return $this->fetch(new GetLocalPropertiesConfigStatusRequest);
     }
 
     /**
@@ -67,25 +67,25 @@ class LocalPropertiesResource extends BaseResource
     /**
      * Queries hardware status and performance information: GET /system/local-properties/hardware.
      */
-    public function hardware(): bool
+    public function hardware(): mixed
     {
-        return $this->perform(new GetLocalPropertiesHardwareRequest);
+        return $this->fetch(new GetLocalPropertiesHardwareRequest);
     }
 
     /**
      * Queries hardware performance information only: GET /system/local-properties/hardware/performance.
      */
-    public function hardwarePerformance(): bool
+    public function hardwarePerformance(): mixed
     {
-        return $this->perform(new GetLocalPropertiesHardwarePerformanceRequest);
+        return $this->fetch(new GetLocalPropertiesHardwarePerformanceRequest);
     }
 
     /**
      * Returns the current license information for this server: GET /system/local-properties/license.
      */
-    public function license(): bool
+    public function license(): mixed
     {
-        return $this->perform(new GetLocalPropertiesLicenseRequest);
+        return $this->fetch(new GetLocalPropertiesLicenseRequest);
     }
 
     /**
@@ -93,17 +93,17 @@ class LocalPropertiesResource extends BaseResource
      *
      * @param  array<string, mixed>  $options  Query options: host
      */
-    public function licenseConcurrent(array $options = []): bool
+    public function licenseConcurrent(array $options = []): mixed
     {
-        return $this->perform(new GetLocalPropertiesLicenseConcurrentRequest($options));
+        return $this->fetch(new GetLocalPropertiesLicenseConcurrentRequest($options));
     }
 
     /**
      * Returns the current version and system information for this server: GET /system/local-properties/software-details.
      */
-    public function softwareDetails(): bool
+    public function softwareDetails(): mixed
     {
-        return $this->perform(new GetLocalPropertiesSoftwareDetailsRequest);
+        return $this->fetch(new GetLocalPropertiesSoftwareDetailsRequest);
     }
 
     /**

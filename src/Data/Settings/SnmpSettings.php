@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class SnmpSettings extends Data
 {
+    protected const HIDDEN = ['authPassword', 'privPassword'];
+
     /**
      * @param  array<mixed>|null  $hostsArray
      * @param  array<mixed>|null  $mgmtHosts

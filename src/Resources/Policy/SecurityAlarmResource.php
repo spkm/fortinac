@@ -34,15 +34,15 @@ class SecurityAlarmResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSecurityAlarmRequest((int) $id);
+        return new GetSecurityAlarmRequest($this->intId($id));
     }
 
     /**
      * Gets all changes to Security Alarms since the alarms were last polled: GET /policy/security-alarm/{id}/monitor.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetSecurityAlarmMonitorRequest($id));
+        return $this->fetch(new GetSecurityAlarmMonitorRequest($id));
     }
 
     /**

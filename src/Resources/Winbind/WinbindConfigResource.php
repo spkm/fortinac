@@ -42,7 +42,7 @@ class WinbindConfigResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetWinbindConfigRequest((int) $id);
+        return new GetWinbindConfigRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -52,12 +52,12 @@ class WinbindConfigResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateWinbindConfigRequest((int) $id, $body, $options);
+        return new UpdateWinbindConfigRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteWinbindConfigRequest((int) $id, $options);
+        return new DeleteWinbindConfigRequest($this->intId($id), $options);
     }
 
     /**
@@ -74,9 +74,9 @@ class WinbindConfigResource extends Builder
     /**
      * Retrieves the global Winbind service data. (currently status & default local netbios name): GET /winbind/config/global.
      */
-    public function global(): bool
+    public function global(): mixed
     {
-        return $this->perform(new GetWinbindConfigGlobalRequest);
+        return $this->fetch(new GetWinbindConfigGlobalRequest);
     }
 
     /**
@@ -92,9 +92,9 @@ class WinbindConfigResource extends Builder
     /**
      * Retrieves the current status for the Winbind service: GET /winbind/config/status.
      */
-    public function status(): bool
+    public function status(): mixed
     {
-        return $this->perform(new GetWinbindConfigStatusRequest);
+        return $this->fetch(new GetWinbindConfigStatusRequest);
     }
 
     /**

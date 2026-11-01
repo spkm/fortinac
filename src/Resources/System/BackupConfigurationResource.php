@@ -29,25 +29,25 @@ class BackupConfigurationResource extends BaseResource
     /**
      * Returns the FTP remote backup configuration settings: GET /system/backup/configuration/ftp.
      */
-    public function ftp(): bool
+    public function ftp(): mixed
     {
-        return $this->perform(new GetBackupConfigurationFtpRequest);
+        return $this->fetch(new GetBackupConfigurationFtpRequest);
     }
 
     /**
      * Returns the SFTP remote backup configuration settings: GET /system/backup/configuration/sftp.
      */
-    public function sftp(): bool
+    public function sftp(): mixed
     {
-        return $this->perform(new GetBackupConfigurationSftpRequest);
+        return $this->fetch(new GetBackupConfigurationSftpRequest);
     }
 
     /**
      * Returns the SSH remote backup configuration settings: GET /system/backup/configuration/ssh.
      */
-    public function ssh(): bool
+    public function ssh(): mixed
     {
-        return $this->perform(new GetBackupConfigurationSshRequest);
+        return $this->fetch(new GetBackupConfigurationSshRequest);
     }
 
     /**

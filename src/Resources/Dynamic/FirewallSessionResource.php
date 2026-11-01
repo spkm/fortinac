@@ -43,7 +43,7 @@ class FirewallSessionResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetFirewallSessionRequest((int) $id);
+        return new GetFirewallSessionRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -53,12 +53,12 @@ class FirewallSessionResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateFirewallSessionRequest((int) $id, $body, $options);
+        return new UpdateFirewallSessionRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteFirewallSessionRequest((int) $id, $options);
+        return new DeleteFirewallSessionRequest($this->intId($id), $options);
     }
 
     /**
@@ -74,9 +74,9 @@ class FirewallSessionResource extends Builder
     /**
      * Returns the firewall session polling status for the supplied device: GET /dynamic/dynamic-connection/polling/{id}.
      */
-    public function pollingById(int $id): bool
+    public function pollingById(int $id): mixed
     {
-        return $this->perform(new GetFirewallSessionPollingByIdRequest($id));
+        return $this->fetch(new GetFirewallSessionPollingByIdRequest($id));
     }
 
     /**

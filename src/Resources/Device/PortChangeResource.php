@@ -37,7 +37,7 @@ class PortChangeResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetPortChangeRequest((int) $id);
+        return new GetPortChangeRequest($this->intId($id));
     }
 
     /**

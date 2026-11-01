@@ -44,6 +44,23 @@ it('builds the default connector from config the first time it is used', functio
         ->and(FakeFortiNac::received($mockClient, ExampleListRequest::class)->config()->get('verify'))->toBeFalse();
 });
 
+it('reads the verify setting as a boolean or a CA bundle path, leaving verification on when it is unclear', function (mixed $given, bool|string $expected) {
+    config()->set('fortinac.connections.other', ['base_url' => 'https://other.test:8443', 'token' => 'other-token', 'verify' => $given]);
+
+    expect(FortiNac::connection('other')->verifies())->toBe($expected);
+})->with([
+    [true, true],
+    [false, false],
+    ['false', false],
+    ['0', false],
+    ['off', false],
+    ['true', true],
+    ['1', true],
+    ['', true],
+    [null, true],
+    ['/etc/ssl/nac.pem', '/etc/ssl/nac.pem'],
+]);
+
 it('says which setting the default connection is missing', function (string $setting) {
     config()->set('fortinac.base_url', 'https://nac.school.test:8443');
     config()->set('fortinac.token', 'the-token');

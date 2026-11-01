@@ -4,6 +4,7 @@ namespace spkm\FortiNac\Requests\Radius\RadiusDictionaryAttribute;
 
 use spkm\FortiNac\Data\Radius\RadiusDictionaryAttribute;
 use spkm\FortiNac\Requests\ItemRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Get the RADIUS dictinoary entry of the specified name: GET /radius/dictionary/attribute/{name}.
@@ -16,6 +17,6 @@ class GetRadiusDictionaryAttributeAttributeByNameRequest extends ItemRequest
 
     public function resolveEndpoint(): string
     {
-        return '/radius/dictionary/attribute/'.rawurlencode($this->name);
+        return '/radius/dictionary/attribute/'.Path::segment($this->name);
     }
 }

@@ -48,7 +48,7 @@ class SmsProviderResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSmsProviderRequest((int) $id);
+        return new GetSmsProviderRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -58,12 +58,12 @@ class SmsProviderResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateSmsProviderRequest((int) $id, $body, $options);
+        return new UpdateSmsProviderRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteSmsProviderRequest((int) $id, $options);
+        return new DeleteSmsProviderRequest($this->intId($id), $options);
     }
 
     /**

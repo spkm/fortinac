@@ -49,7 +49,7 @@ class PortResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetPortRequest((int) $id);
+        return new GetPortRequest($this->intId($id));
     }
 
     /**
@@ -84,9 +84,9 @@ class PortResource extends Builder
     /**
      * Lists the total number ports by enforcement status among those that match the supplied filters: GET /device/port/enforcement/count.
      */
-    public function enforcementCount(): bool
+    public function enforcementCount(): mixed
     {
-        return $this->perform(new GetPortEnforcementCountRequest);
+        return $this->fetch(new GetPortEnforcementCountRequest);
     }
 
     /**
@@ -94,17 +94,17 @@ class PortResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: devID, Request Body
      */
-    public function featurePortManagement(array $options = []): bool
+    public function featurePortManagement(array $options = []): mixed
     {
-        return $this->perform(new GetPortFeaturePortManagementRequest($options));
+        return $this->fetch(new GetPortFeaturePortManagementRequest($options));
     }
 
     /**
      * Gets all changes to Port records since they were last polled: GET /device/port/monitor/{id}.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetPortMonitorRequest($id));
+        return $this->fetch(new GetPortMonitorRequest($id));
     }
 
     /**

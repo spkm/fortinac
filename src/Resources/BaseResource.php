@@ -2,6 +2,7 @@
 
 namespace spkm\FortiNac\Resources;
 
+use InvalidArgumentException;
 use JsonException;
 use spkm\FortiNac\Data\Data;
 use spkm\FortiNac\Exceptions\NotFoundException;
@@ -67,6 +68,19 @@ abstract class BaseResource
         $this->fetch($request);
 
         return true;
+    }
+
+    /**
+     * A record id for a request path: an integer, or a string of digits; anything else is refused rather than
+     * cast, so '12abc' never reaches record 12.
+     */
+    protected function intId(int|string $id): int
+    {
+        if (is_int($id) || ctype_digit($id)) {
+            return (int) $id;
+        }
+
+        throw new InvalidArgumentException('"'.$id.'" is not a FortiNAC record id.');
     }
 
     /**

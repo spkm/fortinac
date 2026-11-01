@@ -44,7 +44,7 @@ class LogicalNetworkConfigurationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetLogicalNetworkConfigurationRequest((int) $id);
+        return new GetLogicalNetworkConfigurationRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -54,12 +54,12 @@ class LogicalNetworkConfigurationResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateLogicalNetworkConfigurationRequest((int) $id, $body, $options);
+        return new UpdateLogicalNetworkConfigurationRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteLogicalNetworkConfigurationRequest((int) $id, $options);
+        return new DeleteLogicalNetworkConfigurationRequest($this->intId($id), $options);
     }
 
     /**
@@ -67,9 +67,9 @@ class LogicalNetworkConfigurationResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: deviceID, readFromDevice
      */
-    public function elementProperties(array $options = []): bool
+    public function elementProperties(array $options = []): mixed
     {
-        return $this->perform(new GetLogicalNetworkConfigurationElementPropertiesRequest($options));
+        return $this->fetch(new GetLogicalNetworkConfigurationElementPropertiesRequest($options));
     }
 
     /**

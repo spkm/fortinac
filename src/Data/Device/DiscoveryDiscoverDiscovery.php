@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class DiscoveryDiscoverDiscovery extends Data
 {
+    protected const HIDDEN = ['snmpV3Credentials', 'cliCredentials'];
+
     /**
      * @param  array<mixed>|null  $ipRanges
      * @param  array<mixed>|null  $cdpSeeds

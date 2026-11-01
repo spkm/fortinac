@@ -37,7 +37,7 @@ class NetworkAddressGroupResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetNetworkAddressGroupRequest((int) $id);
+        return new GetNetworkAddressGroupRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -47,12 +47,12 @@ class NetworkAddressGroupResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateNetworkAddressGroupRequest((int) $id, $body, $options);
+        return new UpdateNetworkAddressGroupRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteNetworkAddressGroupRequest((int) $id, $options);
+        return new DeleteNetworkAddressGroupRequest($this->intId($id), $options);
     }
 
     /**

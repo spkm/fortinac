@@ -52,7 +52,7 @@ class AaaServerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAaaServerRequest((int) $id);
+        return new GetAaaServerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -62,12 +62,12 @@ class AaaServerResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateAaaServerRequest((int) $id, $body, $options);
+        return new UpdateAaaServerRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAaaServerRequest((int) $id, $options);
+        return new DeleteAaaServerRequest($this->intId($id), $options);
     }
 
     /**

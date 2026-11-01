@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests\User\UserAttribute;
 
 use spkm\FortiNac\Requests\ActionRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Sets the value currently stored for the requested attribute on the API user: POST /user/attributes/{name}.
@@ -21,6 +22,6 @@ class UpdateUserAttributeRequest extends ActionRequest
 
     public function resolveEndpoint(): string
     {
-        return '/user/attributes/'.rawurlencode($this->name);
+        return '/user/attributes/'.Path::segment($this->name);
     }
 }

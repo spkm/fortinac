@@ -49,7 +49,7 @@ class FortiNacService
     /**
      * @param  array<string, mixed>  $config
      */
-    private function connect(array $config, string $connection): FortiNacConnector
+    private function connect(#[\SensitiveParameter] array $config, string $connection): FortiNacConnector
     {
         foreach (['base_url', 'token'] as $setting) {
             if (! is_string($config[$setting] ?? null) || $config[$setting] === '') {
@@ -57,6 +57,23 @@ class FortiNacService
             }
         }
 
-        return new FortiNacConnector($config['base_url'], $config['token'], $config['verify'] ?? true);
+        return new FortiNacConnector($config['base_url'], $config['token'], self::verify($config['verify'] ?? true));
+    }
+
+    /**
+     * The verify setting as the connector takes it: a boolean, or the path of a CA bundle. An environment value
+     * such as "0", "false" or "off" turns verification off; an empty or unset one leaves it on.
+     */
+    private static function verify(mixed $value): bool|string
+    {
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        if (! is_string($value) || trim($value) === '') {
+            return true;
+        }
+
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $value;
     }
 }

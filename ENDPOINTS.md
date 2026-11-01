@@ -48,7 +48,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | Call | Returns |
 |---|---|
 | `FortiNac::device()` | a builder over `NetworkDevice` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `delete()` |
-| `FortiNac::device()->monitor(int $id)` | true |
+| `FortiNac::device()->monitor(int $id)` | the record as an array, or null |
 | `FortiNac::device()->countAll()` | the number of records |
 | `FortiNac::device()->usage(int $id, Query|array $query)` | Collection of arrays |
 | `FortiNac::device()->pollingL3(array $options)` | the decoded JSON |
@@ -67,7 +67,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::device()->containers()` | a builder over `Container` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `delete()` |
 | `FortiNac::device()->containers()->countAll()` | the number of records |
 | `FortiNac::device()->containers()->usage(int $id)` | Collection of arrays |
-| `FortiNac::device()->containers()->monitor(int $id)` | true |
+| `FortiNac::device()->containers()->monitor(int $id)` | the record as an array, or null |
 | `FortiNac::device()->containers()->deleteMany(array $ids)` | true |
 | `FortiNac::device()->containers()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::device()->containers()->startMonitor(array|Data $attributes, array $options)` | Collection of `ContainerStartContainerMonitor` |
@@ -87,9 +87,9 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::device()->ports()->findByDevice(array $options)` | `PortByDevice` or null |
 | `FortiNac::device()->ports()->countAll()` | the number of records |
 | `FortiNac::device()->ports()->enforcement(Query|array $query)` | Collection of `Port` |
-| `FortiNac::device()->ports()->enforcementCount()` | true |
-| `FortiNac::device()->ports()->featurePortManagement(array $options)` | true |
-| `FortiNac::device()->ports()->monitor(int $id)` | true |
+| `FortiNac::device()->ports()->enforcementCount()` | the record as an array, or null |
+| `FortiNac::device()->ports()->featurePortManagement(array $options)` | the record as an array, or null |
+| `FortiNac::device()->ports()->monitor(int $id)` | the record as an array, or null |
 | `FortiNac::device()->ports()->stopMonitor(int $id, array $options)` | true |
 | `FortiNac::device()->ports()->startMonitor(array $options)` | Collection of `Port` |
 | `FortiNac::device()->ports()->properties(array|Data $attributes, array $options)` | `PortProperties` or null |
@@ -102,7 +102,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Device\Container\CountAllContainersRequest` | GET | `/device/container/count/all` | the number or value FortiNAC answers with |
 | `Device\Container\GetContainerRequest` | GET | `/device/container/{id}` | `Container` or null |
 | `Device\Container\GetContainerUsageRequest` | GET | `/device/container/{id}/usage` | Collection of arrays |
-| `Device\Container\GetContainerMonitorRequest` | GET | `/device/container/monitor/{id}` | true |
+| `Device\Container\GetContainerMonitorRequest` | GET | `/device/container/monitor/{id}` | the record as an array, or null |
 | `Device\Container\CreateContainerRequest` | POST | `/device/container` | `Container` or null |
 | `Device\Container\DeleteManyContainersRequest` | POST | `/device/container/delete` | true |
 | `Device\Container\DeleteContainerViaPostRequest` | POST | `/device/container/{id}/delete` | true |
@@ -124,16 +124,16 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Device\Port\CountPortsRequest` | GET | `/device/port/count` | the number or value FortiNAC answers with |
 | `Device\Port\CountAllPortsRequest` | GET | `/device/port/count/all` | the number or value FortiNAC answers with |
 | `Device\Port\GetPortEnforcementRequest` | GET | `/device/port/enforcement` | Collection of `Port` |
-| `Device\Port\GetPortEnforcementCountRequest` | GET | `/device/port/enforcement/count` | true |
-| `Device\Port\GetPortFeaturePortManagementRequest` | GET | `/device/port/feature/port-management` | true |
+| `Device\Port\GetPortEnforcementCountRequest` | GET | `/device/port/enforcement/count` | the record as an array, or null |
+| `Device\Port\GetPortFeaturePortManagementRequest` | GET | `/device/port/feature/port-management` | the record as an array, or null |
 | `Device\Port\GetPortRequest` | GET | `/device/port/{id}` | `Port` or null |
-| `Device\Port\GetPortMonitorRequest` | GET | `/device/port/monitor/{id}` | true |
+| `Device\Port\GetPortMonitorRequest` | GET | `/device/port/monitor/{id}` | the record as an array, or null |
 | `Device\Port\StopPortMonitorRequest` | POST | `/device/port/monitor/{id}/stop` | true |
 | `Device\Port\StartPortMonitorRequest` | POST | `/device/port/monitor/start` | Collection of `Port` |
 | `Device\Port\PostPortPropertiesRequest` | POST | `/device/port/properties` | `PortProperties` or null |
 | `Device\NetworkDevice\CountNetworkDevicesRequest` | GET | `/device/count` | the number or value FortiNAC answers with |
 | `Device\NetworkDevice\GetNetworkDeviceRequest` | GET | `/device/{id}` | `NetworkDevice` or null |
-| `Device\NetworkDevice\GetNetworkDeviceMonitorRequest` | GET | `/device/monitor/{id}` | true |
+| `Device\NetworkDevice\GetNetworkDeviceMonitorRequest` | GET | `/device/monitor/{id}` | the record as an array, or null |
 | `Device\NetworkDevice\CountAllNetworkDevicesRequest` | GET | `/device/count/all` | the number or value FortiNAC answers with |
 | `Device\NetworkDevice\GetNetworkDevicesRequest` | GET | `/device` | Collection of `NetworkDevice` |
 | `Device\NetworkDevice\GetNetworkDeviceUsageRequest` | GET | `/device/{id}/usage` | Collection of arrays |
@@ -168,7 +168,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::host()->forUser(array $options)` | `HostsForUser` or null |
 | `FortiNac::host()->globalAllowedHosts()` | the decoded JSON |
 | `FortiNac::host()->clientFiltersCachedByName(string $name)` | `HostClientFiltersCachedByName` or null |
-| `FortiNac::host()->policy(int $id, array $options)` | true |
+| `FortiNac::host()->policy(int $id, array $options)` | the record as an array, or null |
 | `FortiNac::host()->clientFilters(Query|array $query)` | Collection of `HostClientFiltersCachedByName` |
 | `FortiNac::host()->deleteMany(array $ids)` | true |
 | `FortiNac::host()->setRole(array $options)` | true |
@@ -195,7 +195,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::host()->setLoggedOnUser(array $options)` | true |
 | `FortiNac::host()->withAdapters(array|Data $attributes, array $options)` | `Host` or null |
 | `FortiNac::host()->deviceProfilingRules()` | a builder over `DeviceProfilingRule` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
-| `FortiNac::host()->deviceProfilingRules()->ruleExport()` | true |
+| `FortiNac::host()->deviceProfilingRules()->ruleExport()` | the record as an array, or null |
 | `FortiNac::host()->deviceProfilingRules()->countAll()` | the number of records |
 | `FortiNac::host()->deviceProfilingRules()->createFromAdapter(array $options)` | `DeviceProfilingRule` or null |
 | `FortiNac::host()->deviceProfilingRules()->queue()` | the number or value FortiNAC answers with |
@@ -221,8 +221,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::host()->deviceIdentities()` | a builder over `DeviceIdentity` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::host()->deviceIdentities()->countAll()` | the number of records |
 | `FortiNac::host()->deviceIdentities()->usage(int $id)` | Collection of arrays |
-| `FortiNac::host()->deviceIdentities()->fingerprints(array $options)` | true |
-| `FortiNac::host()->deviceIdentities()->fingerprintById(int $id, array $options)` | true |
+| `FortiNac::host()->deviceIdentities()->fingerprints(array $options)` | the record as an array, or null |
+| `FortiNac::host()->deviceIdentities()->fingerprintById(int $id, array $options)` | the record as an array, or null |
 | `FortiNac::host()->deviceIdentities()->deleteMany(array $ids)` | true |
 | `FortiNac::host()->deviceIdentities()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::host()->deviceIdentities()->confirmRule(array $options)` | true |
@@ -250,7 +250,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 
 | Request | Method | Path | Returns |
 |---|---|---|---|
-| `Host\DeviceProfilingRule\GetDeviceProfilingRuleRuleExportRequest` | GET | `/DeviceProfiler/Rule/export` | true |
+| `Host\DeviceProfilingRule\GetDeviceProfilingRuleRuleExportRequest` | GET | `/DeviceProfiler/Rule/export` | the record as an array, or null |
 | `Host\DeviceProfilingRule\DeleteDeviceProfilingRuleRequest` | DELETE | `/host/device-profiling-rule/{id}` | true |
 | `Host\DeviceProfilingRule\CountDeviceProfilingRulesRequest` | GET | `/host/device-profiling-rule/count` | the number or value FortiNAC answers with |
 | `Host\DeviceProfilingRule\CountAllDeviceProfilingRulesRequest` | GET | `/host/device-profiling-rule/count/all` | the number or value FortiNAC answers with |
@@ -290,8 +290,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Host\DeviceIdentity\CountAllDeviceIdentitiesRequest` | GET | `/host/device-identity/count/all` | the number or value FortiNAC answers with |
 | `Host\DeviceIdentity\GetDeviceIdentityRequest` | GET | `/host/device-identity/{id}` | `DeviceIdentity` or null |
 | `Host\DeviceIdentity\GetDeviceIdentityUsageRequest` | GET | `/host/device-identity/{id}/usage` | Collection of arrays |
-| `Host\DeviceIdentity\GetDeviceIdentityFingerprintsRequest` | GET | `/host/device-identity/fingerprints` | true |
-| `Host\DeviceIdentity\GetDeviceIdentityFingerprintByIdRequest` | GET | `/host/device-identity/fingerprint/{id}` | true |
+| `Host\DeviceIdentity\GetDeviceIdentityFingerprintsRequest` | GET | `/host/device-identity/fingerprints` | the record as an array, or null |
+| `Host\DeviceIdentity\GetDeviceIdentityFingerprintByIdRequest` | GET | `/host/device-identity/fingerprint/{id}` | the record as an array, or null |
 | `Host\DeviceIdentity\CreateDeviceIdentityRequest` | POST | `/host/device-identity` | `DeviceIdentity` or null |
 | `Host\DeviceIdentity\DeleteManyDeviceIdentitiesRequest` | POST | `/host/device-identity/delete` | true |
 | `Host\DeviceIdentity\UpdateDeviceIdentityRequest` | POST | `/host/device-identity/{id}` | `DeviceIdentity` or null |
@@ -341,7 +341,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Host\Host\GetHostForUserRequest` | GET | `/host/for-user` | `HostsForUser` or null |
 | `Host\Host\GetHostGlobalAllowedHostsRequest` | GET | `/host/global-allowed-hosts` | the decoded JSON |
 | `Host\Host\GetHostClientFiltersCachedByNameRequest` | GET | `/host/client-filters/cached/{name}` | `HostClientFiltersCachedByName` or null |
-| `Host\Host\GetHostPolicyRequest` | GET | `/host/{id}/policy` | true |
+| `Host\Host\GetHostPolicyRequest` | GET | `/host/{id}/policy` | the record as an array, or null |
 | `Host\Host\GetHostClientFiltersRequest` | GET | `/host/client-filters` | Collection of `HostClientFiltersCachedByName` |
 | `Host\Host\DeleteManyHostsRequest` | POST | `/host/delete` | true |
 | `Host\Host\SetHostRoleRequest` | POST | `/host/set-role` | true |
@@ -380,7 +380,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 |---|---|
 | `FortiNac::firewallSessions()` | a builder over `FirewallSession` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::firewallSessions()->pollingRun(int $id, array $options)` | true |
-| `FortiNac::firewallSessions()->pollingById(int $id)` | true |
+| `FortiNac::firewallSessions()->pollingById(int $id)` | the record as an array, or null |
 | `FortiNac::firewallSessions()->hostById(int $id)` | the decoded JSON |
 | `FortiNac::firewallSessions()->usage(int $id)` | Collection of arrays |
 | `FortiNac::firewallSessions()->deleteViaPost(int $id, array $options)` | true |
@@ -392,7 +392,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Dynamic\FirewallSession\GetFirewallSessionRequest` | GET | `/dynamic/dynamic-connection/{id}` | `FirewallSession` or null |
 | `Dynamic\FirewallSession\GetFirewallSessionsRequest` | GET | `/dynamic/dynamic-connection` | Collection of `FirewallSession` |
 | `Dynamic\FirewallSession\PostFirewallSessionPollingRunRequest` | POST | `/dynamic/dynamic-connection/polling/{id}/run` | true |
-| `Dynamic\FirewallSession\GetFirewallSessionPollingByIdRequest` | GET | `/dynamic/dynamic-connection/polling/{id}` | true |
+| `Dynamic\FirewallSession\GetFirewallSessionPollingByIdRequest` | GET | `/dynamic/dynamic-connection/polling/{id}` | the record as an array, or null |
 | `Dynamic\FirewallSession\GetFirewallSessionHostByIdRequest` | GET | `/dynamic/dynamic-connection/host/{id}` | the decoded JSON |
 | `Dynamic\FirewallSession\GetFirewallSessionUsageRequest` | GET | `/dynamic/dynamic-connection/{id}/usage` | Collection of arrays |
 | `Dynamic\FirewallSession\DeleteFirewallSessionViaPostRequest` | POST | `/dynamic/dynamic-connection/{id}/delete` | true |
@@ -413,8 +413,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::logging()->alarms()->archive()` | the decoded JSON |
 | `FortiNac::logging()->alarms()->archiveImportStatus()` | the number or value FortiNAC answers with |
 | `FortiNac::logging()->alarms()->usage(int $id, Query|array $query)` | Collection of arrays |
-| `FortiNac::logging()->alarms()->monitor(int $id)` | true |
-| `FortiNac::logging()->alarms()->supportingInfo()` | true |
+| `FortiNac::logging()->alarms()->monitor(int $id)` | the record as an array, or null |
+| `FortiNac::logging()->alarms()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::logging()->alarms()->acknowledge(array $options)` | true |
 | `FortiNac::logging()->alarms()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::logging()->alarms()->archiveImport(array $options)` | true |
@@ -428,15 +428,15 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::logging()->connections()->archive()` | the decoded JSON |
 | `FortiNac::logging()->connections()->archiveImportStatus()` | the number or value FortiNAC answers with |
 | `FortiNac::logging()->connections()->bySession(Query|array $query)` | Collection of `ConnectionLogEntry` |
-| `FortiNac::logging()->connections()->tabledatatotals(array $options)` | true |
+| `FortiNac::logging()->connections()->tabledatatotals(array $options)` | the record as an array, or null |
 | `FortiNac::logging()->connections()->topHostsActivity(array $options)` | `ConnectionLogEntryTopHostsActivity` or null |
 | `FortiNac::logging()->connections()->topUsersConnectedTime(array $options)` | `ConnectionLogEntryTopUsersConnectedTime` or null |
-| `FortiNac::logging()->connections()->vlanChanges(array $options)` | true |
+| `FortiNac::logging()->connections()->vlanChanges(array $options)` | the record as an array, or null |
 | `FortiNac::logging()->connections()->archiveImport(array $options)` | true |
 | `FortiNac::logging()->eventAlarmMappings()` | a builder over `EventAlarmMapping` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::logging()->eventAlarmMappings()->countAll()` | the number of records |
 | `FortiNac::logging()->eventAlarmMappings()->usage(int $id, Query|array $query)` | Collection of arrays |
-| `FortiNac::logging()->eventAlarmMappings()->supportingInfo()` | true |
+| `FortiNac::logging()->eventAlarmMappings()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::logging()->eventAlarmMappings()->deleteMany(array $ids)` | true |
 | `FortiNac::logging()->eventAlarmMappings()->disableMany(array $ids)` | true |
 | `FortiNac::logging()->eventAlarmMappings()->enableMany(array $ids)` | true |
@@ -454,7 +454,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::logging()->events()->archiveImportStatus()` | the number or value FortiNAC answers with |
 | `FortiNac::logging()->events()->countAll()` | the number of records |
 | `FortiNac::logging()->events()->usage(int $id, Query|array $query)` | Collection of arrays |
-| `FortiNac::logging()->events()->monitor(int $id)` | true |
+| `FortiNac::logging()->events()->monitor(int $id)` | the record as an array, or null |
 | `FortiNac::logging()->events()->supportingInfo(Query|array $query)` | Collection of arrays |
 | `FortiNac::logging()->events()->archiveImport(array $options)` | true |
 | `FortiNac::logging()->events()->deleteMany(array $ids)` | true |
@@ -472,8 +472,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Logging\Alarm\GetAlarmArchiveImportStatusRequest` | GET | `/logging/alarm/archive/import/status` | the number or value FortiNAC answers with |
 | `Logging\Alarm\GetAlarmRequest` | GET | `/logging/alarm/{id}` | `Alarm` or null |
 | `Logging\Alarm\GetAlarmUsageRequest` | GET | `/logging/alarm/{id}/usage` | Collection of arrays |
-| `Logging\Alarm\GetAlarmMonitorRequest` | GET | `/logging/alarm/monitor/{id}` | true |
-| `Logging\Alarm\GetAlarmSupportingInfoRequest` | GET | `/logging/alarm/supporting-info` | true |
+| `Logging\Alarm\GetAlarmMonitorRequest` | GET | `/logging/alarm/monitor/{id}` | the record as an array, or null |
+| `Logging\Alarm\GetAlarmSupportingInfoRequest` | GET | `/logging/alarm/supporting-info` | the record as an array, or null |
 | `Logging\Alarm\AcknowledgeAlarmRequest` | POST | `/logging/alarm/acknowledge` | true |
 | `Logging\Alarm\DeleteAlarmViaPostRequest` | POST | `/logging/alarm/{id}/delete` | true |
 | `Logging\Alarm\PostAlarmArchiveImportRequest` | POST | `/logging/alarm/archive/import` | true |
@@ -491,10 +491,10 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Logging\ConnectionLogEntry\GetConnectionLogEntryBySessionRequest` | GET | `/logging/connection/by-session` | Collection of `ConnectionLogEntry` |
 | `Logging\ConnectionLogEntry\CountConnectionLogEntriesRequest` | GET | `/logging/connection/count` | the number or value FortiNAC answers with |
 | `Logging\ConnectionLogEntry\GetConnectionLogEntryRequest` | GET | `/logging/connection/{id}` | `ConnectionLogEntry` or null |
-| `Logging\ConnectionLogEntry\GetConnectionLogEntryTabledatatotalsRequest` | GET | `/logging/connection/tabledatatotals` | true |
+| `Logging\ConnectionLogEntry\GetConnectionLogEntryTabledatatotalsRequest` | GET | `/logging/connection/tabledatatotals` | the record as an array, or null |
 | `Logging\ConnectionLogEntry\GetConnectionLogEntryTopHostsActivityRequest` | GET | `/logging/connection/top/hosts/activity` | `ConnectionLogEntryTopHostsActivity` or null |
 | `Logging\ConnectionLogEntry\GetConnectionLogEntryTopUsersConnectedTimeRequest` | GET | `/logging/connection/top/users/connected-time` | `ConnectionLogEntryTopUsersConnectedTime` or null |
-| `Logging\ConnectionLogEntry\GetConnectionLogEntryVlanChangesRequest` | GET | `/logging/connection/vlan/changes` | true |
+| `Logging\ConnectionLogEntry\GetConnectionLogEntryVlanChangesRequest` | GET | `/logging/connection/vlan/changes` | the record as an array, or null |
 | `Logging\ConnectionLogEntry\PostConnectionLogEntryArchiveImportRequest` | POST | `/logging/connection/archive/import` | true |
 | `Logging\EventAlarmMapping\DeleteEventAlarmMappingRequest` | DELETE | `/logging/event-alarm-mapping/{id}` | true |
 | `Logging\EventAlarmMapping\GetEventAlarmMappingsRequest` | GET | `/logging/event-alarm-mapping` | Collection of `EventAlarmMapping` |
@@ -502,7 +502,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Logging\EventAlarmMapping\CountEventAlarmMappingsRequest` | GET | `/logging/event-alarm-mapping/count` | the number or value FortiNAC answers with |
 | `Logging\EventAlarmMapping\GetEventAlarmMappingRequest` | GET | `/logging/event-alarm-mapping/{id}` | `EventAlarmMapping` or null |
 | `Logging\EventAlarmMapping\GetEventAlarmMappingUsageRequest` | GET | `/logging/event-alarm-mapping/{id}/usage` | Collection of arrays |
-| `Logging\EventAlarmMapping\GetEventAlarmMappingSupportingInfoRequest` | GET | `/logging/event-alarm-mapping/supporting-info` | true |
+| `Logging\EventAlarmMapping\GetEventAlarmMappingSupportingInfoRequest` | GET | `/logging/event-alarm-mapping/supporting-info` | the record as an array, or null |
 | `Logging\EventAlarmMapping\CreateEventAlarmMappingRequest` | POST | `/logging/event-alarm-mapping` | the number or value FortiNAC answers with |
 | `Logging\EventAlarmMapping\DeleteManyEventAlarmMappingsRequest` | POST | `/logging/event-alarm-mapping/delete` | true |
 | `Logging\EventAlarmMapping\DisableManyEventAlarmMappingsRequest` | POST | `/logging/event-alarm-mapping/disable` | true |
@@ -526,7 +526,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Logging\Event\CountAllEventsRequest` | GET | `/logging/event/count/all` | the number or value FortiNAC answers with |
 | `Logging\Event\GetEventRequest` | GET | `/logging/event/{id}` | `Event` or null |
 | `Logging\Event\GetEventUsageRequest` | GET | `/logging/event/{id}/usage` | Collection of arrays |
-| `Logging\Event\GetEventMonitorRequest` | GET | `/logging/event/monitor/{id}` | true |
+| `Logging\Event\GetEventMonitorRequest` | GET | `/logging/event/monitor/{id}` | the record as an array, or null |
 | `Logging\Event\GetEventSupportingInfoRequest` | GET | `/logging/event/supporting-info` | Collection of arrays |
 | `Logging\Event\CreateEventRequest` | POST | `/logging/event` | `Event` or null |
 | `Logging\Event\PostEventArchiveImportRequest` | POST | `/logging/event/archive/import` | true |
@@ -547,12 +547,12 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->accessConfigurations()->countAll()` | the number of records |
 | `FortiNac::policy()->accessConfigurations()->directConfiguration()` | the number or value FortiNAC answers with |
 | `FortiNac::policy()->accessConfigurations()->usage(int $id, Query|array $query)` | Collection of arrays |
-| `FortiNac::policy()->accessConfigurations()->supportingInfo()` | true |
+| `FortiNac::policy()->accessConfigurations()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->accessConfigurations()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->accessConfigurations()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::policy()->accessPolicies()` | a builder over `AccessPolicy` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->accessPolicies()->disableMany(array $ids)` | true |
-| `FortiNac::policy()->accessPolicies()->supportingInfo()` | true |
+| `FortiNac::policy()->accessPolicies()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->accessPolicies()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->accessPolicies()->enableMany(array $ids)` | true |
 | `FortiNac::policy()->accessPolicies()->deleteViaPost(int $id, array $options)` | true |
@@ -575,21 +575,21 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->authenticationPolicies()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->endpointComplianceConfigurations()` | a builder over `EndpointComplianceConfiguration` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->endpointComplianceConfigurations()->usage(int $id, Query|array $query)` | Collection of arrays |
-| `FortiNac::policy()->endpointComplianceConfigurations()->supportingInfo()` | true |
+| `FortiNac::policy()->endpointComplianceConfigurations()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->endpointComplianceConfigurations()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->endpointComplianceConfigurations()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::policy()->endpointComplianceCustomScans()` | the actions below |
-| `FortiNac::policy()->endpointComplianceCustomScans()->html(array $options)` | true |
-| `FortiNac::policy()->endpointComplianceCustomScans()->get()` | true |
+| `FortiNac::policy()->endpointComplianceCustomScans()->html(array $options)` | the record as an array, or null |
+| `FortiNac::policy()->endpointComplianceCustomScans()->get()` | the record as an array, or null |
 | `FortiNac::policy()->endpointComplianceCustomScans()->usage(array $options)` | the decoded JSON |
 | `FortiNac::policy()->endpointComplianceCustomScans()->customScan(array $options)` | true |
 | `FortiNac::policy()->endpointComplianceCustomScans()->customScanDelete(array $options)` | true |
 | `FortiNac::policy()->endpointComplianceScans()` | a builder over `EndpointComplianceScan` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
-| `FortiNac::policy()->endpointComplianceScans()->available()` | true |
+| `FortiNac::policy()->endpointComplianceScans()->available()` | the record as an array, or null |
 | `FortiNac::policy()->endpointComplianceScans()->countAll()` | the number of records |
-| `FortiNac::policy()->endpointComplianceScans()->details(array $options)` | true |
+| `FortiNac::policy()->endpointComplianceScans()->details(array $options)` | the record as an array, or null |
 | `FortiNac::policy()->endpointComplianceScans()->usage(int $id, Query|array $query)` | Collection of arrays |
-| `FortiNac::policy()->endpointComplianceScans()->product(array $options)` | true |
+| `FortiNac::policy()->endpointComplianceScans()->product(array $options)` | the record as an array, or null |
 | `FortiNac::policy()->endpointComplianceScans()->details2(int $id, array|Data $attributes, array $options)` | true |
 | `FortiNac::policy()->endpointComplianceScans()->removePolicyTypes(array $options)` | true |
 | `FortiNac::policy()->endpointComplianceScans()->copy(array $options)` | true |
@@ -597,7 +597,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->endpointComplianceScans()->details22(array|Data $attributes, array $options)` | true |
 | `FortiNac::policy()->endpointComplianceScans()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::policy()->endpointCompliancePolicies()` | a builder over `EndpointCompliancePolicy` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
-| `FortiNac::policy()->endpointCompliancePolicies()->supportingInfo()` | true |
+| `FortiNac::policy()->endpointCompliancePolicies()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->endpointCompliancePolicies()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->endpointCompliancePolicies()->disableMany(array $ids)` | true |
 | `FortiNac::policy()->endpointCompliancePolicies()->enableMany(array $ids)` | true |
@@ -608,11 +608,11 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->endpointCompliancePolicies()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->eventActions()` | a builder over `EventAction` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->eventActions()->usage(int $id)` | Collection of arrays |
-| `FortiNac::policy()->eventActions()->supportingInfo()` | true |
+| `FortiNac::policy()->eventActions()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->eventActions()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->eventActions()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::policy()->logicalNetworkConfigurations()` | a builder over `LogicalNetworkConfiguration` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
-| `FortiNac::policy()->logicalNetworkConfigurations()->elementProperties(array $options)` | true |
+| `FortiNac::policy()->logicalNetworkConfigurations()->elementProperties(array $options)` | the record as an array, or null |
 | `FortiNac::policy()->logicalNetworkConfigurations()->usage(int $id)` | Collection of arrays |
 | `FortiNac::policy()->logicalNetworkConfigurations()->radius()` | the decoded JSON |
 | `FortiNac::policy()->logicalNetworkConfigurations()->batchUpsert(array|Data $attributes, array $options)` | `LogicalNetworkConfiguration` or null |
@@ -628,7 +628,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->portalConfigurations()` | a builder over `PortalConfiguration` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `delete()` |
 | `FortiNac::policy()->portalConfigurations()->usage(int $id)` | Collection of arrays |
 | `FortiNac::policy()->portalPolicies()` | a builder over `PortalPolicy` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()` |
-| `FortiNac::policy()->portalPolicies()->supportingInfo()` | true |
+| `FortiNac::policy()->portalPolicies()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->portalPolicies()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->portalPolicies()->disableMany(array $ids)` | true |
 | `FortiNac::policy()->portalPolicies()->enableMany(array $ids)` | true |
@@ -637,7 +637,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->portalPolicies()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->roleMappings()` | a builder over `RoleMapping` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->roleMappings()->usage(int $id, array $options)` | Collection of arrays |
-| `FortiNac::policy()->roleMappings()->supportingInfo()` | true |
+| `FortiNac::policy()->roleMappings()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->roleMappings()->directConfiguration()` | the number or value FortiNAC answers with |
 | `FortiNac::policy()->roleMappings()->membership(Query|array $query)` | Collection of `RoleMapping` |
 | `FortiNac::policy()->roleMappings()->deleteMany(array $ids)` | true |
@@ -646,14 +646,14 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->roleMappings()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->roles()` | a builder over `Role` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->roles()->usage(int $id, array $options)` | Collection of arrays |
-| `FortiNac::policy()->roles()->simple()` | true |
-| `FortiNac::policy()->roles()->supportingInfo()` | true |
+| `FortiNac::policy()->roles()->simple()` | the record as an array, or null |
+| `FortiNac::policy()->roles()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->roles()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->roles()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::policy()->roles()->setRank(array $options)` | true |
 | `FortiNac::policy()->roles()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->securityAlarms()` | a builder over `SecurityAlarm` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)` |
-| `FortiNac::policy()->securityAlarms()->monitor(int $id)` | true |
+| `FortiNac::policy()->securityAlarms()->monitor(int $id)` | the record as an array, or null |
 | `FortiNac::policy()->securityAlarms()->startMonitor(array $options)` | Collection of `SecurityAlarm` |
 | `FortiNac::policy()->securityAlarms()->monitorStop(int $id, array $options)` | true |
 | `FortiNac::policy()->securityEventSummary()` | the actions below |
@@ -665,7 +665,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->securityEventSummary()->hostsRemediated(array $options)` | the decoded JSON |
 | `FortiNac::policy()->securityEventSummary()->statistics(array $options)` | `SecurityEventSummaryStatistics` or null |
 | `FortiNac::policy()->securityEvents()` | a builder over `SecurityEvent` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)` |
-| `FortiNac::policy()->securityEvents()->monitor(int $id)` | true |
+| `FortiNac::policy()->securityEvents()->monitor(int $id)` | the record as an array, or null |
 | `FortiNac::policy()->securityEvents()->monitorStop(int $id, array $options)` | true |
 | `FortiNac::policy()->securityEvents()->startMonitor(array $options)` | Collection of `SecurityEvent` |
 | `FortiNac::policy()->securityRuleTriggers()` | a builder over `SecurityRuleTrigger` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
@@ -681,11 +681,11 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->securityRules()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->supplicantConfigurations()` | a builder over `SupplicantConfiguration` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->supplicantConfigurations()->usage(int $id)` | Collection of arrays |
-| `FortiNac::policy()->supplicantConfigurations()->supportingInfo()` | true |
+| `FortiNac::policy()->supplicantConfigurations()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->supplicantConfigurations()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->supplicantConfigurations()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::policy()->supplicantPolicies()` | a builder over `SupplicantPolicy` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
-| `FortiNac::policy()->supplicantPolicies()->supportingInfo()` | true |
+| `FortiNac::policy()->supplicantPolicies()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->supplicantPolicies()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->supplicantPolicies()->disableMany(array $ids)` | true |
 | `FortiNac::policy()->supplicantPolicies()->enableMany(array $ids)` | true |
@@ -696,7 +696,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::policy()->supplicantPolicies()->swapRanks(array $options)` | true |
 | `FortiNac::policy()->userHostProfiles()` | a builder over `UserHostProfile` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::policy()->userHostProfiles()->usage(int $id)` | Collection of arrays |
-| `FortiNac::policy()->userHostProfiles()->supportingInfo()` | true |
+| `FortiNac::policy()->userHostProfiles()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::policy()->userHostProfiles()->deleteMany(array $ids)` | true |
 | `FortiNac::policy()->userHostProfiles()->deleteViaPost(int $id, array $options)` | true |
 
@@ -709,7 +709,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\AccessConfiguration\GetAccessConfigurationDirectConfigurationRequest` | GET | `/policy/access-configuration/direct-configuration` | the number or value FortiNAC answers with |
 | `Policy\AccessConfiguration\GetAccessConfigurationRequest` | GET | `/policy/access-configuration/{id}` | `AccessConfiguration` or null |
 | `Policy\AccessConfiguration\GetAccessConfigurationUsageRequest` | GET | `/policy/access-configuration/{id}/usage` | Collection of arrays |
-| `Policy\AccessConfiguration\GetAccessConfigurationSupportingInfoRequest` | GET | `/policy/access-configuration/supporting-info` | true |
+| `Policy\AccessConfiguration\GetAccessConfigurationSupportingInfoRequest` | GET | `/policy/access-configuration/supporting-info` | the record as an array, or null |
 | `Policy\AccessConfiguration\CreateAccessConfigurationRequest` | POST | `/policy/access-configuration` | the number or value FortiNAC answers with |
 | `Policy\AccessConfiguration\DeleteManyAccessConfigurationsRequest` | POST | `/policy/access-configuration/delete` | true |
 | `Policy\AccessConfiguration\UpdateAccessConfigurationRequest` | POST | `/policy/access-configuration/{id}` | `AccessConfiguration` or null |
@@ -718,7 +718,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\AccessPolicy\GetAccessPoliciesRequest` | GET | `/policy/access` | Collection of `AccessPolicy` |
 | `Policy\AccessPolicy\DisableManyAccessPoliciesRequest` | POST | `/policy/access/disable` | true |
 | `Policy\AccessPolicy\GetAccessPolicyRequest` | GET | `/policy/access/{id}` | `AccessPolicy` or null |
-| `Policy\AccessPolicy\GetAccessPolicySupportingInfoRequest` | GET | `/policy/access/supporting-info` | true |
+| `Policy\AccessPolicy\GetAccessPolicySupportingInfoRequest` | GET | `/policy/access/supporting-info` | the record as an array, or null |
 | `Policy\AccessPolicy\CreateAccessPolicyRequest` | POST | `/policy/access` | the number or value FortiNAC answers with |
 | `Policy\AccessPolicy\DeleteManyAccessPoliciesRequest` | POST | `/policy/access/delete` | true |
 | `Policy\AccessPolicy\EnableManyAccessPoliciesRequest` | POST | `/policy/access/enable` | true |
@@ -753,25 +753,25 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\EndpointComplianceConfiguration\GetEndpointComplianceConfigurationsRequest` | GET | `/policy/endpoint-compliance-configuration` | Collection of `EndpointComplianceConfiguration` |
 | `Policy\EndpointComplianceConfiguration\GetEndpointComplianceConfigurationRequest` | GET | `/policy/endpoint-compliance-configuration/{id}` | `EndpointComplianceConfiguration` or null |
 | `Policy\EndpointComplianceConfiguration\GetEndpointComplianceConfigurationUsageRequest` | GET | `/policy/endpoint-compliance-configuration/{id}/usage` | Collection of arrays |
-| `Policy\EndpointComplianceConfiguration\GetEndpointComplianceConfigurationSupportingInfoRequest` | GET | `/policy/endpoint-compliance-configuration/supporting-info` | true |
+| `Policy\EndpointComplianceConfiguration\GetEndpointComplianceConfigurationSupportingInfoRequest` | GET | `/policy/endpoint-compliance-configuration/supporting-info` | the record as an array, or null |
 | `Policy\EndpointComplianceConfiguration\CreateEndpointComplianceConfigurationRequest` | POST | `/policy/endpoint-compliance-configuration` | the number or value FortiNAC answers with |
 | `Policy\EndpointComplianceConfiguration\DeleteManyEndpointComplianceConfigurationsRequest` | POST | `/policy/endpoint-compliance-configuration/delete` | true |
 | `Policy\EndpointComplianceConfiguration\UpdateEndpointComplianceConfigurationRequest` | POST | `/policy/endpoint-compliance-configuration/{id}` | the number or value FortiNAC answers with |
 | `Policy\EndpointComplianceConfiguration\DeleteEndpointComplianceConfigurationViaPostRequest` | POST | `/policy/endpoint-compliance-configuration/{id}/delete` | true |
-| `Policy\EndpointComplianceCustomScan\GetEndpointComplianceCustomScanHtmlRequest` | GET | `/policy/endpoint-compliance/custom-scan/html` | true |
-| `Policy\EndpointComplianceCustomScan\GetEndpointComplianceCustomScanRequest` | GET | `/policy/endpoint-compliance/custom-scan` | true |
+| `Policy\EndpointComplianceCustomScan\GetEndpointComplianceCustomScanHtmlRequest` | GET | `/policy/endpoint-compliance/custom-scan/html` | the record as an array, or null |
+| `Policy\EndpointComplianceCustomScan\GetEndpointComplianceCustomScanRequest` | GET | `/policy/endpoint-compliance/custom-scan` | the record as an array, or null |
 | `Policy\EndpointComplianceCustomScan\GetEndpointComplianceCustomScanUsageRequest` | GET | `/policy/endpoint-compliance/custom-scan/usage` | the decoded JSON |
 | `Policy\EndpointComplianceCustomScan\PostEndpointComplianceCustomScanCustomScanRequest` | POST | `/policy/endpoint-compliance/custom-scan/custom-scan` | true |
 | `Policy\EndpointComplianceCustomScan\PostEndpointComplianceCustomScanCustomScanDeleteRequest` | POST | `/policy/endpoint-compliance/custom-scan/custom-scan/delete` | true |
 | `Policy\EndpointComplianceScan\DeleteEndpointComplianceScanRequest` | DELETE | `/policy/endpoint-compliance/scan/{id}` | true |
 | `Policy\EndpointComplianceScan\GetEndpointComplianceScansRequest` | GET | `/policy/endpoint-compliance/scan` | Collection of `EndpointComplianceScan` |
-| `Policy\EndpointComplianceScan\GetEndpointComplianceScanAvailableRequest` | GET | `/policy/endpoint-compliance/scan/available` | true |
+| `Policy\EndpointComplianceScan\GetEndpointComplianceScanAvailableRequest` | GET | `/policy/endpoint-compliance/scan/available` | the record as an array, or null |
 | `Policy\EndpointComplianceScan\CountEndpointComplianceScansRequest` | GET | `/policy/endpoint-compliance/scan/count` | the number or value FortiNAC answers with |
 | `Policy\EndpointComplianceScan\CountAllEndpointComplianceScansRequest` | GET | `/policy/endpoint-compliance/scan/count/all` | the number or value FortiNAC answers with |
-| `Policy\EndpointComplianceScan\GetEndpointComplianceScanDetailsRequest` | GET | `/policy/endpoint-compliance/scan/details` | true |
+| `Policy\EndpointComplianceScan\GetEndpointComplianceScanDetailsRequest` | GET | `/policy/endpoint-compliance/scan/details` | the record as an array, or null |
 | `Policy\EndpointComplianceScan\GetEndpointComplianceScanRequest` | GET | `/policy/endpoint-compliance/scan/{id}` | `EndpointComplianceScan` or null |
 | `Policy\EndpointComplianceScan\GetEndpointComplianceScanUsageRequest` | GET | `/policy/endpoint-compliance/scan/{id}/usage` | Collection of arrays |
-| `Policy\EndpointComplianceScan\GetEndpointComplianceScanProductRequest` | GET | `/policy/endpoint-compliance/scan/product` | true |
+| `Policy\EndpointComplianceScan\GetEndpointComplianceScanProductRequest` | GET | `/policy/endpoint-compliance/scan/product` | the record as an array, or null |
 | `Policy\EndpointComplianceScan\PostEndpointComplianceScanDetailsRequest` | POST | `/policy/endpoint-compliance/scan/{id}/details` | true |
 | `Policy\EndpointComplianceScan\RemoveEndpointComplianceScanPolicyTypesRequest` | POST | `/policy/endpoint-compliance/scan/remove-policy-types` | true |
 | `Policy\EndpointComplianceScan\CreateEndpointComplianceScanRequest` | POST | `/policy/endpoint-compliance/scan` | `EndpointComplianceScan` or null |
@@ -783,7 +783,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\EndpointCompliancePolicy\DeleteEndpointCompliancePolicyRequest` | DELETE | `/policy/endpoint-compliance/{id}` | true |
 | `Policy\EndpointCompliancePolicy\GetEndpointCompliancePoliciesRequest` | GET | `/policy/endpoint-compliance` | Collection of `EndpointCompliancePolicy` |
 | `Policy\EndpointCompliancePolicy\GetEndpointCompliancePolicyRequest` | GET | `/policy/endpoint-compliance/{id}` | `EndpointCompliancePolicy` or null |
-| `Policy\EndpointCompliancePolicy\GetEndpointCompliancePolicySupportingInfoRequest` | GET | `/policy/endpoint-compliance/supporting-info` | true |
+| `Policy\EndpointCompliancePolicy\GetEndpointCompliancePolicySupportingInfoRequest` | GET | `/policy/endpoint-compliance/supporting-info` | the record as an array, or null |
 | `Policy\EndpointCompliancePolicy\CreateEndpointCompliancePolicyRequest` | POST | `/policy/endpoint-compliance` | `EndpointCompliancePolicy` or null |
 | `Policy\EndpointCompliancePolicy\DeleteManyEndpointCompliancePoliciesRequest` | POST | `/policy/endpoint-compliance/delete` | true |
 | `Policy\EndpointCompliancePolicy\DisableManyEndpointCompliancePoliciesRequest` | POST | `/policy/endpoint-compliance/disable` | true |
@@ -796,14 +796,14 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\EndpointCompliancePolicy\SwapEndpointCompliancePolicyRanksRequest` | POST | `/policy/endpoint-compliance/rank/swap` | true |
 | `Policy\EventAction\GetEventActionsRequest` | GET | `/policy/event-action` | Collection of `EventAction` |
 | `Policy\EventAction\GetEventActionUsageRequest` | GET | `/policy/event-action/{id}/usage` | Collection of arrays |
-| `Policy\EventAction\GetEventActionSupportingInfoRequest` | GET | `/policy/event-action/supporting-info` | true |
+| `Policy\EventAction\GetEventActionSupportingInfoRequest` | GET | `/policy/event-action/supporting-info` | the record as an array, or null |
 | `Policy\EventAction\GetEventActionRequest` | GET | `/policy/event-action/{id}` | `EventAction` or null |
 | `Policy\EventAction\CreateEventActionRequest` | POST | `/policy/event-action` | `EventAction` or null |
 | `Policy\EventAction\DeleteManyEventActionsRequest` | POST | `/policy/event-action/delete` | true |
 | `Policy\EventAction\DeleteEventActionViaPostRequest` | POST | `/policy/event-action/{id}/delete` | true |
 | `Policy\EventAction\UpdateEventActionRequest` | POST | `/policy/event-action/{id}` | `EventAction` or null |
 | `Policy\EventAction\DeleteEventActionRequest` | DELETE | `/policy/event-action/{id}` | true |
-| `Policy\LogicalNetworkConfiguration\GetLogicalNetworkConfigurationElementPropertiesRequest` | GET | `/policy/logical-network-configuration/element/properties` | true |
+| `Policy\LogicalNetworkConfiguration\GetLogicalNetworkConfigurationElementPropertiesRequest` | GET | `/policy/logical-network-configuration/element/properties` | the record as an array, or null |
 | `Policy\LogicalNetworkConfiguration\GetLogicalNetworkConfigurationsRequest` | GET | `/policy/logical-network-configuration` | Collection of `LogicalNetworkConfiguration` |
 | `Policy\LogicalNetworkConfiguration\GetLogicalNetworkConfigurationRequest` | GET | `/policy/logical-network-configuration/{id}` | `LogicalNetworkConfiguration` or null |
 | `Policy\LogicalNetworkConfiguration\GetLogicalNetworkConfigurationUsageRequest` | GET | `/policy/logical-network-configuration/{id}/usage` | Collection of arrays |
@@ -830,7 +830,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\PortalConfiguration\GetPortalConfigurationUsageRequest` | GET | `/policy/portal-configuration/{id}/usage` | Collection of arrays |
 | `Policy\PortalConfiguration\DeletePortalConfigurationRequest` | DELETE | `/policy/portal-configuration/{id}` | true |
 | `Policy\PortalPolicy\GetPortalPoliciesRequest` | GET | `/policy/portal` | Collection of `PortalPolicy` |
-| `Policy\PortalPolicy\GetPortalPolicySupportingInfoRequest` | GET | `/policy/portal/supporting-info` | true |
+| `Policy\PortalPolicy\GetPortalPolicySupportingInfoRequest` | GET | `/policy/portal/supporting-info` | the record as an array, or null |
 | `Policy\PortalPolicy\GetPortalPolicyRequest` | GET | `/policy/portal/{id}` | `PortalPolicy` or null |
 | `Policy\PortalPolicy\CreatePortalPolicyRequest` | POST | `/policy/portal` | `PortalPolicy` or null |
 | `Policy\PortalPolicy\DeleteManyPortalPoliciesRequest` | POST | `/policy/portal/delete` | true |
@@ -843,7 +843,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\RoleMapping\GetRoleMappingUsageRequest` | GET | `/policy/role-mapping/{id}/usage` | Collection of arrays |
 | `Policy\RoleMapping\GetRoleMappingRequest` | GET | `/policy/role-mapping/{id}` | `RoleMapping` or null |
 | `Policy\RoleMapping\GetRoleMappingsRequest` | GET | `/policy/role-mapping` | Collection of `RoleMapping` |
-| `Policy\RoleMapping\GetRoleMappingSupportingInfoRequest` | GET | `/policy/role-mapping/supporting-info` | true |
+| `Policy\RoleMapping\GetRoleMappingSupportingInfoRequest` | GET | `/policy/role-mapping/supporting-info` | the record as an array, or null |
 | `Policy\RoleMapping\GetRoleMappingDirectConfigurationRequest` | GET | `/policy/role-mapping/direct-configuration` | the number or value FortiNAC answers with |
 | `Policy\RoleMapping\GetRoleMappingMembershipRequest` | GET | `/policy/role-mapping/membership` | Collection of `RoleMapping` |
 | `Policy\RoleMapping\CreateRoleMappingRequest` | POST | `/policy/role-mapping` | `RoleMapping` or null |
@@ -857,8 +857,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\Role\GetRolesRequest` | GET | `/policy/role` | Collection of `Role` |
 | `Policy\Role\GetRoleRequest` | GET | `/policy/role/{id}` | `Role` or null |
 | `Policy\Role\PostRoleUsageRequest` | POST | `/policy/role/{id}/usage` | Collection of arrays |
-| `Policy\Role\GetRoleSimpleRequest` | GET | `/policy/role/simple` | true |
-| `Policy\Role\GetRoleSupportingInfoRequest` | GET | `/policy/role/supporting-info` | true |
+| `Policy\Role\GetRoleSimpleRequest` | GET | `/policy/role/simple` | the record as an array, or null |
+| `Policy\Role\GetRoleSupportingInfoRequest` | GET | `/policy/role/supporting-info` | the record as an array, or null |
 | `Policy\Role\CreateRoleRequest` | POST | `/policy/role` | the number or value FortiNAC answers with |
 | `Policy\Role\DeleteManyRolesRequest` | POST | `/policy/role/delete` | true |
 | `Policy\Role\UpdateRoleRequest` | POST | `/policy/role/{id}` | `Role` or null |
@@ -867,7 +867,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\Role\SwapRoleRanksRequest` | POST | `/policy/role/rank/swap` | true |
 | `Policy\SecurityAlarm\GetSecurityAlarmsRequest` | GET | `/policy/security-alarm` | Collection of `SecurityAlarm` |
 | `Policy\SecurityAlarm\GetSecurityAlarmRequest` | GET | `/policy/security-alarm/{id}` | `SecurityAlarm` or null |
-| `Policy\SecurityAlarm\GetSecurityAlarmMonitorRequest` | GET | `/policy/security-alarm/{id}/monitor` | true |
+| `Policy\SecurityAlarm\GetSecurityAlarmMonitorRequest` | GET | `/policy/security-alarm/{id}/monitor` | the record as an array, or null |
 | `Policy\SecurityAlarm\StartSecurityAlarmMonitorRequest` | POST | `/policy/security-alarm/monitor/start` | Collection of `SecurityAlarm` |
 | `Policy\SecurityAlarm\PostSecurityAlarmMonitorStopRequest` | POST | `/policy/security-alarm/{id}/monitor/stop` | true |
 | `Policy\SecurityEventSummary\GetSecurityEventSummaryHostsIsolatedRequest` | GET | `/policy/security-event-summary/hosts/isolated` | the decoded JSON |
@@ -879,7 +879,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\SecurityEventSummary\GetSecurityEventSummaryStatisticsRequest` | GET | `/policy/security-event-summary/statistics` | `SecurityEventSummaryStatistics` or null |
 | `Policy\SecurityEvent\GetSecurityEventsRequest` | GET | `/policy/security-event` | Collection of `SecurityEvent` |
 | `Policy\SecurityEvent\GetSecurityEventRequest` | GET | `/policy/security-event/{id}` | `SecurityEvent` or null |
-| `Policy\SecurityEvent\GetSecurityEventMonitorRequest` | GET | `/policy/security-event/{id}/monitor` | true |
+| `Policy\SecurityEvent\GetSecurityEventMonitorRequest` | GET | `/policy/security-event/{id}/monitor` | the record as an array, or null |
 | `Policy\SecurityEvent\PostSecurityEventMonitorStopRequest` | POST | `/policy/security-event/{id}/monitor/stop` | true |
 | `Policy\SecurityEvent\StartSecurityEventMonitorRequest` | POST | `/policy/security-event/monitor/start` | Collection of `SecurityEvent` |
 | `Policy\SecurityRuleTrigger\GetSecurityRuleTriggersRequest` | GET | `/policy/security-rule-trigger` | Collection of `SecurityRuleTrigger` |
@@ -904,7 +904,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\SupplicantConfiguration\GetSupplicantConfigurationRequest` | GET | `/policy/supplicant-configuration/{id}` | `SupplicantConfiguration` or null |
 | `Policy\SupplicantConfiguration\GetSupplicantConfigurationsRequest` | GET | `/policy/supplicant-configuration` | Collection of `SupplicantConfiguration` |
 | `Policy\SupplicantConfiguration\GetSupplicantConfigurationUsageRequest` | GET | `/policy/supplicant-configuration/{id}/usage` | Collection of arrays |
-| `Policy\SupplicantConfiguration\GetSupplicantConfigurationSupportingInfoRequest` | GET | `/policy/supplicant-configuration/supporting-info` | true |
+| `Policy\SupplicantConfiguration\GetSupplicantConfigurationSupportingInfoRequest` | GET | `/policy/supplicant-configuration/supporting-info` | the record as an array, or null |
 | `Policy\SupplicantConfiguration\CreateSupplicantConfigurationRequest` | POST | `/policy/supplicant-configuration` | `SupplicantConfiguration` or null |
 | `Policy\SupplicantConfiguration\DeleteManySupplicantConfigurationsRequest` | POST | `/policy/supplicant-configuration/delete` | true |
 | `Policy\SupplicantConfiguration\UpdateSupplicantConfigurationRequest` | POST | `/policy/supplicant-configuration/{id}` | `SupplicantConfiguration` or null |
@@ -912,7 +912,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\SupplicantConfiguration\DeleteSupplicantConfigurationRequest` | DELETE | `/policy/supplicant-configuration/{id}` | true |
 | `Policy\SupplicantPolicy\GetSupplicantPoliciesRequest` | GET | `/policy/supplicant` | Collection of `SupplicantPolicy` |
 | `Policy\SupplicantPolicy\GetSupplicantPolicyRequest` | GET | `/policy/supplicant/{id}` | `SupplicantPolicy` or null |
-| `Policy\SupplicantPolicy\GetSupplicantPolicySupportingInfoRequest` | GET | `/policy/supplicant/supporting-info` | true |
+| `Policy\SupplicantPolicy\GetSupplicantPolicySupportingInfoRequest` | GET | `/policy/supplicant/supporting-info` | the record as an array, or null |
 | `Policy\SupplicantPolicy\CreateSupplicantPolicyRequest` | POST | `/policy/supplicant` | `SupplicantPolicy` or null |
 | `Policy\SupplicantPolicy\DeleteManySupplicantPoliciesRequest` | POST | `/policy/supplicant/delete` | true |
 | `Policy\SupplicantPolicy\DisableManySupplicantPoliciesRequest` | POST | `/policy/supplicant/disable` | true |
@@ -927,7 +927,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Policy\UserHostProfile\GetUserHostProfilesRequest` | GET | `/policy/user-host-profile` | Collection of `UserHostProfile` |
 | `Policy\UserHostProfile\GetUserHostProfileRequest` | GET | `/policy/user-host-profile/{id}` | `UserHostProfile` or null |
 | `Policy\UserHostProfile\GetUserHostProfileUsageRequest` | GET | `/policy/user-host-profile/{id}/usage` | Collection of arrays |
-| `Policy\UserHostProfile\GetUserHostProfileSupportingInfoRequest` | GET | `/policy/user-host-profile/supporting-info` | true |
+| `Policy\UserHostProfile\GetUserHostProfileSupportingInfoRequest` | GET | `/policy/user-host-profile/supporting-info` | the record as an array, or null |
 | `Policy\UserHostProfile\CreateUserHostProfileRequest` | POST | `/policy/user-host-profile` | `UserHostProfile` or null |
 | `Policy\UserHostProfile\UpdateUserHostProfileRequest` | POST | `/policy/user-host-profile/{id}` | `UserHostProfile` or null |
 | `Policy\UserHostProfile\DeleteManyUserHostProfilesRequest` | POST | `/policy/user-host-profile/delete` | true |
@@ -975,7 +975,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::radius()->servers()->activityStatus()` | the number or value FortiNAC answers with |
 | `FortiNac::radius()->servers()->eapTypes()` | the decoded JSON |
 | `FortiNac::radius()->servers()->global()` | `RadiusServerGlobal` or null |
-| `FortiNac::radius()->servers()->status()` | true |
+| `FortiNac::radius()->servers()->status()` | the record as an array, or null |
 | `FortiNac::radius()->servers()->log(array $options)` | the decoded JSON |
 | `FortiNac::radius()->servers()->deleteMany(array $ids)` | true |
 | `FortiNac::radius()->servers()->disableMany(array $ids)` | true |
@@ -1013,7 +1013,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Radius\RadiusServer\GetRadiusServerEapTypesRequest` | GET | `/radius/radius-server-config/eap-types` | the decoded JSON |
 | `Radius\RadiusServer\GetRadiusServerGlobalRequest` | GET | `/radius/radius-server-config/global` | `RadiusServerGlobal` or null |
 | `Radius\RadiusServer\GetRadiusServerRequest` | GET | `/radius/radius-server-config/{id}` | `RadiusServer` or null |
-| `Radius\RadiusServer\GetRadiusServerStatusRequest` | GET | `/radius/radius-server-config/status` | true |
+| `Radius\RadiusServer\GetRadiusServerStatusRequest` | GET | `/radius/radius-server-config/status` | the record as an array, or null |
 | `Radius\RadiusServer\GetRadiusServersRequest` | GET | `/radius/radius-server-config` | Collection of `RadiusServer` |
 | `Radius\RadiusServer\GetRadiusServerLogRequest` | GET | `/radius/radius-server-config/log` | the decoded JSON |
 | `Radius\RadiusServer\DeleteManyRadiusServersRequest` | POST | `/radius/radius-server-config/delete` | true |
@@ -1034,7 +1034,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::settings()->agentUpdate()` | the setting as `AgentUpdate`: `get()`, `update()` |
 | `FortiNac::settings()->agentUpdate()->resetCounter(array $options)` | true |
 | `FortiNac::settings()->agentPackages()` | a builder over `AgentPackage` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `delete()` |
-| `FortiNac::settings()->agentPackages()->availableAgents()` | true |
+| `FortiNac::settings()->agentPackages()->availableAgents()` | the record as an array, or null |
 | `FortiNac::settings()->agentPackages()->deleteViaPost(string $packageFile, array $options)` | true |
 | `FortiNac::settings()->credentialConfig()` | the setting as `CredentialConfig`: `get()`, `update()` |
 | `FortiNac::settings()->directoryAgents()` | a builder over `DirectoryAgent` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
@@ -1095,10 +1095,10 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::settings()->rogueDhcpDetection()->vlan(array $options)` | true |
 | `FortiNac::settings()->rogueDhcpDetection()->vlanDelete(array $options)` | true |
 | `FortiNac::settings()->aaaMappings()` | the actions below |
-| `FortiNac::settings()->aaaMappings()->get()` | true |
+| `FortiNac::settings()->aaaMappings()->get()` | the record as an array, or null |
 | `FortiNac::settings()->aaaMappings()->localDomains()` | the decoded JSON |
 | `FortiNac::settings()->aaaMappings()->localDomainsDelete(array $options)` | true |
-| `FortiNac::settings()->aaaMappings()->defaults()` | true |
+| `FortiNac::settings()->aaaMappings()->defaults()` | the record as an array, or null |
 | `FortiNac::settings()->aaaMappings()->localDomains2(array $options)` | true |
 | `FortiNac::settings()->aaaMappings()->create(array $options)` | true |
 | `FortiNac::settings()->aaaMappings()->defaults2(array $options)` | true |
@@ -1116,7 +1116,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::settings()->aaaServers()->validate(array|Data $attributes, array $options)` | `AaaServerValidateAaaServer` or null |
 | `FortiNac::settings()->email()` | the actions below |
 | `FortiNac::settings()->email()->create(array $options)` | `EmailSettings` or null |
-| `FortiNac::settings()->email()->password(array $options)` | true |
+| `FortiNac::settings()->email()->password(array $options)` | the record as an array, or null |
 | `FortiNac::settings()->email()->deleteMany(array $ids)` | true |
 | `FortiNac::settings()->email()->test(array $options)` | true |
 | `FortiNac::settings()->firewallTags()` | a builder over `FirewallTag` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
@@ -1127,7 +1127,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::settings()->fsso()->password()` | the decoded JSON |
 | `FortiNac::settings()->google()` | the actions below |
 | `FortiNac::settings()->google()->domains()` | the decoded JSON |
-| `FortiNac::settings()->google()->clientId()` | true |
+| `FortiNac::settings()->google()->clientId()` | the record as an array, or null |
 | `FortiNac::settings()->google()->domainsSet(array $options)` | true |
 | `FortiNac::settings()->google()->clientId2(array $options)` | true |
 | `FortiNac::settings()->google()->domainsById(int $id, array $options)` | true |
@@ -1198,7 +1198,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::settings()->snmp()->authPssword()` | the decoded JSON |
 | `FortiNac::settings()->snmp()->privPssword()` | the decoded JSON |
 | `FortiNac::settings()->syslog()` | a builder over `SyslogServer` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
-| `FortiNac::settings()->syslog()->usage(int $id)` | true |
+| `FortiNac::settings()->syslog()->usage(int $id)` | the record as an array, or null |
 | `FortiNac::settings()->syslog()->deleteMany(array $ids)` | true |
 | `FortiNac::settings()->syslog()->disable(int $id, array $options)` | true |
 | `FortiNac::settings()->syslog()->enable(int $id, array $options)` | true |
@@ -1215,7 +1215,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::settings()->vendorOuis()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::settings()->vendorOuis()->countAll()` | the number of records |
 | `FortiNac::settings()->vendorOuis()->countById(int $id)` | `VendorOui` or null |
-| `FortiNac::settings()->vendorOuis()->supportingInfo()` | true |
+| `FortiNac::settings()->vendorOuis()->supportingInfo()` | the record as an array, or null |
 | `FortiNac::settings()->vendorOuis()->deleteMany(array $ids)` | true |
 | `FortiNac::settings()->vulnerabilityScanners()` | a builder over `VulnerabilityScanner` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::settings()->vulnerabilityScanners()->scans(int $id, array $options)` | `VulnerabilityScannerScans` or null |
@@ -1260,7 +1260,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Settings\AgentUpdate\UpdateAgentUpdateRequest` | POST | `/settings/agent/agent-update` | `AgentUpdate` or null |
 | `Settings\AgentUpdate\ResetAgentUpdateCounterRequest` | POST | `/settings/agent/agent-update/reset-counter` | true |
 | `Settings\AgentPackage\GetAgentPackagesRequest` | GET | `/settings/agent/agent-packages` | Collection of `AgentPackage` |
-| `Settings\AgentPackage\GetAgentPackageAvailableAgentsRequest` | GET | `/settings/agent/agent-packages/available-agents` | true |
+| `Settings\AgentPackage\GetAgentPackageAvailableAgentsRequest` | GET | `/settings/agent/agent-packages/available-agents` | the record as an array, or null |
 | `Settings\AgentPackage\DeleteAgentPackageViaPostRequest` | POST | `/settings/agent/agent-packages/{packageFile}/delete` | true |
 | `Settings\AgentPackage\DeleteAgentPackageRequest` | DELETE | `/settings/agent/agent-packages/{packageFile}` | true |
 | `Settings\CredentialConfig\GetCredentialConfigRequest` | GET | `/settings/agent/credential-config` | `CredentialConfig` or null |
@@ -1345,10 +1345,10 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Settings\RogueDhcpDetection\UpdateRogueDhcpDetectionRequest` | POST | `/settings/device/rogue-DHCP-detection` | `RogueDhcpDetection` or null |
 | `Settings\RogueDhcpDetection\PostRogueDhcpDetectionVlanRequest` | POST | `/settings/device/rogue-DHCP-detection/vlan` | true |
 | `Settings\RogueDhcpDetection\PostRogueDhcpDetectionVlanDeleteRequest` | POST | `/settings/device/rogue-DHCP-detection/vlan/delete` | true |
-| `Settings\AaaMapping\GetAaaMappingRequest` | GET | `/settings/integration/aaa-mappings` | true |
+| `Settings\AaaMapping\GetAaaMappingRequest` | GET | `/settings/integration/aaa-mappings` | the record as an array, or null |
 | `Settings\AaaMapping\GetAaaMappingLocalDomainsRequest` | GET | `/settings/integration/aaa-mappings/local-domains` | the decoded JSON |
 | `Settings\AaaMapping\PostAaaMappingLocalDomainsDeleteRequest` | POST | `/settings/integration/aaa-mappings/local-domains/delete` | true |
-| `Settings\AaaMapping\GetAaaMappingDefaultsRequest` | GET | `/settings/integration/aaa-mappings/defaults` | true |
+| `Settings\AaaMapping\GetAaaMappingDefaultsRequest` | GET | `/settings/integration/aaa-mappings/defaults` | the record as an array, or null |
 | `Settings\AaaMapping\PostAaaMappingLocalDomainsRequest` | POST | `/settings/integration/aaa-mappings/local-domains` | true |
 | `Settings\AaaMapping\CreateAaaMappingRequest` | POST | `/settings/integration/aaa-mappings` | true |
 | `Settings\AaaMapping\PostAaaMappingDefaultsRequest` | POST | `/settings/integration/aaa-mappings/defaults` | true |
@@ -1370,7 +1370,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Settings\AaaServer\UpdateAaaServerRequest` | POST | `/settings/integration/aaa/{id}` | `AaaServer` or null |
 | `Settings\AaaServer\ValidateAaaServerRequest` | POST | `/settings/integration/aaa/validate` | `AaaServerValidateAaaServer` or null |
 | `Settings\EmailSettings\CreateEmailSettingsRequest` | POST | `/settings/integration/email` | `EmailSettings` or null |
-| `Settings\EmailSettings\PostEmailSettingsPasswordRequest` | POST | `/settings/integration/email/password` | true |
+| `Settings\EmailSettings\PostEmailSettingsPasswordRequest` | POST | `/settings/integration/email/password` | the record as an array, or null |
 | `Settings\EmailSettings\DeleteManyEmailSettingsRequest` | POST | `/settings/integration/email/delete` | true |
 | `Settings\EmailSettings\TestEmailSettingsRequest` | POST | `/settings/integration/email/test` | true |
 | `Settings\FirewallTag\GetFirewallTagsRequest` | GET | `/settings/integration/firewall-tag` | Collection of `FirewallTag` |
@@ -1385,7 +1385,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Settings\FssoSettings\GetFssoSettingsPasswordRequest` | GET | `/settings/integration/FSSO/password` | the decoded JSON |
 | `Settings\FssoSettings\UpdateFssoSettingsRequest` | POST | `/settings/integration/FSSO` | `FssoSettings` or null |
 | `Settings\GoogleSettings\GetGoogleSettingsDomainsRequest` | GET | `/settings/integration/google/domains` | the decoded JSON |
-| `Settings\GoogleSettings\GetGoogleSettingsClientIdRequest` | GET | `/settings/integration/google/client-id` | true |
+| `Settings\GoogleSettings\GetGoogleSettingsClientIdRequest` | GET | `/settings/integration/google/client-id` | the record as an array, or null |
 | `Settings\GoogleSettings\PostGoogleSettingsDomainsSetRequest` | POST | `/settings/integration/google/domains/set` | true |
 | `Settings\GoogleSettings\PostGoogleSettingsClientIdRequest` | POST | `/settings/integration/google/client-id` | true |
 | `Settings\GoogleSettings\PostGoogleSettingsDomainsByIdRequest` | POST | `/settings/integration/google/domains/{id}` | true |
@@ -1483,7 +1483,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Settings\SnmpSettings\GetSnmpSettingsPrivPsswordRequest` | GET | `/settings/integration/SNMP/priv-pssword` | the decoded JSON |
 | `Settings\SnmpSettings\UpdateSnmpSettingsRequest` | POST | `/settings/integration/SNMP` | `SnmpSettings` or null |
 | `Settings\SyslogServer\GetSyslogServerRequest` | GET | `/settings/integration/syslog/{id}` | `SyslogServer` or null |
-| `Settings\SyslogServer\GetSyslogServerUsageRequest` | GET | `/settings/integration/syslog/{id}/usage` | true |
+| `Settings\SyslogServer\GetSyslogServerUsageRequest` | GET | `/settings/integration/syslog/{id}/usage` | the record as an array, or null |
 | `Settings\SyslogServer\GetSyslogServersRequest` | GET | `/settings/integration/syslog` | Collection of `SyslogServer` |
 | `Settings\SyslogServer\DeleteManySyslogServersRequest` | POST | `/settings/integration/syslog/delete` | true |
 | `Settings\SyslogServer\UpdateSyslogServerRequest` | POST | `/settings/integration/syslog/{id}` | `SyslogServer` or null |
@@ -1505,7 +1505,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `Settings\VendorOui\CountVendorOuisRequest` | GET | `/settings/integration/vendor-oui/count` | the number or value FortiNAC answers with |
 | `Settings\VendorOui\CountAllVendorOuisRequest` | GET | `/settings/integration/vendor-oui/count/all` | the number or value FortiNAC answers with |
 | `Settings\VendorOui\GetVendorOuiCountByIdRequest` | GET | `/settings/integration/vendor-oui/count/{id}` | `VendorOui` or null |
-| `Settings\VendorOui\GetVendorOuiSupportingInfoRequest` | GET | `/settings/integration/vendor-oui/supporting-info` | true |
+| `Settings\VendorOui\GetVendorOuiSupportingInfoRequest` | GET | `/settings/integration/vendor-oui/supporting-info` | the record as an array, or null |
 | `Settings\VendorOui\CreateVendorOuiRequest` | POST | `/settings/integration/vendor-oui` | `VendorOui` or null |
 | `Settings\VendorOui\DeleteManyVendorOuisRequest` | POST | `/settings/integration/vendor-oui/delete` | true |
 | `Settings\VendorOui\UpdateVendorOuiRequest` | POST | `/settings/integration/vendor-oui/{id}` | `VendorOui` or null |
@@ -1567,12 +1567,12 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | Call | Returns |
 |---|---|
 | `FortiNac::ssids()` | a builder over `Ssid` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)` |
-| `FortiNac::ssids()->config(array $options)` | true |
+| `FortiNac::ssids()->config(array $options)` | the record as an array, or null |
 | `FortiNac::ssids()->putConfig(array|Data $attributes, array $options)` | `SsidConfig` or null |
 
 | Request | Method | Path | Returns |
 |---|---|---|---|
-| `Ssid\Ssid\GetSsidConfigRequest` | GET | `/ssid/config` | true |
+| `Ssid\Ssid\GetSsidConfigRequest` | GET | `/ssid/config` | the record as an array, or null |
 | `Ssid\Ssid\PutSsidConfigRequest` | PUT | `/ssid/config` | `SsidConfig` or null |
 | `Ssid\Ssid\GetSsidsRequest` | GET | `/ssid` | Collection of `Ssid` |
 
@@ -1588,24 +1588,24 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::system()->backgroundTasks()->complete(int $id, array $options)` | true |
 | `FortiNac::system()->backgroundTasks()->deleteMany(array $ids)` | true |
 | `FortiNac::system()->backupConfiguration()` | the actions below |
-| `FortiNac::system()->backupConfiguration()->ftp()` | true |
-| `FortiNac::system()->backupConfiguration()->sftp()` | true |
-| `FortiNac::system()->backupConfiguration()->ssh()` | true |
+| `FortiNac::system()->backupConfiguration()->ftp()` | the record as an array, or null |
+| `FortiNac::system()->backupConfiguration()->sftp()` | the record as an array, or null |
+| `FortiNac::system()->backupConfiguration()->ssh()` | the record as an array, or null |
 | `FortiNac::system()->backupConfiguration()->ftp2(array|Data $attributes, array $options)` | `BackupConfigurationFtp` or null |
 | `FortiNac::system()->backupConfiguration()->sftp2(array|Data $attributes, array $options)` | `BackupConfigurationSftp` or null |
 | `FortiNac::system()->backupConfiguration()->ssh2(array|Data $attributes, array $options)` | `BackupConfigurationSftp` or null |
 | `FortiNac::system()->backupSettings()` | the actions below |
 | `FortiNac::system()->backupSettings()->archives()` | `BackupSettingsArchives` or null |
-| `FortiNac::system()->backupSettings()->database()` | true |
+| `FortiNac::system()->backupSettings()->database()` | the record as an array, or null |
 | `FortiNac::system()->backupSettings()->databaseArchive()` | the decoded JSON |
-| `FortiNac::system()->backupSettings()->systemBackup()` | true |
+| `FortiNac::system()->backupSettings()->systemBackup()` | the record as an array, or null |
 | `FortiNac::system()->backupSettings()->archives2(array $options)` | true |
 | `FortiNac::system()->backupSettings()->database2(array $options)` | true |
 | `FortiNac::system()->backupSettings()->databaseRestoreArchives(array $options)` | true |
 | `FortiNac::system()->backupSettings()->systemBackup2(array $options)` | true |
 | `FortiNac::system()->groups()` | a builder over `Group` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `update()`, `delete()` |
 | `FortiNac::system()->groups()->countAll()` | the number of records |
-| `FortiNac::system()->groups()->descendants(int $id, array $options)` | true |
+| `FortiNac::system()->groups()->descendants(int $id, array $options)` | the record as an array, or null |
 | `FortiNac::system()->groups()->memberIds(int $id)` | the decoded JSON |
 | `FortiNac::system()->groups()->members(int $id, array $options)` | `GroupMembers` or null |
 | `FortiNac::system()->groups()->usage(int $id)` | Collection of arrays |
@@ -1625,13 +1625,13 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::system()->licenseManagement()` | the setting as arrays: `get()` |
 | `FortiNac::system()->localProperties()` | the actions below |
 | `FortiNac::system()->localProperties()->cluster(Query|array $query)` | Collection of `LocalPropertiesCluster` |
-| `FortiNac::system()->localProperties()->configStatus()` | true |
+| `FortiNac::system()->localProperties()->configStatus()` | the record as an array, or null |
 | `FortiNac::system()->localProperties()->globaloptionByParam(string $param)` | the number or value FortiNAC answers with |
-| `FortiNac::system()->localProperties()->hardware()` | true |
-| `FortiNac::system()->localProperties()->hardwarePerformance()` | true |
-| `FortiNac::system()->localProperties()->license()` | true |
-| `FortiNac::system()->localProperties()->licenseConcurrent(array $options)` | true |
-| `FortiNac::system()->localProperties()->softwareDetails()` | true |
+| `FortiNac::system()->localProperties()->hardware()` | the record as an array, or null |
+| `FortiNac::system()->localProperties()->hardwarePerformance()` | the record as an array, or null |
+| `FortiNac::system()->localProperties()->license()` | the record as an array, or null |
+| `FortiNac::system()->localProperties()->licenseConcurrent(array $options)` | the record as an array, or null |
+| `FortiNac::system()->localProperties()->softwareDetails()` | the record as an array, or null |
 | `FortiNac::system()->localProperties()->clusterApplicationPrimaryRestart(array $options)` | true |
 | `FortiNac::system()->localProperties()->clusterControlPrimaryRestart(array $options)` | true |
 | `FortiNac::system()->localProperties()->hardwareThresholds(array $options)` | true |
@@ -1653,9 +1653,9 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::system()->serviceConnector()->get(Query|array $query)` | Collection of `ServiceConnector` |
 | `FortiNac::system()->managedServers()` | the actions below |
 | `FortiNac::system()->managedServers()->license()` | `ManagedServerLicense` or null |
-| `FortiNac::system()->managedServers()->hardware()` | true |
+| `FortiNac::system()->managedServers()->hardware()` | the record as an array, or null |
 | `FortiNac::system()->managedServers()->properties(int $id)` | the decoded JSON |
-| `FortiNac::system()->managedServers()->summary()` | true |
+| `FortiNac::system()->managedServers()->summary()` | the record as an array, or null |
 | `FortiNac::system()->managedServers()->scans(int $id)` | the decoded JSON |
 | `FortiNac::system()->managedServers()->create(array $options)` | true |
 | `FortiNac::system()->managedServers()->deleteMany(array $ids)` | true |
@@ -1663,9 +1663,9 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::system()->managedServers()->sync(array $options)` | true |
 | `FortiNac::system()->managedServers()->ping(array $options)` | true |
 | `FortiNac::system()->debug()` | the actions below |
-| `FortiNac::system()->debug()->log(array $options)` | true |
+| `FortiNac::system()->debug()->log(array $options)` | the record as an array, or null |
 | `FortiNac::system()->debug()->databaseRelations(Query|array $query)` | Collection of `DebugDatabaseRelation` |
-| `FortiNac::system()->debug()->databaseTables()` | true |
+| `FortiNac::system()->debug()->databaseTables()` | the record as an array, or null |
 | `FortiNac::system()->debug()->databaseTablesData(Query|array $query)` | Collection of arrays |
 | `FortiNac::system()->debug()->elements(array $options)` | the decoded JSON |
 | `FortiNac::system()->debug()->elementsAttributes(Query|array $query)` | Collection of `DebugElementsAttribute` |
@@ -1701,16 +1701,16 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `System\BackgroundTask\UpdateBackgroundTaskRequest` | POST | `/system/background-task/{id}` | `BackgroundTask` or null |
 | `System\BackgroundTask\PostBackgroundTaskCompleteRequest` | POST | `/system/background-task/{id}/complete` | true |
 | `System\BackgroundTask\DeleteManyBackgroundTasksRequest` | POST | `/system/background-task/delete` | true |
-| `System\BackupConfiguration\GetBackupConfigurationFtpRequest` | GET | `/system/backup/configuration/ftp` | true |
-| `System\BackupConfiguration\GetBackupConfigurationSftpRequest` | GET | `/system/backup/configuration/sftp` | true |
-| `System\BackupConfiguration\GetBackupConfigurationSshRequest` | GET | `/system/backup/configuration/ssh` | true |
+| `System\BackupConfiguration\GetBackupConfigurationFtpRequest` | GET | `/system/backup/configuration/ftp` | the record as an array, or null |
+| `System\BackupConfiguration\GetBackupConfigurationSftpRequest` | GET | `/system/backup/configuration/sftp` | the record as an array, or null |
+| `System\BackupConfiguration\GetBackupConfigurationSshRequest` | GET | `/system/backup/configuration/ssh` | the record as an array, or null |
 | `System\BackupConfiguration\PostBackupConfigurationFtpRequest` | POST | `/system/backup/configuration/ftp` | `BackupConfigurationFtp` or null |
 | `System\BackupConfiguration\PostBackupConfigurationSftpRequest` | POST | `/system/backup/configuration/sftp` | `BackupConfigurationSftp` or null |
 | `System\BackupConfiguration\PostBackupConfigurationSshRequest` | POST | `/system/backup/configuration/ssh` | `BackupConfigurationSftp` or null |
 | `System\BackupSettings\GetBackupSettingsArchivesRequest` | GET | `/system/backup-settings/archives` | `BackupSettingsArchives` or null |
-| `System\BackupSettings\GetBackupSettingsDatabaseRequest` | GET | `/system/backup-settings/database` | true |
+| `System\BackupSettings\GetBackupSettingsDatabaseRequest` | GET | `/system/backup-settings/database` | the record as an array, or null |
 | `System\BackupSettings\GetBackupSettingsDatabaseArchiveRequest` | GET | `/system/backup-settings/database/archive` | the decoded JSON |
-| `System\BackupSettings\GetBackupSettingsSystemBackupRequest` | GET | `/system/backup-settings/system-backup` | true |
+| `System\BackupSettings\GetBackupSettingsSystemBackupRequest` | GET | `/system/backup-settings/system-backup` | the record as an array, or null |
 | `System\BackupSettings\PostBackupSettingsArchivesRequest` | POST | `/system/backup-settings/archives` | true |
 | `System\BackupSettings\PostBackupSettingsDatabaseRequest` | POST | `/system/backup-settings/database` | true |
 | `System\BackupSettings\PostBackupSettingsDatabaseRestoreArchivesRequest` | POST | `/system/backup-settings/database/restore-archives` | true |
@@ -1720,7 +1720,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `System\Group\CountGroupsRequest` | GET | `/system/group/count` | the number or value FortiNAC answers with |
 | `System\Group\CountAllGroupsRequest` | GET | `/system/group/count/all` | the number or value FortiNAC answers with |
 | `System\Group\GetGroupRequest` | GET | `/system/group/{id}` | `Group` or null |
-| `System\Group\GetGroupDescendantsRequest` | GET | `/system/group/{id}/descendants` | true |
+| `System\Group\GetGroupDescendantsRequest` | GET | `/system/group/{id}/descendants` | the record as an array, or null |
 | `System\Group\GetGroupMemberIdsRequest` | GET | `/system/group/{id}/member-ids` | the decoded JSON |
 | `System\Group\GetGroupMembersRequest` | GET | `/system/group/{id}/members` | `GroupMembers` or null |
 | `System\Group\GetGroupUsageRequest` | GET | `/system/group/{id}/usage` | Collection of arrays |
@@ -1739,22 +1739,22 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `System\HighAvailability\GetHighAvailabilityRequest` | GET | `/system/high-availability` | `HighAvailability` or null |
 | `System\HighAvailability\GetHighAvailabilityPasswordByPwkeyRequest` | GET | `/system/high-availability/password/{pwkey}` | the number or value FortiNAC answers with |
 | `System\HighAvailability\UpdateHighAvailabilityRequest` | POST | `/system/high-availability` | `HighAvailability` or null |
-| `System\LicenseManagement\GetLicenseManagementRequest` | GET | `/system/license-management` | true |
+| `System\LicenseManagement\GetLicenseManagementRequest` | GET | `/system/license-management` | the record as an array, or null |
 | `System\LocalProperties\GetLocalPropertiesClusterRequest` | GET | `/system/local-properties/cluster` | Collection of `LocalPropertiesCluster` |
-| `System\LocalProperties\GetLocalPropertiesConfigStatusRequest` | GET | `/system/local-properties/config-status` | true |
+| `System\LocalProperties\GetLocalPropertiesConfigStatusRequest` | GET | `/system/local-properties/config-status` | the record as an array, or null |
 | `System\LocalProperties\GetLocalPropertiesGlobaloptionByParamRequest` | GET | `/system/local-properties/globaloption/{param}` | the number or value FortiNAC answers with |
-| `System\LocalProperties\GetLocalPropertiesHardwareRequest` | GET | `/system/local-properties/hardware` | true |
-| `System\LocalProperties\GetLocalPropertiesHardwarePerformanceRequest` | GET | `/system/local-properties/hardware/performance` | true |
-| `System\LocalProperties\GetLocalPropertiesLicenseRequest` | GET | `/system/local-properties/license` | true |
-| `System\LocalProperties\GetLocalPropertiesLicenseConcurrentRequest` | GET | `/system/local-properties/license/concurrent` | true |
-| `System\LocalProperties\GetLocalPropertiesSoftwareDetailsRequest` | GET | `/system/local-properties/software-details` | true |
+| `System\LocalProperties\GetLocalPropertiesHardwareRequest` | GET | `/system/local-properties/hardware` | the record as an array, or null |
+| `System\LocalProperties\GetLocalPropertiesHardwarePerformanceRequest` | GET | `/system/local-properties/hardware/performance` | the record as an array, or null |
+| `System\LocalProperties\GetLocalPropertiesLicenseRequest` | GET | `/system/local-properties/license` | the record as an array, or null |
+| `System\LocalProperties\GetLocalPropertiesLicenseConcurrentRequest` | GET | `/system/local-properties/license/concurrent` | the record as an array, or null |
+| `System\LocalProperties\GetLocalPropertiesSoftwareDetailsRequest` | GET | `/system/local-properties/software-details` | the record as an array, or null |
 | `System\LocalProperties\PostLocalPropertiesClusterApplicationPrimaryRestartRequest` | POST | `/system/local-properties/cluster/application/primary/restart` | true |
 | `System\LocalProperties\PostLocalPropertiesClusterControlPrimaryRestartRequest` | POST | `/system/local-properties/cluster/control/primary/restart` | true |
 | `System\LocalProperties\PostLocalPropertiesHardwareThresholdsRequest` | POST | `/system/local-properties/hardware/thresholds` | true |
 | `System\LocalProperties\PostLocalPropertiesLicenseApplyRequest` | POST | `/system/local-properties/license/apply` | true |
 | `System\LocalProperties\PostLocalPropertiesPasswordsChangeRequest` | POST | `/system/local-properties/passwords/change` | `LocalPropertiesPasswordsChange` or null |
 | `System\LocalProperties\PostLocalPropertiesSystemInitializeRequest` | POST | `/system/local-properties/system/initialize` | `LocalPropertiesSystemInitialize` or null |
-| `System\NtpSettings\GetNtpSettingsRequest` | GET | `/system/ntp` | true |
+| `System\NtpSettings\GetNtpSettingsRequest` | GET | `/system/ntp` | the record as an array, or null |
 | `System\NtpSettings\GetNtpSettingsServersRequest` | GET | `/system/ntp/servers` | Collection of arrays |
 | `System\NtpSettings\UpdateNtpSettingsRequest` | POST | `/system/ntp` | true |
 | `System\ScheduledTask\GetScheduledTasksRequest` | GET | `/system/scheduler` | Collection of `ScheduledTask` |
@@ -1771,18 +1771,18 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `System\ScheduledTask\DeleteScheduledTaskRequest` | DELETE | `/system/scheduler/{id}` | true |
 | `System\ServiceConnector\GetServiceConnectorsRequest` | GET | `/system/service-connector` | Collection of `ServiceConnector` |
 | `System\ManagedServer\GetManagedServerLicenseRequest` | GET | `/system/properties/license` | `ManagedServerLicense` or null |
-| `System\ManagedServer\GetManagedServerHardwareRequest` | GET | `/system/properties/hardware` | true |
+| `System\ManagedServer\GetManagedServerHardwareRequest` | GET | `/system/properties/hardware` | the record as an array, or null |
 | `System\ManagedServer\GetManagedServerPropertiesRequest` | GET | `/system/managed-server/{id}/properties` | the decoded JSON |
-| `System\ManagedServer\GetManagedServerSummaryRequest` | GET | `/system/managed-server/summary` | true |
+| `System\ManagedServer\GetManagedServerSummaryRequest` | GET | `/system/managed-server/summary` | the record as an array, or null |
 | `System\ManagedServer\GetManagedServerScansRequest` | GET | `/system/managed-server/{id}/scans` | the decoded JSON |
 | `System\ManagedServer\CreateManagedServerRequest` | POST | `/system/managed-server` | true |
 | `System\ManagedServer\DeleteManyManagedServersRequest` | POST | `/system/managed-server/delete` | true |
 | `System\ManagedServer\PostManagedServerPropertiesRequest` | POST | `/system/managed-server/{id}/properties` | true |
 | `System\ManagedServer\SyncManagedServerRequest` | POST | `/system/managed-server/sync` | true |
 | `System\ManagedServer\PingManagedServerRequest` | POST | `/system/managed-server/ping` | true |
-| `System\Debug\GetDebugLogRequest` | GET | `/system/debug/log` | true |
+| `System\Debug\GetDebugLogRequest` | GET | `/system/debug/log` | the record as an array, or null |
 | `System\Debug\GetDebugDatabaseRelationsRequest` | GET | `/system/debug/database/relations` | Collection of `DebugDatabaseRelation` |
-| `System\Debug\GetDebugDatabaseTablesRequest` | GET | `/system/debug/database/tables` | true |
+| `System\Debug\GetDebugDatabaseTablesRequest` | GET | `/system/debug/database/tables` | the record as an array, or null |
 | `System\Debug\GetDebugDatabaseTablesDataRequest` | GET | `/system/debug/database/tables/data` | Collection of arrays |
 | `System\Debug\GetDebugElementsRequest` | GET | `/system/debug/elements` | the decoded JSON |
 | `System\Debug\GetDebugElementsAttributesRequest` | GET | `/system/debug/elements/attributes` | Collection of `DebugElementsAttribute` |
@@ -1834,16 +1834,16 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::user()->enable(int $id, array $options)` | true |
 | `FortiNac::user()->setRole(array $options)` | true |
 | `FortiNac::user()->setProfile(array $options)` | true |
-| `FortiNac::user()->setPassword(array $options)` | true |
+| `FortiNac::user()->setPassword(array $options)` | the record as an array, or null |
 | `FortiNac::user()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::user()->adminProfiles()` | a builder over `AdminProfile` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::user()->adminProfiles()->deleteMappingById(int $id, array $options)` | true |
 | `FortiNac::user()->adminProfiles()->usage(int $id, Query|array $query)` | Collection of arrays |
 | `FortiNac::user()->adminProfiles()->mapping(Query|array $query)` | Collection of `AdminProfileMapping` |
 | `FortiNac::user()->adminProfiles()->mappingById(int $id, Query|array $query)` | Collection of `AdminProfileMapping` |
-| `FortiNac::user()->adminProfiles()->mappingSupportingInfo()` | true |
+| `FortiNac::user()->adminProfiles()->mappingSupportingInfo()` | the record as an array, or null |
 | `FortiNac::user()->adminProfiles()->new()` | `AdminProfile` or null |
-| `FortiNac::user()->adminProfiles()->permissionViewMap()` | true |
+| `FortiNac::user()->adminProfiles()->permissionViewMap()` | the record as an array, or null |
 | `FortiNac::user()->adminProfiles()->deleteMany(array $ids)` | true |
 | `FortiNac::user()->adminProfiles()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::user()->adminProfiles()->mapping2(array|Data $attributes, array $options)` | `AdminProfileMapping` or null |
@@ -1860,8 +1860,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::user()->dashboards()->usage(int $id, Query|array $query)` | Collection of arrays |
 | `FortiNac::user()->dashboards()->scanSummaryPerDay(array $options)` | `DashboardScanSummaryPerDay` or null |
 | `FortiNac::user()->dashboards()->scanSummaryPerHour(array $options)` | `DashboardScanSummaryPerDay` or null |
-| `FortiNac::user()->dashboards()->hostSummary()` | true |
-| `FortiNac::user()->dashboards()->userSummary()` | true |
+| `FortiNac::user()->dashboards()->hostSummary()` | the record as an array, or null |
+| `FortiNac::user()->dashboards()->userSummary()` | the record as an array, or null |
 | `FortiNac::user()->dashboards()->deleteMany(array $ids)` | true |
 | `FortiNac::user()->dashboards()->deleteViaPost(int $id, array $options)` | true |
 | `FortiNac::user()->dashboards()->resetToDefault(int $id, array $options)` | true |
@@ -1883,28 +1883,28 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `FortiNac::user()->guests()->getPassword(int $id)` | the decoded JSON |
 | `FortiNac::user()->guests()->bulk(array|Data $attributes, array $options)` | `Guest` or null |
 | `FortiNac::user()->guests()->deleteViaPost(int $id, array $options)` | true |
-| `FortiNac::user()->guests()->generatePasswordFromTemplate(array $options)` | true |
+| `FortiNac::user()->guests()->generatePasswordFromTemplate(array $options)` | the record as an array, or null |
 | `FortiNac::user()->guests()->disable(int $id, array $options)` | true |
 | `FortiNac::user()->guests()->generatePassword(int $id, array $options)` | the number or value FortiNAC answers with |
 | `FortiNac::user()->guests()->deleteMany(array $ids)` | true |
 | `FortiNac::user()->guests()->enable(int $id, array $options)` | true |
-| `FortiNac::user()->guests()->getPassword2(array $options)` | true |
-| `FortiNac::user()->guests()->resetPassword(array $options)` | true |
+| `FortiNac::user()->guests()->getPassword2(array $options)` | the record as an array, or null |
+| `FortiNac::user()->guests()->resetPassword(array $options)` | the record as an array, or null |
 | `FortiNac::user()->guests()->sendEmail(array $options)` | true |
 | `FortiNac::user()->guests()->conference(array $options)` | true |
 | `FortiNac::user()->guests()->sendSms(array $options)` | true |
 | `FortiNac::user()->attributes()` | the actions below |
-| `FortiNac::user()->attributes()->find(string $name)` | true |
-| `FortiNac::user()->attributes()->userByName(string $name, array $options)` | true |
+| `FortiNac::user()->attributes()->find(string $name)` | the record as an array, or null |
+| `FortiNac::user()->attributes()->userByName(string $name, array $options)` | the record as an array, or null |
 | `FortiNac::user()->attributes()->update(string $name, array $options)` | true |
 | `FortiNac::user()->attributes()->userByName2(string $name, array $options)` | true |
 | `FortiNac::user()->currentSession()` | the actions below |
-| `FortiNac::user()->currentSession()->cache(array $options)` | true |
-| `FortiNac::user()->currentSession()->featureVisibility()` | true |
+| `FortiNac::user()->currentSession()->cache(array $options)` | the record as an array, or null |
+| `FortiNac::user()->currentSession()->featureVisibility()` | the record as an array, or null |
 | `FortiNac::user()->currentSession()->bookmark(Query|array $query)` | Collection of `CurrentSessionBookmark` |
 | `FortiNac::user()->currentSession()->timeout()` | `SessionTimeout` or null |
-| `FortiNac::user()->currentSession()->securityKey()` | true |
-| `FortiNac::user()->currentSession()->navigationSettings()` | true |
+| `FortiNac::user()->currentSession()->securityKey()` | the record as an array, or null |
+| `FortiNac::user()->currentSession()->navigationSettings()` | the record as an array, or null |
 | `FortiNac::user()->currentSession()->bookmarkById(int $id, array|Data $attributes, array $options)` | `CurrentSessionBookmark` or null |
 | `FortiNac::user()->currentSession()->bookmarkUuidDelete(int $uuid, array $options)` | true |
 | `FortiNac::user()->currentSession()->bookmark2(array|Data $attributes, array $options)` | `CurrentSessionBookmark` or null |
@@ -1928,9 +1928,9 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `User\AdminProfile\GetAdminProfileUsageRequest` | GET | `/user/admin-profile/{id}/usage` | Collection of arrays |
 | `User\AdminProfile\GetAdminProfileMappingRequest` | GET | `/user/admin-profile/mapping` | Collection of `AdminProfileMapping` |
 | `User\AdminProfile\GetAdminProfileMappingByIdRequest` | GET | `/user/admin-profile/mapping/{id}` | Collection of `AdminProfileMapping` |
-| `User\AdminProfile\GetAdminProfileMappingSupportingInfoRequest` | GET | `/user/admin-profile/mapping/supporting-info` | true |
+| `User\AdminProfile\GetAdminProfileMappingSupportingInfoRequest` | GET | `/user/admin-profile/mapping/supporting-info` | the record as an array, or null |
 | `User\AdminProfile\GetAdminProfileNewRequest` | GET | `/user/admin-profile/new` | `AdminProfile` or null |
-| `User\AdminProfile\GetAdminProfilePermissionViewMapRequest` | GET | `/user/admin-profile/permission-view-map` | true |
+| `User\AdminProfile\GetAdminProfilePermissionViewMapRequest` | GET | `/user/admin-profile/permission-view-map` | the record as an array, or null |
 | `User\AdminProfile\CreateAdminProfileRequest` | POST | `/user/admin-profile` | `AdminProfile` or null |
 | `User\AdminProfile\DeleteManyAdminProfilesRequest` | POST | `/user/admin-profile/delete` | true |
 | `User\AdminProfile\UpdateAdminProfileRequest` | POST | `/user/admin-profile/{id}` | `AdminProfile` or null |
@@ -1949,8 +1949,8 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `User\Dashboard\GetDashboardUsageRequest` | GET | `/user/dashboard/{id}/usage` | Collection of arrays |
 | `User\Dashboard\GetDashboardScanSummaryPerDayRequest` | GET | `/user/dashboard/scan-summary/per-day` | `DashboardScanSummaryPerDay` or null |
 | `User\Dashboard\GetDashboardScanSummaryPerHourRequest` | GET | `/user/dashboard/scan-summary/per-hour` | `DashboardScanSummaryPerDay` or null |
-| `User\Dashboard\GetDashboardHostSummaryRequest` | GET | `/user/dashboard/host-summary` | true |
-| `User\Dashboard\GetDashboardUserSummaryRequest` | GET | `/user/dashboard/user-summary` | true |
+| `User\Dashboard\GetDashboardHostSummaryRequest` | GET | `/user/dashboard/host-summary` | the record as an array, or null |
+| `User\Dashboard\GetDashboardUserSummaryRequest` | GET | `/user/dashboard/user-summary` | the record as an array, or null |
 | `User\Dashboard\GetDashboardsRequest` | GET | `/user/dashboard` | Collection of `Dashboard` |
 | `User\Dashboard\GetDashboardRequest` | GET | `/user/dashboard/{id}` | `Dashboard` or null |
 | `User\Dashboard\DeleteManyDashboardsRequest` | POST | `/user/dashboard/delete` | true |
@@ -1987,27 +1987,27 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `User\Guest\PostGuestBulkRequest` | POST | `/user/guest/bulk` | `Guest` or null |
 | `User\Guest\DeleteGuestViaPostRequest` | POST | `/user/guest/{id}/delete` | true |
 | `User\Guest\UpdateGuestRequest` | POST | `/user/guest/{id}` | `Guest` or null |
-| `User\Guest\GenerateGuestPasswordFromTemplateRequest` | POST | `/user/guest/generate-password-from-template` | true |
+| `User\Guest\GenerateGuestPasswordFromTemplateRequest` | POST | `/user/guest/generate-password-from-template` | the record as an array, or null |
 | `User\Guest\DisableGuestRequest` | POST | `/user/guest/{id}/disable` | true |
 | `User\Guest\GenerateGuestPasswordRequest` | POST | `/user/guest/{id}/generate-password` | the number or value FortiNAC answers with |
 | `User\Guest\DeleteManyGuestsRequest` | POST | `/user/guest/delete` | true |
 | `User\Guest\EnableGuestRequest` | POST | `/user/guest/{id}/enable` | true |
-| `User\Guest\GetGuestPasswordRequest` | POST | `/user/guest/get-password` | true |
-| `User\Guest\ResetGuestPasswordRequest` | POST | `/user/guest/reset-password` | true |
+| `User\Guest\GetGuestPasswordRequest` | POST | `/user/guest/get-password` | the record as an array, or null |
+| `User\Guest\ResetGuestPasswordRequest` | POST | `/user/guest/reset-password` | the record as an array, or null |
 | `User\Guest\SendGuestEmailRequest` | POST | `/user/guest/send-email` | true |
 | `User\Guest\PostGuestConferenceRequest` | POST | `/user/guest/conference` | true |
 | `User\Guest\SendGuestSmsRequest` | POST | `/user/guest/send-sms` | true |
 | `User\Guest\DeleteGuestRequest` | DELETE | `/user/guest/{id}` | true |
-| `User\UserAttribute\GetUserAttributeRequest` | GET | `/user/attributes/{name}` | true |
-| `User\UserAttribute\GetUserAttributeUserByNameRequest` | GET | `/user/attributes/user/{name}` | true |
+| `User\UserAttribute\GetUserAttributeRequest` | GET | `/user/attributes/{name}` | the record as an array, or null |
+| `User\UserAttribute\GetUserAttributeUserByNameRequest` | GET | `/user/attributes/user/{name}` | the record as an array, or null |
 | `User\UserAttribute\UpdateUserAttributeRequest` | POST | `/user/attributes/{name}` | true |
 | `User\UserAttribute\PostUserAttributeUserByNameRequest` | POST | `/user/attributes/user/{name}` | true |
-| `User\CurrentSession\GetCurrentSessionCacheRequest` | GET | `/user/current-session/cache` | true |
-| `User\CurrentSession\GetCurrentSessionFeatureVisibilityRequest` | GET | `/user/current-session/feature-visibility` | true |
+| `User\CurrentSession\GetCurrentSessionCacheRequest` | GET | `/user/current-session/cache` | the record as an array, or null |
+| `User\CurrentSession\GetCurrentSessionFeatureVisibilityRequest` | GET | `/user/current-session/feature-visibility` | the record as an array, or null |
 | `User\CurrentSession\GetCurrentSessionBookmarkRequest` | GET | `/user/current-session/bookmark` | Collection of `CurrentSessionBookmark` |
 | `User\CurrentSession\GetCurrentSessionTimeoutRequest` | GET | `/user/current-session/timeout` | `SessionTimeout` or null |
-| `User\CurrentSession\GetCurrentSessionSecurityKeyRequest` | GET | `/user/current-session/securityKey` | true |
-| `User\CurrentSession\GetCurrentSessionNavigationSettingsRequest` | GET | `/user/current-session/navigation-settings` | true |
+| `User\CurrentSession\GetCurrentSessionSecurityKeyRequest` | GET | `/user/current-session/securityKey` | the record as an array, or null |
+| `User\CurrentSession\GetCurrentSessionNavigationSettingsRequest` | GET | `/user/current-session/navigation-settings` | the record as an array, or null |
 | `User\CurrentSession\PostCurrentSessionBookmarkByIdRequest` | POST | `/user/current-session/bookmark/{id}` | `CurrentSessionBookmark` or null |
 | `User\CurrentSession\PostCurrentSessionBookmarkUuidDeleteRequest` | POST | `/user/current-session/bookmark/uuid/{uuid}/delete` | true |
 | `User\CurrentSession\PostCurrentSessionBookmarkRequest` | POST | `/user/current-session/bookmark` | `CurrentSessionBookmark` or null |
@@ -2041,7 +2041,7 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 | `User\User\EnableUserRequest` | POST | `/user/{id}/enable` | true |
 | `User\User\SetUserRoleRequest` | POST | `/user/set-role` | true |
 | `User\User\SetUserProfileRequest` | POST | `/user/set-profile` | true |
-| `User\User\SetUserPasswordRequest` | POST | `/user/set-password` | true |
+| `User\User\SetUserPasswordRequest` | POST | `/user/set-password` | the record as an array, or null |
 | `User\User\DeleteUserViaPostRequest` | POST | `/user/{id}/delete` | true |
 | `User\User\DeleteUserRequest` | DELETE | `/user/{id}` | true |
 
@@ -2053,9 +2053,9 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 |---|---|
 | `FortiNac::winbind()` | a builder over `WinbindConfig` records: `get()`, `first()`, `count()`, `all()`, `lazy()`, `find($id)`, `create()`, `update()`, `delete()` |
 | `FortiNac::winbind()->getWinbindConfigAll(Query|array $query)` | Collection of `WinbindConfig` |
-| `FortiNac::winbind()->global()` | true |
+| `FortiNac::winbind()->global()` | the record as an array, or null |
 | `FortiNac::winbind()->log(array $options)` | true |
-| `FortiNac::winbind()->status()` | true |
+| `FortiNac::winbind()->status()` | the record as an array, or null |
 | `FortiNac::winbind()->deleteMany(array $options)` | true |
 | `FortiNac::winbind()->disableMany(array $ids)` | true |
 | `FortiNac::winbind()->enableMany(array $ids)` | true |
@@ -2065,10 +2065,10 @@ Every call the package makes to FortiNAC, by API. Resources are reached from the
 |---|---|---|---|
 | `Winbind\WinbindConfig\GetWinbindConfigsRequest` | GET | `/winbind/config` | Collection of `WinbindConfig` |
 | `Winbind\WinbindConfig\GetWinbindConfigAllRequest` | GET | `/winbind/config/all` | Collection of `WinbindConfig` |
-| `Winbind\WinbindConfig\GetWinbindConfigGlobalRequest` | GET | `/winbind/config/global` | true |
+| `Winbind\WinbindConfig\GetWinbindConfigGlobalRequest` | GET | `/winbind/config/global` | the record as an array, or null |
 | `Winbind\WinbindConfig\GetWinbindConfigRequest` | GET | `/winbind/config/{id}` | `WinbindConfig` or null |
 | `Winbind\WinbindConfig\PostWinbindConfigLogRequest` | POST | `/winbind/config/log` | true |
-| `Winbind\WinbindConfig\GetWinbindConfigStatusRequest` | GET | `/winbind/config/status` | true |
+| `Winbind\WinbindConfig\GetWinbindConfigStatusRequest` | GET | `/winbind/config/status` | the record as an array, or null |
 | `Winbind\WinbindConfig\CreateWinbindConfigRequest` | POST | `/winbind/config` | Collection of `WinbindConfig` |
 | `Winbind\WinbindConfig\DeleteManyWinbindConfigsRequest` | POST | `/winbind/config/delete` | true |
 | `Winbind\WinbindConfig\DisableManyWinbindConfigsRequest` | POST | `/winbind/config/disable` | true |

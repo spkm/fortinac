@@ -28,17 +28,17 @@ class EndpointComplianceCustomScanResource extends BaseResource
      *
      * @param  array<string, mixed>  $options  Query options: os, type, scanName, Request Body
      */
-    public function html(array $options = []): bool
+    public function html(array $options = []): mixed
     {
-        return $this->perform(new GetEndpointComplianceCustomScanHtmlRequest($options));
+        return $this->fetch(new GetEndpointComplianceCustomScanHtmlRequest($options));
     }
 
     /**
      * Returns all Custom Scans currently stored in the filesystem: GET /policy/endpoint-compliance/custom-scan.
      */
-    public function get(): bool
+    public function get(): mixed
     {
-        return $this->perform(new GetEndpointComplianceCustomScanRequest);
+        return $this->fetch(new GetEndpointComplianceCustomScanRequest);
     }
 
     /**

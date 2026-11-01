@@ -42,7 +42,7 @@ class RadiusAttributeGroupResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetRadiusAttributeGroupRequest((int) $id);
+        return new GetRadiusAttributeGroupRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -52,12 +52,12 @@ class RadiusAttributeGroupResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateRadiusAttributeGroupRequest((int) $id, $body, $options);
+        return new UpdateRadiusAttributeGroupRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteRadiusAttributeGroupRequest((int) $id, $options);
+        return new DeleteRadiusAttributeGroupRequest($this->intId($id), $options);
     }
 
     /**

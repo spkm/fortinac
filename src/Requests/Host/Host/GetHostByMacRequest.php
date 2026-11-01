@@ -4,6 +4,7 @@ namespace spkm\FortiNac\Requests\Host\Host;
 
 use spkm\FortiNac\Data\Host\Host;
 use spkm\FortiNac\Requests\ItemRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Returns the Host Record that matches the supplied MAC address: GET /host/by-mac/{mac}.
@@ -16,6 +17,6 @@ class GetHostByMacRequest extends ItemRequest
 
     public function resolveEndpoint(): string
     {
-        return '/host/by-mac/'.rawurlencode($this->mac);
+        return '/host/by-mac/'.Path::segment($this->mac);
     }
 }

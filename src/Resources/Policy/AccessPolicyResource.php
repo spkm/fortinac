@@ -42,7 +42,7 @@ class AccessPolicyResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetAccessPolicyRequest((int) $id);
+        return new GetAccessPolicyRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -52,12 +52,12 @@ class AccessPolicyResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateAccessPolicyRequest((int) $id, $body, $options);
+        return new UpdateAccessPolicyRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteAccessPolicyRequest((int) $id, $options);
+        return new DeleteAccessPolicyRequest($this->intId($id), $options);
     }
 
     /**
@@ -73,9 +73,9 @@ class AccessPolicyResource extends Builder
     /**
      * Returns the information necessary to create an Access Policy: GET /policy/access/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetAccessPolicySupportingInfoRequest);
+        return $this->fetch(new GetAccessPolicySupportingInfoRequest);
     }
 
     /**

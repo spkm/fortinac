@@ -236,3 +236,22 @@ it('reads and changes a setting FortiNAC keeps one of', function () {
         ->and(fn () => $setting->delete())->toThrow(LogicException::class, "FortiNAC's API documents no way to delete this setting.")
         ->and($setting->connector())->toBeInstanceOf(FortiNacConnector::class);
 });
+
+it('escapes the wildcard in text given to whereContains', function () {
+    expect(example()->whereContains('hostName', 'a*b')->toArray())->toBe(['filter' => 'hostName=@*a\\*b*'])
+        ->and(example()->whereNotContains('hostName', '*')->toArray())->toBe(['filter' => 'hostName!@*\\**']);
+});
+
+it('refuses an id that is not a whole number, and a path segment that would change the endpoint', function () {
+    $resource = new ExampleReadOnlyResource(FakeFortiNac::connector());
+    FakeFortiNac::respondWith([ExampleListRequest::class => FakeFortiNac::list([])]);
+
+    expect(fn () => $resource->find('nobody,id>0'))->toThrow(InvalidArgumentException::class, 'is not a FortiNAC record id')
+        ->and(fn () => $resource->findOrFail('12abc'))->toThrow(InvalidArgumentException::class, 'is not a FortiNAC record id')
+        ->and($resource->find('7'))->toBeNull()
+        ->and(fn () => FakeFortiNac::connector()->from('/user')->find('..'))->toThrow(InvalidArgumentException::class, 'cannot be used in a request path')
+        ->and(fn () => FakeFortiNac::connector()->from('/user')->find(''))->toThrow(InvalidArgumentException::class)
+        ->and(fn () => FakeFortiNac::connector()->from('/user')->update('.', []))->toThrow(InvalidArgumentException::class)
+        ->and(fn () => FakeFortiNac::connector()->from('/user/../admin')->get())->toThrow(InvalidArgumentException::class, 'is not a path FortiNAC serves')
+        ->and(fn () => FakeFortiNac::connector()->get('../../admin'))->toThrow(InvalidArgumentException::class, 'is not a path FortiNAC serves');
+});

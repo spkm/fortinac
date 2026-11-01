@@ -39,7 +39,7 @@ class MessageTemplateResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetMessageTemplateRequest((int) $id);
+        return new GetMessageTemplateRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -49,12 +49,12 @@ class MessageTemplateResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateMessageTemplateRequest((int) $id, $body, $options);
+        return new UpdateMessageTemplateRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteMessageTemplateRequest((int) $id, $options);
+        return new DeleteMessageTemplateRequest($this->intId($id), $options);
     }
 
     /**

@@ -41,7 +41,7 @@ class SelfRegistrationResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSelfRegistrationRequest((int) $id);
+        return new GetSelfRegistrationRequest($this->intId($id));
     }
 
     /**

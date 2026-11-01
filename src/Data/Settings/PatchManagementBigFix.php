@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class PatchManagementBigFix extends Data
 {
+    protected const HIDDEN = ['bigFixPassword'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

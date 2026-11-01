@@ -3,6 +3,7 @@
 namespace spkm\FortiNac\Requests\System\ScheduledTask;
 
 use spkm\FortiNac\Requests\ItemRequest;
+use spkm\FortiNac\Support\Path;
 
 /**
  * Returns if the provided scheduled task is currently running: GET /system/scheduler/{name}/running.
@@ -15,6 +16,6 @@ class GetScheduledTaskRunningRequest extends ItemRequest
 
     public function resolveEndpoint(): string
     {
-        return '/system/scheduler/'.rawurlencode($this->name).'/running';
+        return '/system/scheduler/'.Path::segment($this->name).'/running';
     }
 }

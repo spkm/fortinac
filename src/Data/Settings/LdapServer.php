@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class LdapServer extends Data
 {
+    protected const HIDDEN = ['ldapPassword', 'clientPassword'];
+
     /**
      * @param  array<mixed>|null  $ldapClientSearchBranch
      * @param  array<mixed>|null  $ldapGroupSearchBranch

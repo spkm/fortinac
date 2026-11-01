@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class WinbindConfig extends Data
 {
+    protected const HIDDEN = ['passwordServer'];
+
     protected const DATE_FORMAT = 'Y-m-d\TH:i:s.vO';
 
     /**

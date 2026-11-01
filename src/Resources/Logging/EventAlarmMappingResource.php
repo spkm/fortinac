@@ -48,7 +48,7 @@ class EventAlarmMappingResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetEventAlarmMappingRequest((int) $id);
+        return new GetEventAlarmMappingRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -58,12 +58,12 @@ class EventAlarmMappingResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateEventAlarmMappingRequest((int) $id, $body, $options);
+        return new UpdateEventAlarmMappingRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteEventAlarmMappingRequest((int) $id, $options);
+        return new DeleteEventAlarmMappingRequest($this->intId($id), $options);
     }
 
     /**
@@ -88,9 +88,9 @@ class EventAlarmMappingResource extends Builder
     /**
      * Returns information needed to create an Event to Alarm mapping, such as the list of possible events: GET /logging/event-alarm-mapping/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetEventAlarmMappingSupportingInfoRequest);
+        return $this->fetch(new GetEventAlarmMappingSupportingInfoRequest);
     }
 
     /**

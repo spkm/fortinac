@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class NetworkDevicePingableById extends Data
 {
+    protected const HIDDEN = ['radiusSecret'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

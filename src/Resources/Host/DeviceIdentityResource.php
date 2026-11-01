@@ -47,7 +47,7 @@ class DeviceIdentityResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetDeviceIdentityRequest((int) $id);
+        return new GetDeviceIdentityRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -57,12 +57,12 @@ class DeviceIdentityResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateDeviceIdentityRequest((int) $id, $body, $options);
+        return new UpdateDeviceIdentityRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteDeviceIdentityRequest((int) $id, $options);
+        return new DeleteDeviceIdentityRequest($this->intId($id), $options);
     }
 
     /**
@@ -88,9 +88,9 @@ class DeviceIdentityResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: ids
      */
-    public function fingerprints(array $options = []): bool
+    public function fingerprints(array $options = []): mixed
     {
-        return $this->perform(new GetDeviceIdentityFingerprintsRequest($options));
+        return $this->fetch(new GetDeviceIdentityFingerprintsRequest($options));
     }
 
     /**
@@ -98,9 +98,9 @@ class DeviceIdentityResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: id
      */
-    public function fingerprintById(int $id, array $options = []): bool
+    public function fingerprintById(int $id, array $options = []): mixed
     {
-        return $this->perform(new GetDeviceIdentityFingerprintByIdRequest($id, $options));
+        return $this->fetch(new GetDeviceIdentityFingerprintByIdRequest($id, $options));
     }
 
     /**

@@ -48,12 +48,12 @@ class VendorOuiResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateVendorOuiRequest((int) $id, $body, $options);
+        return new UpdateVendorOuiRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteVendorOuiRequest((int) $id, $options);
+        return new DeleteVendorOuiRequest($this->intId($id), $options);
     }
 
     /**
@@ -85,9 +85,9 @@ class VendorOuiResource extends Builder
     /**
      * Returns the list of Roles and Registration Types used to edit Vendor OUIs: GET /settings/integration/vendor-oui/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetVendorOuiSupportingInfoRequest);
+        return $this->fetch(new GetVendorOuiSupportingInfoRequest);
     }
 
     /**

@@ -9,6 +9,8 @@ use spkm\FortiNac\Requests\ItemRequest;
  */
 class GetCurrentSessionSecurityKeyRequest extends ItemRequest
 {
+    protected bool $cacheable = false;
+
     public function resolveEndpoint(): string
     {
         return '/user/current-session/securityKey';

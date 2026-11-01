@@ -52,7 +52,7 @@ class EndpointComplianceScanResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetEndpointComplianceScanRequest((int) $id);
+        return new GetEndpointComplianceScanRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -62,20 +62,20 @@ class EndpointComplianceScanResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateEndpointComplianceScanRequest((int) $id, $body, $options);
+        return new UpdateEndpointComplianceScanRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteEndpointComplianceScanRequest((int) $id, $options);
+        return new DeleteEndpointComplianceScanRequest($this->intId($id), $options);
     }
 
     /**
      * Returns the full set of tests and custom scans available for each operating system: GET /policy/endpoint-compliance/scan/available.
      */
-    public function available(): bool
+    public function available(): mixed
     {
-        return $this->perform(new GetEndpointComplianceScanAvailableRequest);
+        return $this->fetch(new GetEndpointComplianceScanAvailableRequest);
     }
 
     /**
@@ -91,9 +91,9 @@ class EndpointComplianceScanResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: policyName
      */
-    public function details(array $options = []): bool
+    public function details(array $options = []): mixed
     {
-        return $this->perform(new GetEndpointComplianceScanDetailsRequest($options));
+        return $this->fetch(new GetEndpointComplianceScanDetailsRequest($options));
     }
 
     /**
@@ -112,9 +112,9 @@ class EndpointComplianceScanResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: policyName, productName, osName, familyName
      */
-    public function product(array $options = []): bool
+    public function product(array $options = []): mixed
     {
-        return $this->perform(new GetEndpointComplianceScanProductRequest($options));
+        return $this->fetch(new GetEndpointComplianceScanProductRequest($options));
     }
 
     /**

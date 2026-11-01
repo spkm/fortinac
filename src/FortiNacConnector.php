@@ -3,12 +3,12 @@
 namespace spkm\FortiNac;
 
 use JsonSerializable;
+use LogicException;
 use Psr\Http\Message\RequestInterface;
 use Saloon\Config;
 use Saloon\Enums\Method;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
-use Saloon\Helpers\URLHelper;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 use Saloon\Http\PendingRequest;
@@ -42,10 +42,10 @@ class FortiNacConnector extends Connector implements HasPagination
      * @param  bool|string  $verify  Whether to verify the server's TLS certificate, or the path of a CA bundle to
      *                               verify it against.
      */
-    public function __construct(protected string $baseUrl, protected string $token, protected bool|string $verify = true)
+    public function __construct(protected string $baseUrl, #[\SensitiveParameter] protected string $token, protected bool|string $verify = true)
     {
-        $this->connectTimeout = (float) config('fortinac.timeouts.connect', Config::$defaultConnectionTimeout);
-        $this->requestTimeout = (float) config('fortinac.timeouts.request', Config::$defaultRequestTimeout);
+        $this->connectTimeout = self::timeout(config('fortinac.timeouts.connect'), Config::$defaultConnectionTimeout);
+        $this->requestTimeout = self::timeout(config('fortinac.timeouts.request'), Config::$defaultRequestTimeout);
 
         if (config('fortinac.retries.times')) {
             $this->tries = (int) config('fortinac.retries.times');
@@ -77,6 +77,45 @@ class FortiNacConnector extends Connector implements HasPagination
     public function verifies(): bool|string
     {
         return $this->verify;
+    }
+
+    /**
+     * A fingerprint of the token, so that what one token fetched is never served to another (the response cache
+     * keys on it) without the token itself being written anywhere.
+     */
+    public function tokenFingerprint(): string
+    {
+        return hash('sha256', $this->resolveBaseUrl().'|'.$this->token);
+    }
+
+    /**
+     * A timeout from config: seconds, or the default when the value is empty or not positive (a zero would mean
+     * waiting forever).
+     */
+    private static function timeout(mixed $value, float $default): float
+    {
+        return is_numeric($value) && (float) $value > 0 ? (float) $value : $default;
+    }
+
+    /**
+     * What a dump shows: everything but the token.
+     *
+     * @return array<string, mixed>
+     */
+    public function __debugInfo(): array
+    {
+        return ['baseUrl' => $this->baseUrl, 'token' => '[redacted]', 'verify' => $this->verify];
+    }
+
+    /**
+     * A connector holds the token, so it is never written out with a queued job or a session; build one from
+     * config where it is needed.
+     *
+     * @return array<string, mixed>
+     */
+    public function __serialize(): array
+    {
+        throw new LogicException('A FortiNacConnector cannot be serialised; resolve it from the FortiNac facade or config where it is used.');
     }
 
     protected function defaultAuth(): TokenAuthenticator
@@ -112,7 +151,7 @@ class FortiNacConnector extends Connector implements HasPagination
     public function handlePsrRequest(RequestInterface $request, PendingRequest $pendingRequest): RequestInterface
     {
         $uri = $request->getUri();
-        $existing = URLHelper::parseQueryString((string) parse_url($pendingRequest->getUrl(), PHP_URL_QUERY));
+        $existing = QueryString::parse((string) parse_url($pendingRequest->getUrl(), PHP_URL_QUERY));
 
         return $request->withUri($uri->withQuery(QueryString::encode([...$existing, ...$pendingRequest->query()->all()])));
     }

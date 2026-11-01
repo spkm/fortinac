@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class MdmServer extends Data
 {
+    protected const HIDDEN = ['credentialText', 'maaS360AppAccessKey', 'password'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

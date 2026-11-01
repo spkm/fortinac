@@ -49,7 +49,7 @@ class DirectoryAgentResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetDirectoryAgentRequest((int) $id);
+        return new GetDirectoryAgentRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -59,12 +59,12 @@ class DirectoryAgentResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateDirectoryAgentRequest((int) $id, $body, $options);
+        return new UpdateDirectoryAgentRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteDirectoryAgentRequest((int) $id, $options);
+        return new DeleteDirectoryAgentRequest($this->intId($id), $options);
     }
 
     /**

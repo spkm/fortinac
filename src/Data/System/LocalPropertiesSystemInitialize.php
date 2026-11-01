@@ -9,6 +9,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class LocalPropertiesSystemInitialize extends Data
 {
+    protected const HIDDEN = ['adminUIPassword', 'adminCLIPassword', 'rootCLIPassword'];
+
     /**
      * @param  array<string, mixed>  $extra
      */

@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class AaaServer extends Data
 {
+    protected const HIDDEN = ['secret', 'checkPassword'];
+
     protected const DATE_FORMAT = 'Y-m-d\TH:i:s.vO';
 
     /**

@@ -92,7 +92,7 @@ it('sends a record as JSON, from an array, a model or a list, with the documente
 
     expect(FakeFortiNac::bodiesReceived($mockClient, ExampleCreateRequest::class)[0])->toBe(['name' => 'a', 'enabled' => true])
         ->and(FakeFortiNac::received($mockClient, ExampleCreateRequest::class)->headers()->get('Content-Type'))->toBe('application/json')
-        ->and(FakeFortiNac::bodiesReceived($mockClient, ExampleUpdateRequest::class)[0])->toBe(['name' => 'g', 'creationTime' => 100000, 'custom' => 'x'])
+        ->and(FakeFortiNac::bodiesReceived($mockClient, ExampleUpdateRequest::class)[0])->toBe(['custom' => 'x', 'name' => 'g', 'creationTime' => 100000])
         ->and(FakeFortiNac::bodiesReceived($mockClient, ExampleDeleteManyRequest::class)[0])->toBe([1, 2])
         ->and(FakeFortiNac::urisReceived($mockClient, ExampleUpdateRequest::class)[0])->toBe(FakeFortiNac::API_URL.'/example/1?force=true')
         ->and(FakeFortiNac::urisReceived($mockClient, ExampleEnableRequest::class)[0])->toBe(FakeFortiNac::API_URL.'/example/1/enable?async=false')
@@ -142,4 +142,27 @@ it('keeps a count request to the filter alone', function () {
 
     expect(FakeFortiNac::queriesReceived($mockClient, ExampleCountRequest::class)[0])->toBe(['filter' => 'a==1'])
         ->and(MockResponse::make([])->status())->toBe(200);
+});
+
+it('caches per token and per query, and forgets an answer whose envelope failed', function () {
+    config()->set('fortinac.cache.enabled', true);
+    $mockClient = FakeFortiNac::respondWith([ExampleItemRequest::class => FakeFortiNac::record(['id' => 1])]);
+    $admin = FakeFortiNac::connector(token: 'admin-token');
+    $helpdesk = FakeFortiNac::connector(token: 'helpdesk-token');
+
+    $admin->send(new ExampleItemRequest(1));
+    $admin->send(new ExampleItemRequest(1));
+    $helpdesk->send(new ExampleItemRequest(1));
+
+    expect(FakeFortiNac::urisReceived($mockClient, ExampleItemRequest::class))->toHaveCount(2);
+
+    $mockClient = FakeFortiNac::respondWith([ExampleCountRequest::class => FakeFortiNac::envelope([1])]);
+    $admin->send(new ExampleCountRequest(['since' => new DateTimeImmutable('2026-01-01')]));
+    $admin->send(new ExampleCountRequest(['since' => new DateTimeImmutable('2026-06-01')]));
+    expect(FakeFortiNac::urisReceived($mockClient, ExampleCountRequest::class))->toHaveCount(2);
+
+    $mockClient = FakeFortiNac::respondWith([ExampleItemRequest::class => FakeFortiNac::failure('Not permitted')]);
+    $admin->send(new ExampleItemRequest(2));
+    $admin->send(new ExampleItemRequest(2));
+    expect(FakeFortiNac::urisReceived($mockClient, ExampleItemRequest::class))->toHaveCount(2);
 });

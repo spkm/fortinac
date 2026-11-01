@@ -38,7 +38,7 @@ class LogicalNetworkResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetLogicalNetworkRequest((int) $id);
+        return new GetLogicalNetworkRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -48,12 +48,12 @@ class LogicalNetworkResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateLogicalNetworkRequest((int) $id, $body, $options);
+        return new UpdateLogicalNetworkRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteLogicalNetworkRequest((int) $id, $options);
+        return new DeleteLogicalNetworkRequest($this->intId($id), $options);
     }
 
     /**

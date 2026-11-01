@@ -48,7 +48,7 @@ class ContainerResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetContainerRequest((int) $id);
+        return new GetContainerRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -58,7 +58,7 @@ class ContainerResource extends Builder
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteContainerRequest((int) $id, $options);
+        return new DeleteContainerRequest($this->intId($id), $options);
     }
 
     /**
@@ -82,9 +82,9 @@ class ContainerResource extends Builder
     /**
      * Get all changes to Container records since the Events were last polled: GET /device/container/monitor/{id}.
      */
-    public function monitor(int $id): bool
+    public function monitor(int $id): mixed
     {
-        return $this->perform(new GetContainerMonitorRequest($id));
+        return $this->fetch(new GetContainerMonitorRequest($id));
     }
 
     /**

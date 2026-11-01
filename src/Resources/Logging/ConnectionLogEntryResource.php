@@ -48,7 +48,7 @@ class ConnectionLogEntryResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetConnectionLogEntryRequest((int) $id);
+        return new GetConnectionLogEntryRequest($this->intId($id));
     }
 
     /**
@@ -91,9 +91,9 @@ class ConnectionLogEntryResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: filter
      */
-    public function tabledatatotals(array $options = []): bool
+    public function tabledatatotals(array $options = []): mixed
     {
-        return $this->perform(new GetConnectionLogEntryTabledatatotalsRequest($options));
+        return $this->fetch(new GetConnectionLogEntryTabledatatotalsRequest($options));
     }
 
     /**
@@ -121,9 +121,9 @@ class ConnectionLogEntryResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: filter
      */
-    public function vlanChanges(array $options = []): bool
+    public function vlanChanges(array $options = []): mixed
     {
-        return $this->perform(new GetConnectionLogEntryVlanChangesRequest($options));
+        return $this->fetch(new GetConnectionLogEntryVlanChangesRequest($options));
     }
 
     /**

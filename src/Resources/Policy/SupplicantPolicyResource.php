@@ -42,7 +42,7 @@ class SupplicantPolicyResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetSupplicantPolicyRequest((int) $id);
+        return new GetSupplicantPolicyRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -52,20 +52,20 @@ class SupplicantPolicyResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateSupplicantPolicyRequest((int) $id, $body, $options);
+        return new UpdateSupplicantPolicyRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteSupplicantPolicyRequest((int) $id, $options);
+        return new DeleteSupplicantPolicyRequest($this->intId($id), $options);
     }
 
     /**
      * Returns the information used to create a Supplicant Policy: GET /policy/supplicant/supporting-info.
      */
-    public function supportingInfo(): bool
+    public function supportingInfo(): mixed
     {
-        return $this->perform(new GetSupplicantPolicySupportingInfoRequest);
+        return $this->fetch(new GetSupplicantPolicySupportingInfoRequest);
     }
 
     /**

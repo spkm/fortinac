@@ -103,3 +103,14 @@ it('builds the query string FortiNAC reads', function () {
         ->and(fn () => Query::make()->start(-1))->toThrow(InvalidArgumentException::class, 'cannot be negative')
         ->and(fn () => Query::make()->count(0))->toThrow(InvalidArgumentException::class, 'at least 1');
 });
+
+it('keeps a value from adding alternatives or wildcards of its own', function () {
+    expect(Filter::make()->where('accessCode', '==', 'x,id>0')->toArray())->toBe(['accessCode==x\\,id>0'])
+        ->and(Filter::make()->where('name', '==', '*')->toArray())->toBe(['name==\\*'])
+        ->and(Filter::make()->where('name', '!=', 'a*b')->toArray())->toBe(['name!=a\\*b'])
+        ->and(Filter::make()->where('name', '=@', '*lab*')->toArray())->toBe(['name=@*lab*'])
+        ->and(Filter::make()->where('name', '!@', 'a,b*')->toArray())->toBe(['name!@a\\,b*'])
+        ->and(fn () => Filter::make()->where("name\n", '==', 1))->toThrow(InvalidArgumentException::class, 'is not a FortiNAC field name')
+        ->and(fn () => Query::make()->orderBy("id\n"))->toThrow(InvalidArgumentException::class, 'is not a FortiNAC field name')
+        ->and(fn () => Query::make()->orderBy('id; drop'))->toThrow(InvalidArgumentException::class);
+});

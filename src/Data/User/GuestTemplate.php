@@ -10,6 +10,8 @@ use spkm\FortiNac\Data\Data;
  */
 readonly class GuestTemplate extends Data
 {
+    protected const HIDDEN = ['passwordLength', 'passwordExclusions', 'sendPasswordSeparately'];
+
     protected const DATE_FORMAT = 'Y-m-d\TH:i:s.vO';
 
     /**

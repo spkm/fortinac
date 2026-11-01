@@ -56,7 +56,7 @@ class GuestResource extends Builder
 
     protected function itemRequest(int|string $id): FortiNacRequest
     {
-        return new GetGuestRequest((int) $id);
+        return new GetGuestRequest($this->intId($id));
     }
 
     protected function createRequest(array $body, array $options): FortiNacRequest
@@ -66,12 +66,12 @@ class GuestResource extends Builder
 
     protected function updateRequest(int|string $id, array $body, array $options): FortiNacRequest
     {
-        return new UpdateGuestRequest((int) $id, $body, $options);
+        return new UpdateGuestRequest($this->intId($id), $body, $options);
     }
 
     protected function deleteRequest(int|string $id, array $options): FortiNacRequest
     {
-        return new DeleteGuestRequest((int) $id, $options);
+        return new DeleteGuestRequest($this->intId($id), $options);
     }
 
     /**
@@ -126,9 +126,9 @@ class GuestResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: templateID
      */
-    public function generatePasswordFromTemplate(array $options = []): bool
+    public function generatePasswordFromTemplate(array $options = []): mixed
     {
-        return $this->perform(new GenerateGuestPasswordFromTemplateRequest($options));
+        return $this->fetch(new GenerateGuestPasswordFromTemplateRequest($options));
     }
 
     /**
@@ -176,9 +176,9 @@ class GuestResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: id
      */
-    public function getPassword2(array $options = []): bool
+    public function getPassword2(array $options = []): mixed
     {
-        return $this->perform(new GetGuestPasswordRequest($options));
+        return $this->fetch(new GetGuestPasswordRequest($options));
     }
 
     /**
@@ -186,9 +186,9 @@ class GuestResource extends Builder
      *
      * @param  array<string, mixed>  $options  Query options: id
      */
-    public function resetPassword(array $options = []): bool
+    public function resetPassword(array $options = []): mixed
     {
-        return $this->perform(new ResetGuestPasswordRequest($options));
+        return $this->fetch(new ResetGuestPasswordRequest($options));
     }
 
     /**
